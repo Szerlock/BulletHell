@@ -5,11 +5,9 @@ public class BulletPatternData : ScriptableObject
 {
     public PatternType patternType;
     public int bulletsPerWave;
-    public float timeBetweenWaves;
     public float spiralSpeed;
     public float bulletSpeed;
     public float bulletLifetime;
-
     public float fireRate;
     public int totalBullets;
 }
@@ -20,4 +18,8 @@ public enum PatternType
     Circle,
     Aimed,
     Random,
+    Flower,
+    Cone,
+    DoubleHelix,
+    Grid,
 }

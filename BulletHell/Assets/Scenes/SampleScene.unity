@@ -265,7 +265,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &304759818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,9 +280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 1582963478826174163, guid: 444a3fe946fda494ba381649afea523e, type: 3}
   patterns:
-  - {fileID: 11400000, guid: d282edc0c0d421d4c9060f4b44bf7e4a, type: 2}
-  - {fileID: 11400000, guid: 07a9bb41be51bf745aa9c28b088dff40, type: 2}
-  - {fileID: 11400000, guid: 9aa7d92a4ab8ebb40a43b6d4679c85a6, type: 2}
+  - {fileID: 11400000, guid: 135ea3a15ad0168458f0237441103a4e, type: 2}
   player: {fileID: 0}
 --- !u!4 &304759819
 Transform:
@@ -990,7 +988,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!136 &1551142765
 CapsuleCollider:
   m_ObjectHideFlags: 0

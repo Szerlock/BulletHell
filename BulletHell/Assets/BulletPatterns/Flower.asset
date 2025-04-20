@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c25c65651088329469232164b679e32e, type: 3}
-  m_Name: CirclePattern
+  m_Name: Flower
   m_EditorClassIdentifier: 
-  patternType: 1
-  bulletsPerWave: 24
-  spiralSpeed: 2
-  bulletSpeed: 4
+  patternType: 4
+  bulletsPerWave: 30
+  spiralSpeed: 0
+  bulletSpeed: 10
   bulletLifetime: 5
-  fireRate: 0.5
+  fireRate: 0.7
   totalBullets: 150
