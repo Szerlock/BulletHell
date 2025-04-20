@@ -10,7 +10,8 @@ public class Boss1 : EnemyBase
     {
         Waiting,
         Attacking,
-        AttackAgain
+        AttackAgain,
+        Death
     }
 
     private State currentState = State.Waiting;
@@ -53,5 +54,21 @@ public class Boss1 : EnemyBase
     public override void StartPhase()
     {
         currentState = State.Waiting;
+    }
+
+    public override void TakeDamage(float amount)
+    {
+        base.TakeDamage(amount);
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    protected override void Die()
+    {
+        base.Die();
+        currentState = State.Death;
+        Debug.Log($"{gameObject.name} State{currentState.ToString()}");
     }
 }

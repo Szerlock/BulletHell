@@ -2,17 +2,17 @@ using UnityEngine;
 
 public abstract class EnemyBase : MonoBehaviour
 {
-    [SerializeField] private float speed = 5f;
-    [SerializeField] private float Health = 200f;
-    [SerializeField] private float Damage = 10f;
-    [SerializeField] private float currentHealth = 200f;
+    [SerializeField] private float speed;
+    [SerializeField] public float Health;
+    [SerializeField] public float Damage;
+    [SerializeField] public float currentHealth;
 
     void Start()
     {
         currentHealth = Health;
     }
 
-    public virtual void TakeDamage(int amount)
+    public virtual void TakeDamage(float amount)
     {
         currentHealth -= amount;
         if (currentHealth <= 0)

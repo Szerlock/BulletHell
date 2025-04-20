@@ -98,7 +98,7 @@ public class BulletSpawner : MonoBehaviour
         Vector3 dir;
         float circleAngle = (360f / currentPattern.bulletsPerWave) * i;
         float circleRad = circleAngle * Mathf.Deg2Rad;
-        dir = new Vector3(Mathf.Cos(circleRad), Mathf.Sin(circleRad), 0f);
+        dir = new Vector3(Mathf.Cos(circleRad), 0f, Mathf.Sin(circleRad));
         return dir;
     }
 
@@ -106,7 +106,7 @@ public class BulletSpawner : MonoBehaviour
     {
         Vector3 dir;
         float randAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-        dir = new Vector3(Mathf.Cos(randAngle), Mathf.Sin(randAngle), 0f);
+        dir = new Vector3(Mathf.Cos(randAngle), 0f, Mathf.Sin(randAngle));
         return dir;
     }
 
@@ -115,7 +115,7 @@ public class BulletSpawner : MonoBehaviour
         Vector3 dir;
         float angle = currentAngle + (360f / currentPattern.bulletsPerWave) * i;
         float rad = angle * Mathf.Deg2Rad;
-        dir = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0f);
+        dir = new Vector3(Mathf.Cos(rad), 0f, Mathf.Sin(rad));
         return dir;
     }
 
