@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class BulletSpawner : MonoBehaviour
 {
@@ -14,7 +15,8 @@ public class BulletSpawner : MonoBehaviour
     private bool attackFinished = false;
     private int bulletsFired = 0;
     private bool isFiring = false;
-    private Vector3 bulletPositionOffset = Vector3.zero;
+    private Vector3 spawnOffset = Vector3.zero;
+
     void Start()
     {
         PickNewPattern();
@@ -44,70 +46,198 @@ public class BulletSpawner : MonoBehaviour
 
     public void SpawnWave()
     {
-        for (int i = 0; i < currentPattern.bulletsPerWave; i++)
+        for (int l = 0; l < currentPattern.numberOfLayers; l++)
         {
-            Vector3 dir = Vector3.zero;
-
-            switch (currentPattern.patternType)
+            for (int i = 0; i < currentPattern.bulletsPerWave; i++)
             {
-                case PatternType.Spiral:
-                    dir = SpiralPattern(i);
-                    Debug.Log("Spiral Pattern");
-                    break;
+                Vector3 dir = Vector3.zero;
 
-                case PatternType.Circle:
-                    dir = CirclePattern(i);
-                    Debug.Log("Circle Pattern");
-                    break;
-                case PatternType.Flower:
-                    dir = FlowerPattern(i);
-                    Debug.Log("Flower Pattern");
-                    break;
-                case PatternType.Cone:
-                    dir = ExpandingSpiral(i);
-                    Debug.Log("Expanding Spiral Pattern");
-                    break;
-                case PatternType.DoubleHelix:
-                    dir = DoubleHelixPattern(i);
-                    Debug.Log("Double Helix Pattern");
-                    break;
-                case PatternType.Grid:
-                    List<Vector3> gridPositions = GridPattern(5, 1f, transform.position);
-                    Vector3 bulletPositionOffset = gridPositions[i % gridPositions.Count];
-                    dir = Vector3.forward;
-                    Debug.Log("Grid Pattern");
-                    break;
-                //case PatternType.Aimed:
-                //    if (player != null)
-                //    {
-                //        dir = (player.position - transform.position).normalized;
-                //    }
-                //    else
-                //    {
-                //        dir = Vector3.down;
-                //    }
-                //    break;
+                switch (currentPattern.patternType)
+                {
+                    case PatternType.Spiral:
+                        dir = SpiralPattern(i);
+                        break;
 
-                case PatternType.Random:
-                    dir = RandomPattern();
-                    Debug.Log("Random Pattern");
-                    break;
+                    case PatternType.Circle:
+                        dir = CirclePattern(i);
+                        break;
+
+                    case PatternType.Circle4:
+                        spawnOffset = Circle4Pattern(i);
+                        dir = spawnOffset.normalized;
+                        break;
+
+                    case PatternType.Cone:
+                        dir = Cone(i);
+                        break;
+
+                    case PatternType.DoubleHelix:
+                        dir = DoubleHelixPattern(i);
+                        break;
+
+                    case PatternType.Triangle:
+                        dir = TrianglePattern(i, out spawnOffset);
+                        break;
+
+                    case PatternType.Sphere:
+                        dir = SpherePattern(i);
+                        break;
+
+                    case PatternType.SineWaveDisk:
+                        dir = SineWarpDisk(i);
+                        break;
+
+                    case PatternType.Torus:
+                        dir = TorusPattern(i);
+                        break;
+
+                    case PatternType.CubeShell:
+                        dir = CubeShellPattern(i);
+                        break;
+
+                    case PatternType.Serpent:
+                        dir = SerpentPattern(i);
+                        break;
+
+                    case PatternType.LayeredSpiral:
+                        dir = LayeredSpiralPattern(i, l);
+                        spawnOffset = Vector3.up * currentPattern.layerSpacing * l;
+                        break;
+
+                    case PatternType.Random3D:
+                        dir = Random3D();
+                        break;
+
+                    case PatternType.VerticalHelix:
+                        spawnOffset = VerticalMountainHelix(i);
+                        dir = spawnOffset.normalized;
+                        break;
+
+                    case PatternType.Aimed:
+                        if (player != null)
+                        {
+                            dir = (player.position - transform.position).normalized;
+                        }
+                        else
+                        {
+                            dir = Vector3.down;
+                        }
+                        break;
+
+                    case PatternType.Random:
+                        dir = RandomPattern();
+                        Debug.Log("Random Pattern");
+                        break;
+                }
+
+                GameObject bullet = GetBullet();
+                bullet.transform.position = transform.position + spawnOffset;
+                bullet.transform.rotation = Quaternion.identity;
+                bullet.SetActive(true);
+
+                Bullet bulletScript = bullet.GetComponent<Bullet>();
+                bulletScript.SetDirection(dir * currentPattern.bulletSpeed);
+                bulletScript.DestroyAfter(currentPattern.bulletLifetime);
+                bulletScript.speed = currentPattern.bulletSpeed;
+
+                bulletsFired++;
             }
 
-            GameObject bullet = GetBullet();
-            bullet.transform.position = transform.position + bulletPositionOffset;
-            bullet.transform.rotation = Quaternion.identity;
-            bullet.SetActive(true);
+            if (currentPattern.patternType == PatternType.Spiral || currentPattern.patternType == PatternType.LayeredSpiral)
+                currentAngle += currentPattern.spiralSpeed;
+        }
+    }
 
-            Bullet bulletScript = bullet.GetComponent<Bullet>();
-            bulletScript.SetDirection(dir * currentPattern.bulletSpeed);
-            bulletScript.DestroyAfter(currentPattern.bulletLifetime);
+    private Vector3 LayeredSpiralPattern(int i, int layer)
+    {
+        float angle = currentAngle + (360f / currentPattern.bulletsPerWave) * i;
+        float rad = angle * Mathf.Deg2Rad;
 
-            bulletsFired++;
+        // Optional: you can make each layer rotate differently
+        float layerOffset = layer * 10f; // or some variable offset
+        rad += layerOffset * Mathf.Deg2Rad;
+
+        return new Vector3(Mathf.Cos(rad), 0f, Mathf.Sin(rad));
+    }
+
+    private Vector3 TorusPattern(int i)
+    {
+        float majorRadius = 1.5f;
+        float minorRadius = 0.5f;
+
+        float angle = (2 * Mathf.PI / currentPattern.bulletsPerWave) * i;
+        float tilt = Mathf.Sin(Time.time + i * 0.1f) * Mathf.PI;
+
+        float x = (majorRadius + minorRadius * Mathf.Cos(tilt)) * Mathf.Cos(angle);
+        float y = minorRadius * Mathf.Sin(tilt);
+        float z = (majorRadius + minorRadius * Mathf.Cos(tilt)) * Mathf.Sin(angle);
+
+        return new Vector3(x, y, z).normalized;
+    }
+
+    private Vector3 CubeShellPattern(int i)
+    {
+        int faces = 6;
+        int perFace = currentPattern.bulletsPerWave / faces;
+        int faceIndex = i / perFace;
+        float t = (i % perFace) / (float)perFace;
+
+        float x = 0, y = 0, z = 0;
+        float spread = 1.5f;
+
+        switch (faceIndex)
+        {
+            case 0: x = -spread; y = Random.Range(-spread, spread); z = Random.Range(-spread, spread); break;
+            case 1: x = spread; y = Random.Range(-spread, spread); z = Random.Range(-spread, spread); break;
+            case 2: x = Random.Range(-spread, spread); y = -spread; z = Random.Range(-spread, spread); break;
+            case 3: x = Random.Range(-spread, spread); y = spread; z = Random.Range(-spread, spread); break;
+            case 4: x = Random.Range(-spread, spread); y = Random.Range(-spread, spread); z = -spread; break;
+            case 5: x = Random.Range(-spread, spread); y = Random.Range(-spread, spread); z = spread; break;
         }
 
-        if (currentPattern.patternType == PatternType.Spiral)
-            currentAngle += currentPattern.spiralSpeed;
+        return new Vector3(x, y, z);
+    }
+
+    private Vector3 SerpentPattern(int i)
+    {
+        float waveFreq = 0.5f;
+        float timeOffset = Time.time * 2f;
+        float angle = i * 0.3f;
+
+        float x = Mathf.Cos(angle);
+        float y = Mathf.Sin(angle + Mathf.Sin(i * waveFreq + timeOffset));
+        float z = Mathf.Sin(angle);
+
+        return new Vector3(x, y, z);
+    }
+
+    private Vector3 SpherePattern(int i)
+    {
+        int total = currentPattern.bulletsPerWave;
+        float phi = Mathf.Acos(1 - 2 * (i + 0.5f) / total);
+        float theta = Mathf.PI * (1 + Mathf.Sqrt(5)) * i;
+
+        float x = Mathf.Sin(phi) * Mathf.Cos(theta);
+        float y = Mathf.Cos(phi);
+        float z = Mathf.Sin(phi) * Mathf.Sin(theta);
+
+        return new Vector3(x, y, z);
+    }
+
+    private Vector3 Random3D()
+    {
+        return Random.onUnitSphere.normalized;
+    }
+
+    private Vector3 SineWarpDisk(int i)
+    {
+        float angle = 2 * Mathf.PI * i / currentPattern.bulletsPerWave;
+        float y = Mathf.Sin(Time.time * 5f + angle) * 0.5f;
+
+        float x = Mathf.Cos(angle);
+        float z = Mathf.Sin(angle);
+
+        return new Vector3(x, y, z).normalized;
     }
 
     private Vector3 CirclePattern(int i)
@@ -136,21 +266,54 @@ public class BulletSpawner : MonoBehaviour
         return dir;
     }
 
-    private Vector3 FlowerPattern(int i, int arms = 5)
+    private Vector3 Circle4Pattern(int i, int petals = 6)
     {
-        float angle = (360f / currentPattern.bulletsPerWave) * i;
-        float armOffset = Mathf.Sin(Time.time * 5f + i) * 20f; // adds petal wobble
-        float finalAngle = angle + (360f / arms) * (i % arms) + armOffset;
-        float rad = finalAngle * Mathf.Deg2Rad;
-        return new Vector3(Mathf.Cos(rad), 0f, Mathf.Sin(rad));
+        float angle = (2 * Mathf.PI / currentPattern.bulletsPerWave) * i;
+        float radius = Mathf.Sin(petals * angle);
+
+        float x = radius * Mathf.Cos(angle);
+        float z = radius * Mathf.Sin(angle);
+
+        return new Vector3(x, 0f, z).normalized;
     }
 
-    private Vector3 ExpandingSpiral(int i)
+    private Vector3 Cone(int i)
     {
-        float angle = currentAngle + i * 10f; // tighter spiral
+        float angle = currentAngle + i * 10f;
         float rad = angle * Mathf.Deg2Rad;
-        float radius = 0.1f * i; // expands out
+        float radius = 0.1f * i;
         return new Vector3(Mathf.Cos(rad), 0f, Mathf.Sin(rad)) * radius;
+    }
+
+    private Vector3 TrianglePattern(int i, out Vector3 spawnPosition)
+    {
+        int bullets = currentPattern.bulletsPerWave;
+        int sides = 3;
+        int bulletsPerSide = bullets / sides;
+
+        float size = 3f;
+
+        Vector3 p0 = new Vector3(0, 0, size);                     
+        Vector3 p1 = new Vector3(-size * 0.866f, 0, -size * 0.5f); 
+        Vector3 p2 = new Vector3(size * 0.866f, 0, -size * 0.5f); 
+
+        int sideIndex = i / bulletsPerSide;
+        float t = (i % bulletsPerSide) / (float)bulletsPerSide;
+
+        Vector3 a = Vector3.zero, b = Vector3.zero;
+
+        switch (sideIndex)
+        {
+            case 0: a = p0; b = p1; break;
+            case 1: a = p1; b = p2; break;
+            case 2: a = p2; b = p0; break;
+        }
+
+        // Position on edge of triangle
+        spawnPosition = Vector3.Lerp(a, b, t);
+
+        // Direction = outward from triangle center
+        return (spawnPosition - Vector3.zero).normalized;
     }
 
     private Vector3 DoubleHelixPattern(int i)
@@ -164,26 +327,22 @@ public class BulletSpawner : MonoBehaviour
 
         return new Vector3(Mathf.Cos(rad), 0f, Mathf.Sin(rad)) + new Vector3(offset * flip, 0f, 0f);
     }
-
-    private List<Vector3> GridPattern(int cols, float spacing, Vector3 origin)
+    private Vector3 VerticalMountainHelix(int i)
     {
-        List<Vector3> positions = new List<Vector3>();
+        float angle = (360f / currentPattern.bulletsPerWave) * i;
+        float rad = angle * Mathf.Deg2Rad;
 
-        for (int x = 0; x < cols; x++)
-        {
-            float offsetX = (x - cols / 2f) * spacing;
+        float radius = 5f;
+        float x = Mathf.Cos(rad) * radius;
+        float z = Mathf.Sin(rad) * radius;
 
-            // Apply your specific tweak logic
-            if (x == 0) offsetX += 0.25f;
-            if (x == 1) offsetX += 0.25f;
-            if (x == 2) offsetX -= 0.25f;
-            if (x == 3) offsetX -= 0.25f;
+        float frequency = 1.5f;
+        float speed = 2f;
+        float amplitude = 2f;
 
-            Vector3 newPos = origin + new Vector3(offsetX, 0f, 0f);
-            positions.Add(newPos);
-        }
+        float y = Mathf.Sin(x * frequency + Time.time * speed) * amplitude;
 
-        return positions;
+        return new Vector3(x, y, z);
     }
 
     public bool AttackFinished()

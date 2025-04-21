@@ -10,6 +10,9 @@ public class BulletPatternData : ScriptableObject
     public float bulletLifetime;
     public float fireRate;
     public int totalBullets;
+
+    public int numberOfLayers;
+    public float layerSpacing;
 }
 
 public enum PatternType
@@ -18,8 +21,16 @@ public enum PatternType
     Circle,
     Aimed,
     Random,
-    Flower,
+    Circle4,
     Cone,
     DoubleHelix,
-    Grid,
+    Triangle,
+    Sphere,
+    SineWaveDisk,
+    Random3D,
+    Torus,
+    CubeShell,
+    Serpent,
+    VerticalHelix,
+    LayeredSpiral
 }

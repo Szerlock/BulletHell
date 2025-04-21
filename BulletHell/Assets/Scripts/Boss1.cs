@@ -5,6 +5,7 @@ public class Boss1 : EnemyBase
     [SerializeField] private BulletSpawner bulletSpawner;
     [SerializeField] private float fireRate;
     [SerializeField] private float fireCooldown;
+    [SerializeField] private Transform player;
 
     private enum State
     {
@@ -27,6 +28,8 @@ public class Boss1 : EnemyBase
                 HandleAttackingState();
                 break;
         }
+
+        transform.LookAt(player.position);
     }
 
     void HandleWaitingState()

@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c25c65651088329469232164b679e32e, type: 3}
-  m_Name: AimedPattern
+  m_Name: LayaredSpiral
   m_EditorClassIdentifier: 
-  patternType: 2
-  bulletsPerWave: 5
-  spiralSpeed: 0
-  bulletSpeed: 20
+  patternType: 15
+  bulletsPerWave: 10
+  spiralSpeed: 20
+  bulletSpeed: 10
   bulletLifetime: 5
-  fireRate: 0.5
-  totalBullets: 20
+  fireRate: 0.2
+  totalBullets: 500
+  numberOfLayers: 5
+  layerSpacing: 0.6
