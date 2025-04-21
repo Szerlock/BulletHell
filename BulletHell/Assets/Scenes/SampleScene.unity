@@ -346,7 +346,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &304759818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,6 +362,21 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1582963478826174163, guid: 444a3fe946fda494ba381649afea523e, type: 3}
   patterns:
   - {fileID: 11400000, guid: c6c94e1ec6fdf95489f0fa8bd15c0516, type: 2}
+  - {fileID: 11400000, guid: 439cbcaec406c1c4682db033b0563daf, type: 2}
+  - {fileID: 11400000, guid: 9aa7d92a4ab8ebb40a43b6d4679c85a6, type: 2}
+  - {fileID: 11400000, guid: 6fed992f285e6d54994c97aa10e710d1, type: 2}
+  - {fileID: 11400000, guid: c082299f8c18bbd46b37ba9e311d7e96, type: 2}
+  - {fileID: 11400000, guid: 07a9bb41be51bf745aa9c28b088dff40, type: 2}
+  - {fileID: 11400000, guid: d282edc0c0d421d4c9060f4b44bf7e4a, type: 2}
+  - {fileID: 11400000, guid: fb7b55a25bc64cd4694be467c77fda1b, type: 2}
+  - {fileID: 11400000, guid: 532ad72094c4e9f48acfce2713ec19ae, type: 2}
+  - {fileID: 11400000, guid: 22c09b6e369ed304584b78ca49092509, type: 2}
+  - {fileID: 11400000, guid: 43628ceb534d1994dbf7acb4bf8971d2, type: 2}
+  - {fileID: 11400000, guid: 8908eb26518d4c4488a5971e7a0b0c4c, type: 2}
+  - {fileID: 11400000, guid: 693c9a0cbfb26b141a3aa28604c1e0e6, type: 2}
+  - {fileID: 11400000, guid: 9f2a57efafacf19478730378185d84b7, type: 2}
+  - {fileID: 11400000, guid: 57ed7e1511e8b3e4fbdbaf1b6d3dbdfc, type: 2}
+  - {fileID: 11400000, guid: 969e42af72335ad4f8e524305bc94f84, type: 2}
   player: {fileID: 1551142768}
 --- !u!4 &304759819
 Transform:
@@ -826,7 +841,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &497868990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1114,7 +1129,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &925617810
 Transform:
   m_ObjectHideFlags: 0
@@ -1145,6 +1160,7 @@ MonoBehaviour:
   playerMovement: {fileID: 1551142770}
   firePoint: {fileID: 925617810}
   bulletPrefab: {fileID: 1582963478826174163, guid: 70b809c2eb667ea46940d81cafdd08cb, type: 3}
+  camera: {fileID: 330585545}
   fireRate: 5
   aimSpeed: 5
   enemyLayer:

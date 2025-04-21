@@ -19,3 +19,5 @@ MonoBehaviour:
   bulletLifetime: 5
   fireRate: 0.1
   totalBullets: 200
+  numberOfLayers: 1
+  layerSpacing: 0

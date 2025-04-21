@@ -11,7 +11,7 @@ public class BulletPatternData : ScriptableObject
     public float fireRate;
     public int totalBullets;
 
-    public int numberOfLayers;
+    public int numberOfLayers = 1;
     public float layerSpacing;
 }
 

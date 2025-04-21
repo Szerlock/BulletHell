@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patternType: 3
   bulletsPerWave: 45
-  timeBetweenWaves: 0.1
   spiralSpeed: 0
   bulletSpeed: 5
   bulletLifetime: 5
   fireRate: 0.5
   totalBullets: 250
+  numberOfLayers: 1
+  layerSpacing: 0
