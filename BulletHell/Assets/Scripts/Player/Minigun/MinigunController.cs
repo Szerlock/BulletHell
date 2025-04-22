@@ -22,10 +22,13 @@ public class MinigunController : MonoBehaviour
         if (fireCooldown <= 0f)
         {
             Vector3 shootDirection;
-            if (GetCrosshairWorldDirection(out shootDirection))
+            if (Input.GetKey(KeyCode.Mouse0))
             {
-                Shoot(shootDirection);
-                fireCooldown = 1f / fireRate;
+                if (GetCrosshairWorldDirection(out shootDirection))
+                {
+                    Shoot(shootDirection);
+                    fireCooldown = 1f / fireRate;
+                }
             }
         }
     }

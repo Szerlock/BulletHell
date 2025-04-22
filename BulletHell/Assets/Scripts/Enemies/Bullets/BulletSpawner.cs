@@ -130,6 +130,13 @@ public class BulletSpawner : MonoBehaviour
                         break;
                 }
 
+                if (currentPattern.patternType != PatternType.Aimed)
+                {
+                    Vector3 toPlayer = (player.position - transform.position).normalized;
+                    Quaternion rotationToPlayer = Quaternion.LookRotation(toPlayer);
+                    dir = rotationToPlayer * dir;
+                }
+
                 GameObject bullet = GetBullet();
                 bullet.transform.position = transform.position + spawnOffset;
                 bullet.transform.rotation = Quaternion.identity;

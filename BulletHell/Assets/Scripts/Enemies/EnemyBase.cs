@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class EnemyBase : MonoBehaviour
 {
-    [SerializeField] private float speed;
+    [SerializeField] public float speed;
     [SerializeField] public float Health;
     [SerializeField] public float Damage;
     [SerializeField] public float currentHealth;
@@ -25,5 +25,4 @@ public abstract class EnemyBase : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public abstract void StartPhase();
 }

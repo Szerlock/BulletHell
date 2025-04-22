@@ -10,7 +10,6 @@ public class CharacterController3D : MonoBehaviour
 
     void Update()
     {
-        // This class doesn’t need to do much yet.
-        // Everything is modular.
+        
     }
 }
