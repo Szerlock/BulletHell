@@ -247,6 +247,7 @@ MonoBehaviour:
   moveCooldown: 0
   moveTimer: 0
   isMoving: 0
+  hasTarget: 0
   currentState: 0
 --- !u!4 &299034632
 Transform:
@@ -1214,7 +1215,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &925617810
 Transform:
   m_ObjectHideFlags: 0
