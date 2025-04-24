@@ -4,13 +4,14 @@ public class BulletsBurn : AugmentBase
 {
     private MinigunController minigunController;
 
-    void Start()
+    public override void Picked()
     {
-        minigunController = FindFirstObjectByType<MinigunController>();
+        base.Picked();
+        ApplyEffect();
     }
-
     public override void ApplyEffect()
     {
+        minigunController = FindFirstObjectByType<MinigunController>();
         minigunController.bulletsBurnUnlocked = true;
     }
 }

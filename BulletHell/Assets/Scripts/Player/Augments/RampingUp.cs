@@ -4,13 +4,15 @@ public class RampingUp : AugmentBase
 {
     private MinigunController minigunController;
 
-    void Start()
+    public override void Picked()
     {
-        minigunController = FindFirstObjectByType<MinigunController>();
+        base.Picked();
+        ApplyEffect();
     }
 
     public override void ApplyEffect()
     {
+        minigunController = FindFirstObjectByType<MinigunController>();
         minigunController.rampingUPUnlocked = true;
     }
 }

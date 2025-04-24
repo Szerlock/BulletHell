@@ -25,7 +25,8 @@ public class PlayerBullet : MonoBehaviour
 
                     if (burnOn)
                     {
-                        enemy.ApplyBurn(burnTickDamage, burnTickInterval, burnDuration);
+                        BurnEffect effect = GlobalBurnStats.GetBurnEffect();
+                        enemy.ApplyBurn(effect.tickDamage, effect.tickInterval, effect.duration);
                     }
                 }
                 Destroy(gameObject);

@@ -1,16 +1,17 @@
 using UnityEngine;
 
-public class BurnsMoreEffective : MonoBehaviour
+public class BurnsMoreEffective : AugmentBase
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void Picked()
     {
-        
+        base.Picked();
+        ApplyEffect();
     }
 
-    // Update is called once per frame
-    void Update()
+    [ContextMenu("Test ApplyEffect")]
+    public override void ApplyEffect()
     {
-        
+        BurnEffect burnEffect = GlobalBurnStats.GetBurnEffect();
+        GlobalBurnStats.SetBurnStats(burnEffect.tickDamage*2, burnEffect.tickInterval, burnEffect.duration * 2);
     }
 }
