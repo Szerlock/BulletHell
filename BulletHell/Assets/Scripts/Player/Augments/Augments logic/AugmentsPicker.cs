@@ -15,18 +15,13 @@ public class AugmentsPicker : MonoBehaviour
     public void PickAugment()
     {
 
-        if (potentialAugments.Count < 3)
-        {
-            Debug.Log("Less Than 3 augments");
-            return;
-        }
-
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
         List<int> usedIndices = new List<int>();
+        int count = Mathf.Min(3, potentialAugments.Count);
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < count; i++)
         {
             int randomIndex;
 
@@ -68,6 +63,7 @@ public class AugmentsPicker : MonoBehaviour
         {
             Destroy(tab);
         }
+        UITabsShowing.Clear();
     }
 }
 

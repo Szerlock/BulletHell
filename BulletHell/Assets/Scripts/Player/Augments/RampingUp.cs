@@ -7,7 +7,6 @@ public class RampingUp : AugmentBase
     public override void Picked()
     {
         base.Picked();
-        ApplyEffect();
     }
 
     public override void ApplyEffect()
