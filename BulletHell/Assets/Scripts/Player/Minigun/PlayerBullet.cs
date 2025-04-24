@@ -3,6 +3,15 @@ using UnityEngine;
 public class PlayerBullet : MonoBehaviour
 {
     public float damage = 10f;
+    private bool burnOn = false;
+    public float burnDuration = 5f;
+    public float burnTickDamage = 1f;
+    public float burnTickInterval = 1f;
+
+    public void InitBullet(bool burnActive)
+    {
+        burnOn = burnActive;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -13,6 +22,11 @@ public class PlayerBullet : MonoBehaviour
                 if (enemy != null)
                 {
                     enemy.TakeDamage(damage);
+
+                    if (burnOn)
+                    {
+                        enemy.ApplyBurn(burnTickDamage, burnTickInterval, burnDuration);
+                    }
                 }
                 Destroy(gameObject);
                 break;

@@ -357,7 +357,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &304759818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1248,10 +1248,13 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1582963478826174163, guid: 70b809c2eb667ea46940d81cafdd08cb, type: 3}
   camera: {fileID: 330585545}
   fireRate: 5
-  aimSpeed: 5
   enemyLayer:
     serializedVersion: 2
     m_Bits: 0
+  rampUpTimeToMax: 1
+  rampUpBonus: 5
+  rampingUPUnlocked: 0
+  bulletsBurnUnlocked: 1
 --- !u!1 &939418731
 GameObject:
   m_ObjectHideFlags: 0

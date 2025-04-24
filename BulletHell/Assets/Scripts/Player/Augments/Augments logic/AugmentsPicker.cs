@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.DedicatedServer;
 using UnityEngine.UI;
 
 public class AugmentsPicker : MonoBehaviour
 {
-    [SerializeField] private List<AugmentBase> augments;
+    [SerializeField] private List<AugmentBase> potentialAugments;
     [SerializeField] private List<GameObject> augmentUITabs;
     [SerializeField] private List<Transform> augmentUIPos;
 
@@ -18,13 +19,13 @@ public class AugmentsPicker : MonoBehaviour
 
             do
             {
-                randomIndex = Random.Range(0, augments.Count);
+                randomIndex = Random.Range(0, potentialAugments.Count);
             }
             while (usedIndices.Contains(randomIndex));
 
             usedIndices.Add(randomIndex);
 
-            AugmentBase pickedAugment = augments[randomIndex];
+            AugmentBase pickedAugment = potentialAugments[randomIndex];
             GameObject tab = augmentUITabs[i];
 
             ShowAugment(tab, i, pickedAugment);
@@ -39,5 +40,12 @@ public class AugmentsPicker : MonoBehaviour
         {
             augment.Picked();
         });
+    }
+    public void RemoveAugment(AugmentBase augment)
+    {
+        if (potentialAugments.Contains(augment))
+        {
+            potentialAugments.Remove(augment);
+        }
     }
 }

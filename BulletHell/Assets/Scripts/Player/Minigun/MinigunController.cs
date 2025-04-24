@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MinigunController : MonoBehaviour
@@ -8,16 +9,39 @@ public class MinigunController : MonoBehaviour
     [SerializeField] private Camera camera;
 
     [SerializeField] private float fireRate = 10f;
-    [SerializeField] private float aimSpeed = 5f;
 
     // Only use if i add more enemies
     [SerializeField] private LayerMask enemyLayer;
 
     private float fireCooldown = 0f;
 
+    [Header("RampingUp Variables")]
+    [SerializeField] private float rampUpTimeToMax = 3f; 
+    [SerializeField] private float rampUpBonus = 5f;
+    public bool rampingUPUnlocked = false;
+    
+    [Header("Burning Bullets Variables")]
+    public bool bulletsBurnUnlocked = false;
+
+    private float rampTimer = 0f;
+    private float baseFireRate;
+    private Vector3 lastPosition;
+
+    void Start()
+    {
+        baseFireRate = fireRate;
+        lastPosition = transform.position;
+    }
+
     void Update()
     {
         fireCooldown -= Time.deltaTime;
+
+        if (playerMovement.IsMoving())
+        {
+            rampTimer = 0f;
+            fireRate = baseFireRate;
+        }
 
         if (fireCooldown <= 0f)
         {
@@ -26,6 +50,9 @@ public class MinigunController : MonoBehaviour
             {
                 if (GetCrosshairWorldDirection(out shootDirection))
                 {
+                    if (rampingUPUnlocked)
+                        IncreaseAttackSpeed();
+
                     Shoot(shootDirection);
                     fireCooldown = 1f / fireRate;
                 }
@@ -33,11 +60,27 @@ public class MinigunController : MonoBehaviour
         }
     }
 
+    private void IncreaseAttackSpeed()
+    {
+        if (!playerMovement.IsMoving())
+        {
+            rampTimer += Time.deltaTime;
+        }
+
+        float t = Mathf.Clamp01(rampTimer / rampUpTimeToMax);
+        fireRate = baseFireRate + Mathf.Lerp(0, rampUpBonus, t);
+    }
+
     void Shoot(Vector3 direction)
     {
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.LookRotation(direction));
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.linearVelocity = direction * 50f;
+
+        if (bulletsBurnUnlocked)
+        {   
+            bullet.GetComponent<PlayerBullet>().InitBullet(bulletsBurnUnlocked);
+        }
 
         direction.y = 0f;
         if (direction != Vector3.zero)
