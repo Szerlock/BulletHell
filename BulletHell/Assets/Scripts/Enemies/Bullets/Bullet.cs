@@ -37,10 +37,10 @@ public class Bullet : MonoBehaviour
                 player.TakeDamage(damage);
             }
         }
-        else
-        {
-            Disable();
-        }
+        //else
+        //{
+        //    Disable();
+        //}
     }
 
     void Disable()

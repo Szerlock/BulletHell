@@ -5,6 +5,7 @@ public class CharacterController3D : MonoBehaviour
 {
 
     [SerializeField] private PlayerMovement movement;
+    [SerializeField] private FlashingEffect flashingEffect;
 
     [Header("PlayerStats")]
     [SerializeField] private float currentHealth;
@@ -22,14 +23,21 @@ public class CharacterController3D : MonoBehaviour
     private float fireTimer;
     public bool OilUrnUnlocked = false;
 
-    [Header("Invincibility Settings")]
+    [Header("Invincibility Augment")]
     private float invincibleCooldownTimer = 0f;
     private float invincibleDurationTimer = 0f;
     private bool isInvincible = false;
 
+    [Header("Invincibility Settings")]
+    [SerializeField] private float iframeDuration = 0.5f;
+    private bool isIFrameActive = false;
+    private float iframeTimer = 0f;
+
     void Update()
     {
         HandleInvincibilityTimer();
+
+        HandleIFrames();
 
         HandleOilUrn();
     }
@@ -80,12 +88,33 @@ public class CharacterController3D : MonoBehaviour
         }
     }
 
+    private void HandleIFrames()
+    {
+        if (!isIFrameActive) return;
+
+        iframeTimer += Time.deltaTime;
+
+        if (iframeTimer >= iframeDuration)
+        {
+            isIFrameActive = false;
+        }
+    }
+
     public void TakeDamage(float amount)
     {
-        if (isInvincible) return;
+        if (isInvincible || isIFrameActive)
+            return; 
+        flashingEffect.Flash();
+        Debug.Log($"Taking {amount} damage. Current health: {currentHealth}");
         currentHealth -= amount;
         if (currentHealth <= 0)
+        {
             Die();
+        }
+        else
+        {
+            ActivateIFrames();
+        }
     }
 
     private void Die()
@@ -122,5 +151,11 @@ public class CharacterController3D : MonoBehaviour
 
 
         proj.SetDirection(dir);
+    }
+
+    private void ActivateIFrames()
+    {
+        isIFrameActive = true;
+        iframeTimer = 0f;
     }
 }

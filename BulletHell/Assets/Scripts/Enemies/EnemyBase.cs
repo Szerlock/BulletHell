@@ -74,7 +74,7 @@ public abstract class EnemyBase : MonoBehaviour
     }
     private void OnEnable()
     {
-        GameManager.Instance.AddEnemy(this);
+        //GameManager.Instance.AddEnemy(this);
     }
 
     private void OnDisable()
