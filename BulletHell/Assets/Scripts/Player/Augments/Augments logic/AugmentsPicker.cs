@@ -34,9 +34,11 @@ public class AugmentsPicker : MonoBehaviour
             usedIndices.Add(randomIndex);
 
             AugmentBase pickedAugment = potentialAugments[randomIndex];
-            GameObject tab = augmentUITabs[i];
+            GameObject tab = augmentUITabs[randomIndex];
 
             ShowAugment(tab, i, pickedAugment);
+            Debug.Log($"Picked augment {pickedAugment.name} for tab index {i}");
+
         }
     }
 
@@ -45,14 +47,17 @@ public class AugmentsPicker : MonoBehaviour
         GameObject tab = Instantiate(AugmentTab, augmentUIPos[i].position, Quaternion.identity, augmentPanel);
         UITabsShowing.Add(tab);
         tab.GetComponent<AugmentUITab>().Init(augment);
+        Debug.Log($"Initializing tab with augment: {augment.name}");
+
     }
 
     public void RemoveAugment(AugmentBase augment)
     {
-        if (potentialAugments.Contains(augment))
+        int index = potentialAugments.FindIndex(aug => aug == augment);
+        if (index != -1)
         {
+            augmentUITabs.RemoveAt(index);
             potentialAugments.Remove(augment);
-            augmentUITabs.Remove(augment.gameObject);
             CloseUI();
         }
     }

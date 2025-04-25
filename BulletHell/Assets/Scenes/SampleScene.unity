@@ -678,6 +678,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &402649938
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 402649939}
+  m_Layer: 8
+  m_Name: OilUrnThrowPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &402649939
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 402649938}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: 1.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1551142768}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -811,7 +842,7 @@ GameObject:
   - component: {fileID: 435352988}
   - component: {fileID: 435352987}
   - component: {fileID: 435352986}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TempFace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1010,6 +1041,51 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &610203248
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 610203250}
+  - component: {fileID: 610203249}
+  m_Layer: 0
+  m_Name: GameManger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &610203249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610203248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc61117b77bdb664c874a90b2ca9bf26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllEnemies: []
+--- !u!4 &610203250
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610203248}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.7766614, y: -4.7020273, z: 4.248776}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &655022760
 GameObject:
   m_ObjectHideFlags: 0
@@ -1050,7 +1126,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 668194335}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1353,7 +1429,7 @@ GameObject:
   m_Component:
   - component: {fileID: 925617810}
   - component: {fileID: 925617811}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Minigun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1391,6 +1467,7 @@ MonoBehaviour:
   firePoint: {fileID: 925617810}
   bulletPrefab: {fileID: 1582963478826174163, guid: 70b809c2eb667ea46940d81cafdd08cb, type: 3}
   camera: {fileID: 330585545}
+  characterController: {fileID: 1551142771}
   fireRate: 5
   enemyLayer:
     serializedVersion: 2
@@ -1623,7 +1700,7 @@ GameObject:
   - component: {fileID: 1551142771}
   - component: {fileID: 1551142770}
   - component: {fileID: 1551142769}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1722,6 +1799,7 @@ Transform:
   - {fileID: 668194335}
   - {fileID: 435352985}
   - {fileID: 925617810}
+  - {fileID: 402649939}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &1551142769
@@ -1762,15 +1840,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
-  jumpHeight: 2
+  jumpHeight: 10
   gravity: -9.81
   controller: {fileID: 1551142769}
   cameraTransform: {fileID: 330585546}
+  isGrounded: 0
   groundCheck: {fileID: 668194335}
   groundDistance: 0.4
   groundMask:
     serializedVersion: 2
     m_Bits: 64
+  isHovering: 0
+  dashSpeed: 35
+  dashDuration: 0.2
+  dashCooldown: 1
 --- !u!114 &1551142771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1788,6 +1871,12 @@ MonoBehaviour:
   maxHealth: 10
   currentStamina: 0
   maxStamina: 10
+  critChance: 0.1
+  critMultiplier: 2
+  OilUrnProyectile: {fileID: 5124008794396422625, guid: 31417c5b06049f2439ea84be305c5a69, type: 3}
+  throwPoint: {fileID: 402649939}
+  fireCooldown: 5
+  OilUrnUnlocked: 0
 --- !u!1 &1925648605
 GameObject:
   m_ObjectHideFlags: 0
@@ -1821,10 +1910,14 @@ MonoBehaviour:
   - {fileID: 5565415529492017117, guid: 0f0516715b615cb408e0c050eb60a272, type: 3}
   - {fileID: 1623894023431633132, guid: 646df9b7d8a30fb459a5707c857e5d3d, type: 3}
   - {fileID: 9042427945479092704, guid: 82d9a2915d2fc0b46863244b2c514034, type: 3}
+  - {fileID: -5512636275288794841, guid: 5ff0154cb620d314793ffca21eddb80e, type: 3}
+  - {fileID: 7676579619095668662, guid: caf2a2039d6665c4dbebb4009fa4d29e, type: 3}
   augmentUITabs:
   - {fileID: 5605351823688184395, guid: 55e49c3a15cf8d045b6c3e1e50ec64cf, type: 3}
   - {fileID: 8511510133986639223, guid: 791c02ae1698c0d499855c8e2fa9890e, type: 3}
   - {fileID: 5763982936929132631, guid: 4d1fa0b1bc0fe4c4e8f6d33852dc0d50, type: 3}
+  - {fileID: 5763982936929132631, guid: e9e46560c33a70245a8533f9171896be, type: 3}
+  - {fileID: 5763982936929132631, guid: 7c3a2384040663e4c9e97ba5171669b9, type: 3}
   augmentUIPos:
   - {fileID: 729622297}
   - {fileID: 179054035}
@@ -1880,6 +1973,8 @@ MonoBehaviour:
   - {fileID: 5565415529492017117, guid: 0f0516715b615cb408e0c050eb60a272, type: 3}
   - {fileID: 1623894023431633132, guid: 646df9b7d8a30fb459a5707c857e5d3d, type: 3}
   - {fileID: 9042427945479092704, guid: 82d9a2915d2fc0b46863244b2c514034, type: 3}
+  - {fileID: -5512636275288794841, guid: 5ff0154cb620d314793ffca21eddb80e, type: 3}
+  - {fileID: 7676579619095668662, guid: caf2a2039d6665c4dbebb4009fa4d29e, type: 3}
   activeAugments: []
 --- !u!4 &1931567883
 Transform:
@@ -1944,3 +2039,4 @@ SceneRoots:
   - {fileID: 788263778}
   - {fileID: 1931567883}
   - {fileID: 1925648607}
+  - {fileID: 610203250}

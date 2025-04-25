@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MinigunController : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class MinigunController : MonoBehaviour
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Camera camera;
+    [SerializeField] private CharacterController3D characterController;
 
     [SerializeField] private float fireRate = 10f;
 
@@ -57,6 +59,10 @@ public class MinigunController : MonoBehaviour
                     fireCooldown = 1f / fireRate;
                 }
             }
+            else
+            {
+                playerMovement.isHovering = false;
+            }
         }
     }
 
@@ -73,13 +79,30 @@ public class MinigunController : MonoBehaviour
 
     void Shoot(Vector3 direction)
     {
+        if (!playerMovement.isGrounded)
+        {
+            if (playerMovement.IsMoving())
+            {
+                playerMovement.isHovering = false;
+                return;
+            }
+            else
+            {
+                playerMovement.isHovering = true;
+            }
+        }
+
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.LookRotation(direction));
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.linearVelocity = direction * 50f;
 
         if (bulletsBurnUnlocked)
-        {   
-            bullet.GetComponent<PlayerBullet>().InitBullet(bulletsBurnUnlocked);
+        {
+            bullet.GetComponent<PlayerBullet>().InitBullet(
+                bulletsBurnUnlocked,
+                characterController.critChance,
+                characterController.critMultiplier
+            );
         }
 
         direction.y = 0f;
@@ -92,16 +115,41 @@ public class MinigunController : MonoBehaviour
 
     bool GetCrosshairWorldDirection(out Vector3 direction)
     {
+        //Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
+        //Ray ray = camera.ScreenPointToRay(screenCenter);
+
+        //if (Physics.Raycast(ray, out RaycastHit hit))
+        //{
+        //    direction = (hit.point - firePoint.position).normalized;
+        //    return true;
+        //}
+
+        //direction = ray.direction;
+
+        //return true;
         Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
         Ray ray = camera.ScreenPointToRay(screenCenter);
 
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        // Distance from firePoint to ray hit, but clamp so it's always forward
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f))
         {
-            direction = (hit.point - firePoint.position).normalized;
+            Vector3 rawDirection = (hit.point - firePoint.position).normalized;
+
+            // If looking down and hit is below firePoint, fall back to camera forward
+            if (Vector3.Dot(rawDirection, camera.transform.forward) < 0.1f)
+            {
+                direction = camera.transform.forward;
+            }
+            else
+            {
+                direction = rawDirection;
+            }
+
             return true;
         }
 
-        direction = ray.direction;
+        direction = camera.transform.forward;
         return true;
+
     }
 }

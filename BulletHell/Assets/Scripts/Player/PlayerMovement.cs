@@ -9,21 +9,43 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private CharacterController controller;
     [SerializeField] private Transform cameraTransform;
     private Vector3 velocity;
-    private bool isGrounded;
+    public bool isGrounded;
 
     public Transform groundCheck;
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
 
+    public bool isHovering = false;
+
+    [Header("Dashing Variable")]
+    public float dashSpeed = 20f;
+    public float dashDuration = 0.2f;
+    public float dashCooldown = 1f;
+
+    private bool isDashing = false;
+    private float dashTimer = 0f;
+    private float dashCooldownTimer = 0f;
+    private Vector3 dashDirection;
+
     void Update()
     {
-        HandleMovement();
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+
+        if (dashCooldownTimer > 0f)
+            dashCooldownTimer -= Time.deltaTime;
+
+        HandleDashInput();
+
+        if (!isDashing)
+            HandleMovement();
+
+        ApplyGravity();
+
+        controller.Move(velocity * Time.deltaTime);
     }
 
     private void HandleMovement()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
         if (isGrounded && velocity.y < 0)
             velocity.y = -2f;
 
@@ -47,14 +69,17 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
         }
 
-        controller.Move(moveDir * moveSpeed * Time.deltaTime);
+        float effectiveSpeed = moveSpeed;
+        if (!isGrounded && !isHovering)
+        {
+            effectiveSpeed *= 0.3f;
+        }
+
+        controller.Move(moveDir * effectiveSpeed * Time.deltaTime);
 
         CheckJump();
-
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
     }
-
+    
     private void CheckJump()
     {
         if (Input.GetButtonDown("Jump") && isGrounded)
@@ -63,11 +88,56 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void HandleDashInput()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0f && !isDashing)
+        {
+            Vector3 inputDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+            if (inputDir.magnitude < 0.1f)
+                inputDir = Vector3.forward;
+
+            dashDirection = (cameraTransform.forward * inputDir.z + cameraTransform.right * inputDir.x).normalized;
+            dashDirection.y = 0f;
+
+            isDashing = true;
+            dashTimer = dashDuration;
+            dashCooldownTimer = dashCooldown;
+        }
+
+        if (isDashing)
+        {
+            controller.Move(dashDirection * dashSpeed * Time.deltaTime);
+            dashTimer -= Time.deltaTime;
+
+            if (dashTimer <= 0f)
+            {
+                isDashing = false;
+            }
+        }
+    }
+
     public bool IsMoving()
     {
-        float moveX = Input.GetAxis("Horizontal");
-        float moveZ = Input.GetAxis("Vertical");
-
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveZ = Input.GetAxisRaw("Vertical");
+            
         return Mathf.Abs(moveX) > 0 || Mathf.Abs(moveZ) > 0;
+    }
+
+    private void ApplyGravity()
+    {
+        if (!isGrounded && !isHovering)
+        {
+            velocity.y += gravity * Time.deltaTime;
+        }
+        else if (isHovering)
+        {
+            velocity.y = -0.1f;
+        }
+
+        if (isGrounded && !isHovering && velocity.y < 0)
+        {
+            velocity.y = -2f;
+        }
     }
 }

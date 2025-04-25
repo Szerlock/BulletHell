@@ -1,16 +1,17 @@
 using UnityEngine;
 
-public class OilUrn : MonoBehaviour
+public class OilUrn : AugmentBase
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private CharacterController3D player;
+
+    public override void Picked()
     {
-        
+        base.Picked();
+    }
+    public override void ApplyEffect()
+    {
+        player = FindFirstObjectByType<CharacterController3D>();
+        player.OilUrnUnlocked = true;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

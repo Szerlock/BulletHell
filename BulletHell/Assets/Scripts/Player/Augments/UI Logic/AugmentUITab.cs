@@ -9,7 +9,7 @@ public class AugmentUITab : MonoBehaviour
     [SerializeField] private Image iconImage;
     [SerializeField] private Button pickButton;
 
-    private AugmentBase augment;
+    public AugmentBase augment;
 
     public void Init(AugmentBase augment)
     {
