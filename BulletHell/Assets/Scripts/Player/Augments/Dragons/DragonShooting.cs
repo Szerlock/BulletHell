@@ -24,7 +24,7 @@ public class DragonShooting : MonoBehaviour
 
     private void ShootAtNearestEnemy()
     {
-        EnemyBase target = FindClosestEnemy();
+        EnemyBase target = GameManager.Instance.FindClosestEnemy();
         if (target == null) return;
 
         Vector3 dir = (target.transform.position - shootPoint.position).normalized;
@@ -32,26 +32,6 @@ public class DragonShooting : MonoBehaviour
         GameObject projGO = Instantiate(projectilePrefab, shootPoint.position, Quaternion.LookRotation(dir));
         DragonProjectile proj = projGO.GetComponent<DragonProjectile>();
         proj.Init(dir, projectileType, projectileDamage, projectileSpeed);
-    }
-
-    private EnemyBase FindClosestEnemy()
-    {
-        EnemyBase closest = null;
-        float minDistance = Mathf.Infinity;
-
-        foreach (var enemy in GameManager.Instance.AllEnemies)
-        {
-            if (enemy == null) continue;
-
-            float dist = Vector3.Distance(transform.position, enemy.transform.position);
-            if (dist < minDistance)
-            {
-                minDistance = dist;
-                closest = enemy;
-            }
-        }
-
-        return closest;
     }
 
     public void UpgradeDragons(float multiplier)

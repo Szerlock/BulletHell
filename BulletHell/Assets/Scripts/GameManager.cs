@@ -22,10 +22,8 @@ public class GameManager : MonoBehaviour
 
     public void AddEnemy(EnemyBase enemy)
     {
-        if (!AllEnemies.Contains(enemy))
-        {
+
             AllEnemies.Add(enemy);
-        }
     }
 
     public void RemoveEnemy(EnemyBase enemy)
@@ -34,6 +32,30 @@ public class GameManager : MonoBehaviour
         {
             AllEnemies.Remove(enemy);
         }
+        else
+        {
+            Debug.LogWarning("Enemy not found in the list.");
+        }
+    }
+
+    public EnemyBase FindClosestEnemy()
+    {
+        EnemyBase closest = null;
+        float minDistance = Mathf.Infinity;
+
+        foreach (var enemy in GameManager.Instance.AllEnemies)
+        {
+            if (enemy == null) continue;
+
+            float dist = Vector3.Distance(transform.position, enemy.transform.position);
+            if (dist < minDistance)
+            {
+                minDistance = dist;
+                closest = enemy;
+            }
+        }
+
+        return closest;
     }
 
     [ContextMenu("Clear List")]

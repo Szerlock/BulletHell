@@ -31,8 +31,9 @@ public class BossBase : EnemyBase
         Death
     }
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         bossStateHandler.Init(this);
         currentHealth = Health;
         moveTimer = moveCooldown;

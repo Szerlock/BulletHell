@@ -11,8 +11,7 @@ public class CharacterController3D : MonoBehaviour
     [Header("PlayerStats")]
     [SerializeField] private float currentHealth;
     [SerializeField] private float maxHealth;
-    [SerializeField] private float currentStamina;
-    [SerializeField] private float maxStamina;
+    [SerializeField] public float damage;
     [SerializeField] public float critChance = .1f;
     [SerializeField] public float critMultiplier = 2f;
 
@@ -28,6 +27,7 @@ public class CharacterController3D : MonoBehaviour
     private float invincibleCooldownTimer = 0f;
     private float invincibleDurationTimer = 0f;
     private bool isInvincible = false;
+    public bool isInvincibleUnlocked = false;
 
     [Header("Invincibility Settings")]
     [SerializeField] private float iframeDuration = 0.5f;
@@ -40,11 +40,20 @@ public class CharacterController3D : MonoBehaviour
     public GameObject healingDragonPrefab;
     public GameObject shadowDragonPrefab;
     public List<Transform> spawnPositions;
-    private List<bool> positionOccupied = new List<bool>(4);
+    private List<bool> positionOccupied = new List<bool> { false, false, false, false };
+
+    [Header("Tracking Unlocked")]
+    public bool trackingUnlocked = false;
+
+    private void Start()
+    {
+        currentHealth = maxHealth;
+    }
 
     void Update()
     {
-        HandleInvincibilityTimer();
+        if (isInvincibleUnlocked)
+            HandleInvincibilityTimer();
 
         HandleIFrames();
 
@@ -77,11 +86,7 @@ public class CharacterController3D : MonoBehaviour
 
             if (invincibleCooldownTimer >= 60f)
             {
-                isInvincible = true;
-                invincibleCooldownTimer = 0f;
-                invincibleDurationTimer = 0f;
-
-                Debug.Log("You are now INVINCIBLE!");
+                StartInvincibility();
             }
         }
         else
@@ -90,9 +95,7 @@ public class CharacterController3D : MonoBehaviour
 
             if (invincibleDurationTimer >= 3f)
             {
-                isInvincible = false;
-
-                Debug.Log("Invincibility ended.");
+                EndInvincibility();
             }
         }
     }
@@ -113,7 +116,7 @@ public class CharacterController3D : MonoBehaviour
     {
         if (isInvincible || isIFrameActive)
             return; 
-        flashingEffect.Flash(iframeDuration);
+        //flashingEffect.Flash(iframeDuration);
         Debug.Log($"Taking {amount} damage. Current health: {currentHealth}");
         currentHealth -= amount;
         if (currentHealth <= 0)
@@ -219,6 +222,7 @@ public class CharacterController3D : MonoBehaviour
     public void Heal(float amount)
     {
         currentHealth += amount;
+        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
     }
     void OnEnable()
     {
@@ -226,5 +230,50 @@ public class CharacterController3D : MonoBehaviour
         {
             GameManager.Instance.Player = this;
         }
+    }
+
+    private void StartInvincibility()
+    {
+        isInvincible = true;
+        invincibleCooldownTimer = 0f;
+        invincibleDurationTimer = 0f;
+
+        Debug.Log("You are now INVINCIBLE!");
+    }
+
+    private void EndInvincibility()
+    {
+        isInvincible = false;
+        invincibleDurationTimer = 0f;
+
+        Debug.Log("Invincibility ended.");
+    }
+
+    public void SetMaxHealth(float multiplier)
+    {
+        float oldMaxHealth = maxHealth;
+        maxHealth *= multiplier;
+
+        Heal(maxHealth - oldMaxHealth);
+    }
+
+    public void IncreasePower(float multiplier)
+    {
+        damage *= multiplier;
+    }
+
+    public void IncreaseMoveSpeed(float multiplier)
+    {
+        movement.moveSpeed *= multiplier;
+    }
+
+    public void IncreaseSize(Vector3 localScale)
+    {
+        gameObject.transform.localScale += localScale;
+    }
+
+    public void HealToFull()
+    {
+        currentHealth = maxHealth;
     }
 }

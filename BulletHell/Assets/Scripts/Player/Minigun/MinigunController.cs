@@ -101,7 +101,8 @@ public class MinigunController : MonoBehaviour
             bullet.GetComponent<PlayerBullet>().InitBullet(
                 bulletsBurnUnlocked,
                 characterController.critChance,
-                characterController.critMultiplier
+                characterController.critMultiplier,
+                characterController.trackingUnlocked
             );
         }
 

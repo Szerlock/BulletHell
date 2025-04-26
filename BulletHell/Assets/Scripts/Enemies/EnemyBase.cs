@@ -11,8 +11,9 @@ public abstract class EnemyBase : MonoBehaviour
     private Coroutine burnCoroutine;
     private Coroutine oilBurnCoroutine;
 
-    void Start()
+    protected virtual void Start()
     {
+        GameManager.Instance.AddEnemy(this);
         currentHealth = Health;
     }
 
@@ -79,6 +80,6 @@ public abstract class EnemyBase : MonoBehaviour
 
     private void OnDisable()
     {
-        GameManager.Instance.RemoveEnemy(this);
+        //GameManager.Instance.RemoveEnemy(this);
     }
 }

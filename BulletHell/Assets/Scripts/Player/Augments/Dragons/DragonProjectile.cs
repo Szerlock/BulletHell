@@ -15,6 +15,8 @@ public class DragonProjectile : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float damage;
     [SerializeField] private float lifetime = 5f;
+    [SerializeField] private float healAmount;
+
     private float timer = 0f;
 
 
@@ -55,7 +57,7 @@ public class DragonProjectile : MonoBehaviour
                     enemy.ApplyBurn(effect.tickDamage, effect.tickInterval, effect.duration);
                     break;
                 case ProjectileType.Healing:
-                    GameManager.Instance.Player.Heal(20);
+                    GameManager.Instance.Player.Heal(healAmount);
                     Debug.Log("Healing");
                     break;
                 case ProjectileType.Shadow:

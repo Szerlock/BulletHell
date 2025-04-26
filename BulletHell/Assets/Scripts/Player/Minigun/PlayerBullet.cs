@@ -2,18 +2,54 @@ using UnityEngine;
 
 public class PlayerBullet : MonoBehaviour
 {
-    public float damage = 10f;
+    public float damage;
     private bool burnOn = false;
     public float burnDuration = 5f;
     public float burnTickDamage = 1f;
     public float burnTickInterval = 1f;
     private float critChance;
     private float critMultiplier;
-    public void InitBullet(bool burnActive, float critChance, float critMultiplier)
+
+    [Header("Tracking Augment Settings")]
+    private EnemyBase targetEnemy = null;
+    private float trackingSpeed = 5f;
+    private bool trackingUnlocked;
+    private Rigidbody rb;
+
+    public void InitBullet(bool burnActive, float critChance, float critMultiplier, bool tracking)
     {
         burnOn = burnActive;
+        trackingUnlocked = tracking;
         this.critChance = critChance;
         this.critMultiplier = critMultiplier;
+        damage = GameManager.Instance.Player.damage;
+        rb = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
+        targetEnemy = GameManager.Instance.FindClosestEnemy();
+    }
+
+    private void Update()
+    {
+        if (trackingUnlocked)
+        {
+            TrackEnemy();
+        }
+    }
+
+    private void TrackEnemy()
+    {
+        //if (targetEnemy != null)
+        //{
+        //    Vector3 directionToTarget = (targetEnemy.transform.position - transform.position).normalized;
+
+        //    rb.linearVelocity = directionToTarget * speed;
+
+        //    Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
+        //    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+        //}
     }
 
     private void OnTriggerEnter(Collider other)
