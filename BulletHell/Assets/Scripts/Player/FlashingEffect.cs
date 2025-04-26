@@ -6,7 +6,9 @@ public class FlashingEffect : MonoBehaviour
     private SkinnedMeshRenderer skinnedMeshRenderer;
     private Material[] originalMaterials;
     public Color flashColor = Color.white; 
-    public float flashDuration;   
+    [SerializeField] private float flashDuration;
+    [SerializeField] private float flashCount;
+    private float iframeDuration;
 
     void Start()
     {
@@ -19,32 +21,40 @@ public class FlashingEffect : MonoBehaviour
         }
     }
 
-    public void Flash()
+    public void Flash(float iframeDur)
     {
         StartCoroutine(FlashCoroutine());
+        flashDuration = iframeDuration / (flashCount * 2);
+        iframeDuration = iframeDur;
     }
 
     private IEnumerator FlashCoroutine()
     {
-        int flashCount = 2;
+        float timer = 0f;
 
-        for (int j = 0; j < flashCount; j++)
+        while (timer < iframeDuration)
         {
-            // Set flash color
-            for (int i = 0; i < skinnedMeshRenderer.materials.Length; i++)
-            {
-                skinnedMeshRenderer.materials[i].color = flashColor;
-            }
-
+            // Flash color
+            SetAllMaterialsColor(flashColor);
             yield return new WaitForSeconds(flashDuration);
 
-            // Reset to original color
-            for (int i = 0; i < skinnedMeshRenderer.materials.Length; i++)
-            {
-                skinnedMeshRenderer.materials[i].color = originalMaterials[i].color;
-            }
-
+            // Original color
+            ResetAllMaterialsColor();
             yield return new WaitForSeconds(flashDuration);
+
+            timer += flashDuration * 2;
         }
+    }
+
+    void SetAllMaterialsColor(Color color)
+    {
+        foreach (var mat in skinnedMeshRenderer.materials)
+            mat.color = color;
+    }
+
+    void ResetAllMaterialsColor()
+    {
+        for (int i = 0; i < skinnedMeshRenderer.materials.Length; i++)
+            skinnedMeshRenderer.materials[i].color = originalMaterials[i].color;
     }
 }

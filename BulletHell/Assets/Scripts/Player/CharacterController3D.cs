@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterController3D : MonoBehaviour
@@ -32,6 +33,14 @@ public class CharacterController3D : MonoBehaviour
     [SerializeField] private float iframeDuration = 0.5f;
     private bool isIFrameActive = false;
     private float iframeTimer = 0f;
+
+    [Header("Dragon Augment Settings")]
+    public GameObject fireDragonPrefab;
+    public GameObject bombDragonPrefab;
+    public GameObject healingDragonPrefab;
+    public GameObject shadowDragonPrefab;
+    public List<Transform> spawnPositions;
+    private List<bool> positionOccupied = new List<bool>(4);
 
     void Update()
     {
@@ -104,7 +113,7 @@ public class CharacterController3D : MonoBehaviour
     {
         if (isInvincible || isIFrameActive)
             return; 
-        flashingEffect.Flash();
+        flashingEffect.Flash(iframeDuration);
         Debug.Log($"Taking {amount} damage. Current health: {currentHealth}");
         currentHealth -= amount;
         if (currentHealth <= 0)
@@ -157,5 +166,65 @@ public class CharacterController3D : MonoBehaviour
     {
         isIFrameActive = true;
         iframeTimer = 0f;
+    }
+
+    [ContextMenu("SpawnBombDragon")]
+    internal void SpawnBombDragon()
+    {
+        int index = GetAvailablePositionIndex();
+        GameObject bombDragon = Instantiate(bombDragonPrefab, spawnPositions[index].position, Quaternion.identity);
+        bombDragon.GetComponent<FollowCharDragon>().SetTarget(spawnPositions[index]);
+        positionOccupied[index] = true;
+    }
+
+    [ContextMenu("SpawnHealingDragon")]
+    internal void SpawnHealingDragon()
+    {
+        int index = GetAvailablePositionIndex();
+        GameObject healingDragon = Instantiate(healingDragonPrefab, spawnPositions[index].position, Quaternion.identity);
+        healingDragon.GetComponent<FollowCharDragon>().SetTarget(spawnPositions[index]);
+        positionOccupied[index] = true;
+    }
+
+    [ContextMenu("SpawnShadowDragon")]
+    internal void SpawnShadowDragon()
+    {
+        int index = GetAvailablePositionIndex();
+        GameObject shadowDragon = Instantiate(shadowDragonPrefab, spawnPositions[index].position, Quaternion.identity);
+        shadowDragon.GetComponent<FollowCharDragon>().SetTarget(spawnPositions[index]);
+        positionOccupied[index] = true;
+    }
+
+    [ContextMenu("SpawnFireDragon")]
+    internal void SpawnFireDragon()
+    {
+        int index = GetAvailablePositionIndex();
+        GameObject fireDragon = Instantiate(fireDragonPrefab, spawnPositions[index].position, Quaternion.identity);
+        fireDragon.GetComponent<FollowCharDragon>().SetTarget(spawnPositions[index]);
+        positionOccupied[index] = true;
+    }
+
+    private int GetAvailablePositionIndex()
+    {
+        for (int i = 0; i < positionOccupied.Count; i++)
+        {
+            if (!positionOccupied[i])
+                return i;
+        }
+
+        Debug.LogWarning("All dragon slots are occupied!");
+        return -1;
+    }
+
+    public void Heal(float amount)
+    {
+        currentHealth += amount;
+    }
+    void OnEnable()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.Player = this;
+        }
     }
 }

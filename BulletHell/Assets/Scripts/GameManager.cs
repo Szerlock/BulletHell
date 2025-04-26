@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public List<EnemyBase> AllEnemies = new List<EnemyBase>();
+    public CharacterController3D Player;
 
     private void Awake()
     {
