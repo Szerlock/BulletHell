@@ -20,6 +20,7 @@ public abstract class EnemyBase : MonoBehaviour
     public virtual void TakeDamage(float amount)
     {
         currentHealth -= amount;
+        Debug.Log($"{gameObject.name} took {amount} damage. Remaining health: {currentHealth}");
         if (currentHealth <= 0)
             Die();
     }

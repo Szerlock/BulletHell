@@ -42,9 +42,6 @@ public class CharacterController3D : MonoBehaviour
     public List<Transform> spawnPositions;
     private List<bool> positionOccupied = new List<bool> { false, false, false, false };
 
-    [Header("Tracking Unlocked")]
-    public bool trackingUnlocked = false;
-
     private void Start()
     {
         currentHealth = maxHealth;

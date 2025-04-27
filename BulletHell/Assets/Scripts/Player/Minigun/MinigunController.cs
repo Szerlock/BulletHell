@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -9,6 +10,8 @@ public class MinigunController : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Camera camera;
     [SerializeField] private CharacterController3D characterController;
+    [SerializeField] private float bulletLifetime;
+
 
     [SerializeField] private float fireRate = 10f;
 
@@ -27,12 +30,26 @@ public class MinigunController : MonoBehaviour
 
     private float rampTimer = 0f;
     private float baseFireRate;
-    private Vector3 lastPosition;
+
+    [Header("Tracking Bullets Augment")]
+    [SerializeField] private float bulletSpeed;
+    public bool trackingUnlocked = false;
+
+    [Header("Triple Shot")]
+    [SerializeField] private List<Transform> extraFirePoints; 
+    public bool tripleShotUnlocked = false;
+
+    [Header("Distance Damage Increase Augment")]
+    public bool distanceUnlocked = false;
+    
+    [Header("Short Distance Damage Increase Augment")]
+    public bool shortDistanceUnlocked = false;
+
+
 
     void Start()
     {
         baseFireRate = fireRate;
-        lastPosition = transform.position;
     }
 
     void Update()
@@ -92,18 +109,14 @@ public class MinigunController : MonoBehaviour
             }
         }
 
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.LookRotation(direction));
-        Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        rb.linearVelocity = direction * 50f;
+        SpawnBullet(firePoint, direction);
 
-        if (bulletsBurnUnlocked)
+        if (tripleShotUnlocked)
         {
-            bullet.GetComponent<PlayerBullet>().InitBullet(
-                bulletsBurnUnlocked,
-                characterController.critChance,
-                characterController.critMultiplier,
-                characterController.trackingUnlocked
-            );
+            foreach (var point in extraFirePoints)
+            {
+                SpawnBullet(point, direction);
+            }
         }
 
         direction.y = 0f;
@@ -112,6 +125,24 @@ public class MinigunController : MonoBehaviour
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             playerMovement.transform.rotation = Quaternion.Slerp(playerMovement.transform.rotation, lookRotation, Time.deltaTime * 10f);
         }
+    }
+
+    void SpawnBullet(Transform point, Vector3 direction)
+    {
+        GameObject bullet = Instantiate(bulletPrefab, point.position, Quaternion.LookRotation(direction));
+        Rigidbody rb = bullet.GetComponent<Rigidbody>();
+        rb.linearVelocity = direction * bulletSpeed;
+
+        bullet.GetComponent<PlayerBullet>().InitBullet(
+            bulletsBurnUnlocked,
+            characterController.critChance,
+            characterController.critMultiplier,
+            trackingUnlocked,
+            bulletSpeed,
+            distanceUnlocked,
+            shortDistanceUnlocked,
+            bulletLifetime
+        );
     }
 
     bool GetCrosshairWorldDirection(out Vector3 direction)

@@ -153,3 +153,11 @@ MonoBehaviour:
   burnDuration: 5
   burnTickDamage: 1
   burnTickInterval: 1
+  trackingSpeed: 1
+  trackingDistance: 20
+  distanceDamageAugment: 0
+  distanceMultiplier: 0.1
+  maxEffectiveDistance: 30
+  shortRangeAugment: 0
+  maxBonusDistance: 40
+  maxBonusMultiplier: 2
