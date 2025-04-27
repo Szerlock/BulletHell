@@ -12,6 +12,10 @@ public class MinigunController : MonoBehaviour
     [SerializeField] private CharacterController3D characterController;
     [SerializeField] private float bulletLifetime;
 
+    [Header("Animations")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private Animator barrelAnimator;
+
 
     [SerializeField] private float fireRate = 10f;
 
@@ -56,6 +60,8 @@ public class MinigunController : MonoBehaviour
     {
         fireCooldown -= Time.deltaTime;
 
+        animator.SetBool("isMoving", playerMovement.IsMoving());
+
         if (playerMovement.IsMoving())
         {
             rampTimer = 0f;
@@ -73,12 +79,16 @@ public class MinigunController : MonoBehaviour
                         IncreaseAttackSpeed();
 
                     Shoot(shootDirection);
+                    animator.SetBool("isShooting", true);
+                    barrelAnimator.SetBool("isShooting", true);
                     fireCooldown = 1f / fireRate;
                 }
             }
             else
             {
                 playerMovement.isHovering = false;
+                animator.SetBool("isShooting", false);
+                barrelAnimator.SetBool("isShooting", false);
             }
         }
     }
