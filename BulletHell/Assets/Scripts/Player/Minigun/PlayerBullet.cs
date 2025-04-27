@@ -51,7 +51,8 @@ public class PlayerBullet : MonoBehaviour
 
     private void Start()
     {
-        targetEnemy = GameManager.Instance.FindClosestEnemy();
+        if(trackingUnlocked)
+            targetEnemy = GameManager.Instance.FindClosestEnemy();
     }
 
     private void Update()

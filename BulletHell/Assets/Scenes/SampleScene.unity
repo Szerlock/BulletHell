@@ -765,7 +765,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -792,7 +792,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: -4.681424, y: -0.23000002, z: -3.7499077}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -854,11 +854,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57e1cf18a456d844690d766eebcd1dbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 952023613}
-  offset: {x: 0, y: 5, z: -7}
+  target: {fileID: 1557017761}
+  offset: {x: 0, y: 2.77, z: -2.03}
   rotationSpeed: 5
   pitchMin: -30
-  pitchMax: 50
+  pitchMax: 30
 --- !u!1 &357290682
 GameObject:
   m_ObjectHideFlags: 0
@@ -1752,9 +1752,9 @@ MonoBehaviour:
   playerMovement: {fileID: 1300701358}
   firePoint: {fileID: 668461256}
   bulletPrefab: {fileID: 1582963478826174163, guid: 70b809c2eb667ea46940d81cafdd08cb, type: 3}
-  camera: {fileID: 330585545}
   characterController: {fileID: 1300701360}
   bulletLifetime: 5
+  cam: {fileID: 330585545}
   animator: {fileID: 952023612}
   barrelAnimator: {fileID: 604433922}
   fireRate: 5
@@ -2125,9 +2125,9 @@ MonoBehaviour:
   playerMovement: {fileID: 1551142770}
   firePoint: {fileID: 925617810}
   bulletPrefab: {fileID: 1582963478826174163, guid: 70b809c2eb667ea46940d81cafdd08cb, type: 3}
-  camera: {fileID: 330585545}
   characterController: {fileID: 1551142771}
   bulletLifetime: 5
+  cam: {fileID: 0}
   animator: {fileID: 0}
   barrelAnimator: {fileID: 0}
   fireRate: 5
@@ -2276,6 +2276,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 245a72aa5bb9bfd45bf66e716a217103, type: 3}
       insertIndex: -1
       addedObject: {fileID: 580289093}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 245a72aa5bb9bfd45bf66e716a217103, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1557017761}
     - targetCorrespondingSourceObject: {fileID: -7957572227532885606, guid: 245a72aa5bb9bfd45bf66e716a217103, type: 3}
       insertIndex: -1
       addedObject: {fileID: 866389145}
@@ -2721,6 +2724,12 @@ MonoBehaviour:
   dashSpeed: 35
   dashDuration: 0.2
   dashCooldown: 1
+  isAiming: 0
+  rotationSpeed: 5
+  pitchMin: -30
+  pitchMax: 60
+  yaw: 0
+  pitch: 15
 --- !u!143 &1300701359
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2982,6 +2991,12 @@ MonoBehaviour:
   dashSpeed: 35
   dashDuration: 0.2
   dashCooldown: 1
+  isAiming: 0
+  rotationSpeed: 5
+  pitchMin: -30
+  pitchMax: 60
+  yaw: 0
+  pitch: 15
 --- !u!114 &1551142771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3016,6 +3031,37 @@ MonoBehaviour:
   - {fileID: 1878702467}
   - {fileID: 191854667}
   - {fileID: 498875539}
+--- !u!1 &1557017760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1557017761}
+  m_Layer: 0
+  m_Name: CameraFollow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1557017761
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557017760}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.47, y: 0.23, z: -0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 952023613}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1600505179
 GameObject:
   m_ObjectHideFlags: 0

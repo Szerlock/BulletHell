@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -27,6 +28,21 @@ public class PlayerMovement : MonoBehaviour
     private float dashCooldownTimer = 0f;
     private Vector3 dashDirection;
 
+    public bool isAiming = false;
+
+    [Header("Rotate Character")]
+    [SerializeField] private float rotationSpeed = 5f;
+    [SerializeField] private float pitchMin = -30f;
+    [SerializeField] private float pitchMax = 60f;
+    [SerializeField] private float yaw = 0f;
+    [SerializeField] private float pitch = 15f;
+
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -53,7 +69,6 @@ public class PlayerMovement : MonoBehaviour
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
 
-        // Get camera's forward and right direction (flattened)
         Vector3 camForward = cameraTransform.forward;
         Vector3 camRight = cameraTransform.right;
         camForward.y = 0f;
@@ -62,12 +77,6 @@ public class PlayerMovement : MonoBehaviour
         camRight.Normalize();
 
         Vector3 moveDir = camForward * moveZ + camRight * moveX;
-
-        //if (moveDir.magnitude >= 0.1f)
-        //{
-        //    Quaternion targetRotation = Quaternion.LookRotation(moveDir);
-        //    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
-        //}
 
         float effectiveSpeed = moveSpeed;
         if (!isGrounded && !isHovering)
@@ -140,6 +149,17 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = -2f;
         }
     }
+
+    //private void RotateTowardsCamera()
+    //{
+    //    Vector3 lookDirection = cameraTransform.forward;
+    //    lookDirection.y = 0f;
+    //    if (lookDirection.magnitude >= 0.1f)
+    //    {
+    //        Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+    //        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+    //    }
+    //}
 
     private void RotateTowardsCamera()
     {

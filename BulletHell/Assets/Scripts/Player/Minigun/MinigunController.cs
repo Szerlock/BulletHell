@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,9 +9,9 @@ public class MinigunController : MonoBehaviour
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private Camera camera;
     [SerializeField] private CharacterController3D characterController;
     [SerializeField] private float bulletLifetime;
+    [SerializeField] private Camera cam;
 
     [Header("Animations")]
     [SerializeField] private Animator animator;
@@ -81,6 +82,7 @@ public class MinigunController : MonoBehaviour
                     Shoot(shootDirection);
                     animator.SetBool("isShooting", true);
                     barrelAnimator.SetBool("isShooting", true);
+                    playerMovement.isAiming = true;
                     fireCooldown = 1f / fireRate;
                 }
             }
@@ -89,6 +91,7 @@ public class MinigunController : MonoBehaviour
                 playerMovement.isHovering = false;
                 animator.SetBool("isShooting", false);
                 barrelAnimator.SetBool("isShooting", false);
+                playerMovement.isAiming = false;
             }
         }
     }
@@ -157,30 +160,20 @@ public class MinigunController : MonoBehaviour
 
     bool GetCrosshairWorldDirection(out Vector3 direction)
     {
-        //Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
-        //Ray ray = camera.ScreenPointToRay(screenCenter);
-
-        //if (Physics.Raycast(ray, out RaycastHit hit))
-        //{
-        //    direction = (hit.point - firePoint.position).normalized;
-        //    return true;
-        //}
-
-        //direction = ray.direction;
-
-        //return true;
         Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
-        Ray ray = camera.ScreenPointToRay(screenCenter);
 
-        // Distance from firePoint to ray hit, but clamp so it's always forward
+        direction = Vector3.forward;
+
+
+        Ray ray = cam.ScreenPointToRay(screenCenter);
+
         if (Physics.Raycast(ray, out RaycastHit hit, 100f))
         {
             Vector3 rawDirection = (hit.point - firePoint.position).normalized;
 
-            // If looking down and hit is below firePoint, fall back to camera forward
-            if (Vector3.Dot(rawDirection, camera.transform.forward) < 0.1f)
+            if (Vector3.Dot(rawDirection, cam.transform.forward) < 0.1f)
             {
-                direction = camera.transform.forward;
+                direction = cam.transform.forward;
             }
             else
             {
@@ -190,7 +183,7 @@ public class MinigunController : MonoBehaviour
             return true;
         }
 
-        direction = camera.transform.forward;
+        direction = cam.transform.forward;
         return true;
 
     }
