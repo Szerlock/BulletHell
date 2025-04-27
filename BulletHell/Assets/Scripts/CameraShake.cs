@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
-    public float shakeDuration = 0f;
-    public float shakeMagnitude = 0.1f;
-    public float shakeFrequency = 0.1f;
+    public float shakeDuration;
+    public float shakeMagnitude;
+    public float shakeFrequency;
 
     private Vector3 originalPos;
     private Quaternion originalRot;

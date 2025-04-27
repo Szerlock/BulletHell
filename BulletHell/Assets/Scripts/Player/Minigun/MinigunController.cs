@@ -50,7 +50,11 @@ public class MinigunController : MonoBehaviour
     [Header("Short Distance Damage Increase Augment")]
     public bool shortDistanceUnlocked = false;
 
-
+    [Header("CameraShake")]
+    public float shakeDuration;
+    public float shakeMagnitude;
+    public float shakeFrequency;
+    [SerializeField] private GameObject shakeCam;
 
     void Start()
     {
@@ -88,7 +92,6 @@ public class MinigunController : MonoBehaviour
             }
             else
             {
-                Debug.Log("Not shooting");
                 playerMovement.isHovering = false;
                 animator.SetBool("isShooting", false);
                 barrelAnimator.SetBool("isShooting", false);
@@ -124,7 +127,7 @@ public class MinigunController : MonoBehaviour
         }
 
         SpawnBullet(firePoint, direction);
-        cam.GetComponent<CameraShake>().Shake(1,1,1);
+        shakeCam.GetComponent<CameraShake>().Shake(shakeDuration, shakeMagnitude, shakeFrequency);
 
         if (tripleShotUnlocked)
         {
