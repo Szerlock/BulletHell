@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheck;
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
-
+    
     public bool isHovering = false;
 
     [Header("Dashing Variable")]
@@ -42,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
         ApplyGravity();
 
         controller.Move(velocity * Time.deltaTime);
+        RotateTowardsCamera();
     }
 
     private void HandleMovement()
@@ -62,12 +63,11 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 moveDir = camForward * moveZ + camRight * moveX;
 
-        if (moveDir.magnitude >= 0.1f)
-        {
-            // Rotate the player to face the movement direction
-            Quaternion targetRotation = Quaternion.LookRotation(moveDir);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
-        }
+        //if (moveDir.magnitude >= 0.1f)
+        //{
+        //    Quaternion targetRotation = Quaternion.LookRotation(moveDir);
+        //    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+        //}
 
         float effectiveSpeed = moveSpeed;
         if (!isGrounded && !isHovering)
@@ -138,6 +138,17 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded && !isHovering && velocity.y < 0)
         {
             velocity.y = -2f;
+        }
+    }
+
+    private void RotateTowardsCamera()
+    {
+        Vector3 lookDirection = cameraTransform.forward;
+        lookDirection.y = 0f;
+        if (lookDirection.magnitude >= 0.1f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
         }
     }
 }

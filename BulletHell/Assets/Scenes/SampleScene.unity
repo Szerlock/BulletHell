@@ -1749,11 +1749,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c421305621a89184dbd3a7ab3565b9c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMovement: {fileID: 1551142770}
+  playerMovement: {fileID: 1300701358}
   firePoint: {fileID: 668461256}
   bulletPrefab: {fileID: 1582963478826174163, guid: 70b809c2eb667ea46940d81cafdd08cb, type: 3}
   camera: {fileID: 330585545}
-  characterController: {fileID: 1551142771}
+  characterController: {fileID: 1300701360}
   bulletLifetime: 5
   animator: {fileID: 952023612}
   barrelAnimator: {fileID: 604433922}
@@ -2252,6 +2252,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 245a72aa5bb9bfd45bf66e716a217103, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 245a72aa5bb9bfd45bf66e716a217103, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 245a72aa5bb9bfd45bf66e716a217103, type: 3}
       propertyPath: m_Controller
