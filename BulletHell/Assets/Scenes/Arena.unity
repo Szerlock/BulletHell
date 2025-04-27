@@ -857,8 +857,8 @@ MonoBehaviour:
   target: {fileID: 1557017761}
   offset: {x: 0, y: 2.77, z: -2.03}
   rotationSpeed: 5
-  pitchMin: -30
-  pitchMax: 30
+  pitchMin: -50
+  pitchMax: 10
 --- !u!1 &357290682
 GameObject:
   m_ObjectHideFlags: 0
