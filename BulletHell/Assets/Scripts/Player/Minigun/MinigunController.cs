@@ -124,7 +124,7 @@ public class MinigunController : MonoBehaviour
         }
 
         SpawnBullet(firePoint, direction);
-        cam.GetComponent<CameraShake>().Shake();
+        cam.GetComponent<CameraShake>().Shake(1,1,1);
 
         if (tripleShotUnlocked)
         {
