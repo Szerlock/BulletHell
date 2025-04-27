@@ -12,6 +12,7 @@ public class MinigunController : MonoBehaviour
     [SerializeField] private CharacterController3D characterController;
     [SerializeField] private float bulletLifetime;
     [SerializeField] private Camera cam;
+    [SerializeField] private float bulletSpeed;
 
     [Header("Animations")]
     [SerializeField] private Animator animator;
@@ -37,7 +38,6 @@ public class MinigunController : MonoBehaviour
     private float baseFireRate;
 
     [Header("Tracking Bullets Augment")]
-    [SerializeField] private float bulletSpeed;
     public bool trackingUnlocked = false;
 
     [Header("Triple Shot")]
@@ -88,6 +88,7 @@ public class MinigunController : MonoBehaviour
             }
             else
             {
+                Debug.Log("Not shooting");
                 playerMovement.isHovering = false;
                 animator.SetBool("isShooting", false);
                 barrelAnimator.SetBool("isShooting", false);
@@ -111,12 +112,12 @@ public class MinigunController : MonoBehaviour
     {
         if (!playerMovement.isGrounded)
         {
-            if (playerMovement.IsMoving())
-            {
-                playerMovement.isHovering = false;
-                return;
-            }
-            else
+            //if (playerMovement.IsMoving())
+            //{
+            //    playerMovement.isHovering = false;
+            //    return;
+            //}
+            if (!playerMovement.IsMoving())
             {
                 playerMovement.isHovering = true;
             }

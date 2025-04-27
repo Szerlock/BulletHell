@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private CharacterController controller;
     [SerializeField] private Transform cameraTransform;
+    [SerializeField] private Transform minigun;
     private Vector3 velocity;
     public bool isGrounded;
 
@@ -36,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float pitchMax = 60f;
     [SerializeField] private float yaw = 0f;
     [SerializeField] private float pitch = 15f;
+    [SerializeField] private Vector3 offset;
 
     void Start()
     {
@@ -63,6 +65,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleMovement()
     {
+        if (isHovering)
+        {
+            Debug.Log("Hovering returning");
+            return;
+        }
+
         if (isGrounded && velocity.y < 0)
             velocity.y = -2f;
 
@@ -141,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (isHovering)
         {
-            velocity.y = -0.1f;
+            velocity.y = 0f;
         }
 
         if (isGrounded && !isHovering && velocity.y < 0)
@@ -150,25 +158,40 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //private void RotateTowardsCamera()
-    //{
-    //    Vector3 lookDirection = cameraTransform.forward;
-    //    lookDirection.y = 0f;
-    //    if (lookDirection.magnitude >= 0.1f)
-    //    {
-    //        Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
-    //        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
-    //    }
-    //}
-
     private void RotateTowardsCamera()
     {
+        //Vector3 lookDirection = cameraTransform.forward;
+        //lookDirection.y = 0f;
+        //if (lookDirection.magnitude >= 0.1f)
+        //{
+
+        //    Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+        //    Quaternion offsetRotation = Quaternion.Euler(offset);
+
+        //    targetRotation *= offsetRotation;
+
+        //    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+        //}
         Vector3 lookDirection = cameraTransform.forward;
         lookDirection.y = 0f;
+
         if (lookDirection.magnitude >= 0.1f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+
+            Quaternion offsetRotation = Quaternion.Euler(offset);
+
+            targetRotation *= offsetRotation;
+
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+
+            if (!isGrounded)
+            {
+                float pitch = cameraTransform.localEulerAngles.x;
+
+                Quaternion characterRotation = Quaternion.Euler(pitch, transform.eulerAngles.y, 0f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, characterRotation, Time.deltaTime * 10f);
+            }
         }
     }
 }
