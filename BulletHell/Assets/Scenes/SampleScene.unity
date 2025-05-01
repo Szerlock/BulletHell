@@ -119,11 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &20789073 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2352651152511609228, guid: 85b3f85974335334f975124543308f70, type: 3}
-  m_PrefabInstance: {fileID: 4928341297729074057}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &85287659
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2481,21 +2476,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4963740804633929512, guid: 85b3f85974335334f975124543308f70, type: 3}
   m_PrefabInstance: {fileID: 4928341297729074057}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1557017762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 20789073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfdf01eed259d5c4fb6ebcbc989d56de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shakeDuration: 0
-  shakeMagnitude: 0
-  shakeFrequency: 0
 --- !u!1 &1600505179
 GameObject:
   m_ObjectHideFlags: 0
@@ -2826,26 +2806,6 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 330585545}
-    - target: {fileID: 808500494417698757, guid: 85b3f85974335334f975124543308f70, type: 3}
-      propertyPath: shakeCam
-      value: 
-      objectReference: {fileID: 20789073}
-    - target: {fileID: 808500494417698757, guid: 85b3f85974335334f975124543308f70, type: 3}
-      propertyPath: shakeDuration
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 808500494417698757, guid: 85b3f85974335334f975124543308f70, type: 3}
-      propertyPath: shakeFrequency
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 808500494417698757, guid: 85b3f85974335334f975124543308f70, type: 3}
-      propertyPath: shakeMagnitude
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 808500494417698757, guid: 85b3f85974335334f975124543308f70, type: 3}
-      propertyPath: shortDistanceUnlocked
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5920008330752396567, guid: 85b3f85974335334f975124543308f70, type: 3}
       propertyPath: cameraTransform
       value: 
@@ -2897,10 +2857,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2352651152511609228, guid: 85b3f85974335334f975124543308f70, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1557017762}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85b3f85974335334f975124543308f70, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -181,6 +181,5 @@ public class PlayerBullet : MonoBehaviour
     private void DeactivateBullet()
     {
         Destroy(gameObject);
-        Debug.Log("Bullet deactivated due to lifetime expiration.");
     }
 }

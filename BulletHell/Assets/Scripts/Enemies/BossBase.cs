@@ -80,17 +80,6 @@ public class BossBase : EnemyBase
         }
     }
 
-
-    public override void TakeDamage(float amount)
-    {
-        currentHealth -= amount;
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
-
-    }
-
     protected virtual void Die()
     {
         Debug.Log($"{gameObject.name} died");

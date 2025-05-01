@@ -11,6 +11,12 @@ public abstract class EnemyBase : MonoBehaviour
     private Coroutine burnCoroutine;
     private Coroutine oilBurnCoroutine;
 
+    [Header("Floating Text Range")]
+    public float horizontalRange = 0.5f;
+    public float upRange;
+    public float downRange;
+
+
     protected virtual void Start()
     {
         GameManager.Instance.AddEnemy(this);
@@ -21,8 +27,27 @@ public abstract class EnemyBase : MonoBehaviour
     {
         currentHealth -= amount;
         Debug.Log($"{gameObject.name} took {amount} damage. Remaining health: {currentHealth}");
+        HitNumber(amount);
         if (currentHealth <= 0)
             Die();
+    }
+
+    private void HitNumber(float amount)
+    {
+        Vector3 basePosition = transform.position;
+        float heightOffset = GetComponent<Collider>()?.bounds.size.y ?? 2f;
+
+        Vector3 spawnPosition = basePosition + Vector3.up * heightOffset;
+
+        Vector3 randomOffset = new Vector3(
+            Random.Range(-horizontalRange, horizontalRange),
+            Random.Range(downRange, upRange),
+            0f
+        );
+
+        spawnPosition += randomOffset;
+
+        HitNumberManager.Instance.ShowHitNumber(spawnPosition, amount, transform);
     }
 
     protected virtual void Die()
@@ -74,6 +99,7 @@ public abstract class EnemyBase : MonoBehaviour
 
         oilBurnCoroutine = null;
     }
+
     private void OnEnable()
     {
         //GameManager.Instance.AddEnemy(this);
