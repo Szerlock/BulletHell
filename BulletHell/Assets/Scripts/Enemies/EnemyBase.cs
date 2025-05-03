@@ -8,6 +8,7 @@ public abstract class EnemyBase : MonoBehaviour
     [SerializeField] public float Health;
     [SerializeField] public float Damage;
     [SerializeField] public float currentHealth;
+    [SerializeField] public Animator animator;
     private Coroutine burnCoroutine;
     private Coroutine oilBurnCoroutine;
 

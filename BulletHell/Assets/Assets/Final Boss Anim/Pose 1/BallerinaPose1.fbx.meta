@@ -31,7 +31,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Pos 1 Part 1
+      name: Pose 1
       takeName: Take 001
       internalID: 1827226128182048838
       firstFrame: 1

@@ -126,7 +126,6 @@ public class BulletSpawner : MonoBehaviour
 
                     case PatternType.Random:
                         dir = RandomPattern();
-                        Debug.Log("Random Pattern");
                         break;
                 }
 

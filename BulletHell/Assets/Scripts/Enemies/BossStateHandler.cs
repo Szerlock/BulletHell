@@ -26,10 +26,7 @@ public class BossStateHandler : MonoBehaviour
             case BossBase.State.Moving:
                 HandleMoving();
                 break;
-                // Add more states like Moving, Death, etc.
         }
-
-        LookAtPlayer();
     }
 
     public void HandleWaiting()
@@ -60,15 +57,6 @@ public class BossStateHandler : MonoBehaviour
         {
             boss.currentState = BossBase.State.Attacking;
             boss.hasTarget = false;
-        }
-    }
-
-    private void LookAtPlayer()
-    {
-        if (boss.player != null)
-        {
-            Vector3 targetPos = new Vector3(boss.player.position.x, boss.transform.position.y, boss.player.position.z);
-            boss.transform.LookAt(targetPos);
         }
     }
 }

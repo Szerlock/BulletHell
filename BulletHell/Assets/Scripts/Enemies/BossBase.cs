@@ -51,7 +51,7 @@ public class BossBase : EnemyBase
         }
     }
 
-    private void PickNewTarget()
+    public void PickNewTarget()
     {
         if (MovePositions.Count <= 1)
             return;
@@ -77,13 +77,21 @@ public class BossBase : EnemyBase
         if (Vector3.Distance(transform.position, targetPosition) < 0.05f)
         {
             isMoving = false;
+            LookAtPlayer();
         }
     }
-
+    private void LookAtPlayer()
+    {
+        if (player != null)
+        {
+            Vector3 targetPos = new Vector3(player.position.x, transform.position.y, player.position.z);
+            transform.LookAt(targetPos);
+        }
+    }
     protected virtual void Die()
     {
         Debug.Log($"{gameObject.name} died");
         Destroy(gameObject);
     }
-
+    protected virtual void OnStartMoving() { }
 }
