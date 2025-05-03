@@ -1939,6 +1939,79 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1551142768}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &688409614
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 9cf443b58209e81409f78adb6995fea2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.0049619
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9cf443b58209e81409f78adb6995fea2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.0049619
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9cf443b58209e81409f78adb6995fea2, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.0049619
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9cf443b58209e81409f78adb6995fea2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8.2681
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9cf443b58209e81409f78adb6995fea2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 12.54
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9cf443b58209e81409f78adb6995fea2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -30.008
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9cf443b58209e81409f78adb6995fea2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9cf443b58209e81409f78adb6995fea2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9cf443b58209e81409f78adb6995fea2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9cf443b58209e81409f78adb6995fea2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9cf443b58209e81409f78adb6995fea2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9cf443b58209e81409f78adb6995fea2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9cf443b58209e81409f78adb6995fea2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 9cf443b58209e81409f78adb6995fea2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 894087f749a208c4c932bf1875d66c77, type: 2}
+    - target: {fileID: 919132149155446097, guid: 9cf443b58209e81409f78adb6995fea2, type: 3}
+      propertyPath: m_Name
+      value: ClownGirl
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9cf443b58209e81409f78adb6995fea2, type: 3}
 --- !u!1 &729622296
 GameObject:
   m_ObjectHideFlags: 0
@@ -2975,7 +3048,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12b778d139ececb448f3df088bbb4c18, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.257059
+      value: 8.33
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12b778d139ececb448f3df088bbb4c18, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3774,3 +3847,4 @@ SceneRoots:
   - {fileID: 394432965}
   - {fileID: 1310903975}
   - {fileID: 1524696475}
+  - {fileID: 688409614}
