@@ -9,7 +9,11 @@ public class BossBase : EnemyBase
     [SerializeField] public BulletSpawner bulletSpawner;
     [SerializeField] public float fireRate;
     [SerializeField] public float fireCooldown;
+    [SerializeField] public float unstableFireCooldown;
     [SerializeField] public Transform player;
+    public bool isPlayingPose = false;
+    public bool isAttacking = false;
+
 
     [SerializeField] BossStateHandler bossStateHandler;
 
@@ -34,8 +38,6 @@ public class BossBase : EnemyBase
         Attacking,
         AttackAgain,
         Death,
-        Unstable,
-        Conjuring,
     }
 
     protected override void Start()
@@ -44,6 +46,7 @@ public class BossBase : EnemyBase
         bossStateHandler.Init(this);
         currentHealth = Health;
         moveTimer = moveCooldown;
+        GameManager.Instance.currentBoss = this;
         //bossStateHandler.HandleWaiting();
     }
 
@@ -52,7 +55,7 @@ public class BossBase : EnemyBase
         if (currentState == State.Moving)
         {
             isMoving = true;
-            if(!hasTarget)
+            if (!hasTarget)
                 PickNewTarget();
             MoveToTarget();
         }
@@ -103,4 +106,8 @@ public class BossBase : EnemyBase
     protected virtual void OnStartMoving() { }
 
     protected virtual void StartSecondPhase() { }
+    //public override void OnEnable()
+    //{
+    //    GameManager.Instance.currentBoss = this;
+    //}
 }

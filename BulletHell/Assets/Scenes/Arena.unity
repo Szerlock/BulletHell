@@ -469,17 +469,25 @@ MonoBehaviour:
   bulletSpawner: {fileID: 304759818}
   fireRate: 3
   fireCooldown: 0
+  unstableFireCooldown: 0
   player: {fileID: 1551142768}
+  isPlayingPose: 0
+  isAttacking: 0
   bossStateHandler: {fileID: 788263777}
   moveCooldown: 0
   moveTimer: 0
   isMoving: 0
   hasTarget: 0
+  isUnstable: 0
+  isConjuring: 0
+  SecondPhase: 0
   currentState: 0
   pose1Clips: []
   pose2Clips: []
   pose3Clips: []
   idleStateName: Idle
+  conjuringClips: []
+  unstableClips: []
   rotationSpeed: 180
   rotator: {fileID: 0}
 --- !u!4 &299034632
@@ -621,6 +629,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9f2a57efafacf19478730378185d84b7, type: 2}
   - {fileID: 11400000, guid: 57ed7e1511e8b3e4fbdbaf1b6d3dbdfc, type: 2}
   - {fileID: 11400000, guid: 969e42af72335ad4f8e524305bc94f84, type: 2}
+  unstablePatterns: []
   player: {fileID: 1551142768}
 --- !u!4 &304759819
 Transform:
@@ -1436,7 +1445,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1087215177}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 5cd8ffc0e4a353945b6ba977f41be8dd, type: 3}
       propertyPath: m_LocalScale.x
@@ -1452,15 +1461,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5cd8ffc0e4a353945b6ba977f41be8dd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -19.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5cd8ffc0e4a353945b6ba977f41be8dd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5cd8ffc0e4a353945b6ba977f41be8dd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 5.6
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5cd8ffc0e4a353945b6ba977f41be8dd, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1575,12 +1584,18 @@ MonoBehaviour:
   bulletSpawner: {fileID: 1745018682}
   fireRate: 3
   fireCooldown: 3
+  unstableFireCooldown: 4
   player: {fileID: 1551142768}
+  isPlayingPose: 0
+  isAttacking: 0
   bossStateHandler: {fileID: 788263777}
   moveCooldown: 0
   moveTimer: 0
   isMoving: 0
   hasTarget: 0
+  isUnstable: 0
+  isConjuring: 0
+  SecondPhase: 1
   currentState: 0
   pose1Clips:
   - Pose 1
@@ -1594,8 +1609,15 @@ MonoBehaviour:
   - Pose 3
   - Pose 3 End
   idleStateName: Idle
+  conjuringClips:
+  - Conjuring Start
+  - Conjuring Loop
+  - Conjuring End
+  unstableClips:
+  - Unstable Start
+  - Unstable End
   rotationSpeed: 60
-  rotator: {fileID: 1087215178}
+  rotator: {fileID: 0}
 --- !u!136 &452819706
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1856,6 +1878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllEnemies: []
+  currentBoss: {fileID: 0}
   Player: {fileID: 1551142771}
 --- !u!4 &610203250
 Transform:
@@ -2569,51 +2592,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 50
---- !u!1 &1087215176
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1087215177}
-  - component: {fileID: 1087215178}
-  m_Layer: 0
-  m_Name: FinalBossRotator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1087215177
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1087215176}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.7, y: 2.5, z: 5.6}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 452819704}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1087215178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1087215176}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28d6a4ddc9980d44f96f7c5ecea448fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1093820159 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 035c6c40507146c40af8917d2115f2e5, type: 3}
@@ -3299,11 +3277,6 @@ MonoBehaviour:
   dashDuration: 0.2
   dashCooldown: 1
   isAiming: 0
-  rotationSpeed: 5
-  pitchMin: -30
-  pitchMax: 60
-  yaw: 0
-  pitch: 15
   offset: {x: 0, y: 0, z: 0}
 --- !u!114 &1551142771
 MonoBehaviour:
@@ -3417,6 +3390,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9f2a57efafacf19478730378185d84b7, type: 2}
   - {fileID: 11400000, guid: 57ed7e1511e8b3e4fbdbaf1b6d3dbdfc, type: 2}
   - {fileID: 11400000, guid: 969e42af72335ad4f8e524305bc94f84, type: 2}
+  unstablePatterns:
+  - {fileID: 11400000, guid: c6c94e1ec6fdf95489f0fa8bd15c0516, type: 2}
   player: {fileID: 1551142768}
 --- !u!4 &1745018683
 Transform:
@@ -3828,7 +3803,7 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 299034632}
-  - {fileID: 1087215177}
+  - {fileID: 452819701}
   - {fileID: 312014704}
   - {fileID: 497868993}
   - {fileID: 263301451}

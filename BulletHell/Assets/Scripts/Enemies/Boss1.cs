@@ -15,16 +15,15 @@ public class Boss1 : BossBase
     [SerializeField] private float rotationSpeed;
     [SerializeField] private RotateFinal rotator;
 
+    private Coroutine currentPoseCoroutine;
+
+
+
     private void Update()
     {
         if (currentState == State.Moving && isMoving)
         {
             RotateWhileMoving();
-        }
-
-        if(currentState == State.Unstable)
-        {
-            PlayAnimationSequence("Unstable");
         }
     }
 
@@ -56,6 +55,9 @@ public class Boss1 : BossBase
 
     public void PlayRandomPoseSequence()
     {
+        if (currentPoseCoroutine != null)
+            StopCoroutine(currentPoseCoroutine);
+        currentPoseCoroutine = null;
         int poseIndex = UnityEngine.Random.Range(0, 3);
 
         List<string> chosenPose = poseIndex switch
@@ -66,40 +68,74 @@ public class Boss1 : BossBase
             _ => throw new System.NotImplementedException(),
         };
 
-        StartCoroutine(PlayPoseSequence(chosenPose));
+        currentPoseCoroutine = StartCoroutine(PlayPoseSequence(chosenPose));
     }
 
     public void PlayAnimationSequence(string name)
     {
-        switch (name)
+        if (currentPoseCoroutine != null)
+            StopCoroutine(currentPoseCoroutine);
+        currentPoseCoroutine = null;
+        currentPoseCoroutine = name switch
         {
-            case "Conjuring":
-                StartCoroutine(PlayPoseSequence(conjuringClips));
-                break;
-            default:
-                StartCoroutine(PlayPoseSequence(unstableClips));
-                break;
-        }
+            "Conjuring" => StartCoroutine(PlayConjuringSequence()),
+            "Unstable" => StartCoroutine(PlayUnstableSequence()),
+            _ => StartCoroutine(PlayPoseSequence(unstableClips)),
+        };
     }
 
     private IEnumerator PlayPoseSequence(List<string> clipNames)
     {
+
+        isPlayingPose = true;
+
         for (int i = 0; i < clipNames.Count - 1; i++)
         {
             animator.Play(clipNames[i]);
             yield return new WaitForSeconds(GetClipLength(clipNames[i]));
         }
-        yield return new WaitUntil(() => currentState == State.Waiting);
+
+        if (!SecondPhase)
+            yield return new WaitUntil(() => currentState == State.Waiting);
+        else
+        {
+            yield return new WaitUntil(() => currentState == State.Attacking);
+            animator.Play(clipNames[clipNames.Count - 1]);
+            yield return new WaitForSeconds(GetClipLength(clipNames[clipNames.Count - 1]));
+            currentPoseCoroutine = StartCoroutine(PlayConjuringSequence());
+            yield break;
+        }
 
         string lastClip = clipNames[clipNames.Count - 1];
         animator.Play(lastClip);
         yield return new WaitForSeconds(GetClipLength(lastClip));
 
         animator.Play(idleStateName);
-        if(SecondPhase)
-        {
-            StartCoroutine(PlayPoseSequence(conjuringClips));
-        }
+        isPlayingPose = false;
+    }
+
+    private IEnumerator PlayConjuringSequence()
+    {
+        animator.Play(conjuringClips[0]);
+        yield return new WaitForSeconds(GetClipLength(conjuringClips[1]));
+
+        animator.Play(conjuringClips[1]);
+        yield return new WaitForSeconds(2f);
+
+        animator.Play(conjuringClips[2]);
+        yield return new WaitForSeconds(GetClipLength(conjuringClips[2]));
+        isPlayingPose = false;
+
+        currentPoseCoroutine = StartCoroutine(PlayUnstableSequence());
+    }
+
+    private IEnumerator PlayUnstableSequence()
+    {
+
+        animator.Play(unstableClips[0]);
+        yield return new WaitForSeconds(2f);
+        animator.Play(unstableClips[1]);
+
     }
 
     private float GetClipLength(string clipName)
@@ -132,7 +168,6 @@ public class Boss1 : BossBase
     protected override void StartSecondPhase()
     {
         SecondPhase = true;
-        isUnstable = true;
-        isConjuring = true;
+        fireCooldown = unstableFireCooldown;
     }
 }

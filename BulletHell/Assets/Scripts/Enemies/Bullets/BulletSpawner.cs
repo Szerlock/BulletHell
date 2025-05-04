@@ -29,6 +29,9 @@ public class BulletSpawner : MonoBehaviour
 
     public void StartFiring()
     {
+        if (boss.isConjuring)
+            return;
+
         if (!isFiring)
         {
             isFiring = true;
@@ -37,6 +40,7 @@ public class BulletSpawner : MonoBehaviour
             else
             {
                 PickNewUnstablePattern();
+                boss.isConjuring = true;
             }
             StartCoroutine(FireBullets());
         }
@@ -44,6 +48,8 @@ public class BulletSpawner : MonoBehaviour
 
     private IEnumerator FireBullets()
     {
+        if (boss.SecondPhase)
+            yield return new WaitForSeconds(2f);
         while (bulletsFired < currentPattern.totalBullets)
         {
             SpawnWave();
@@ -363,12 +369,7 @@ public class BulletSpawner : MonoBehaviour
 
     public bool AttackFinished()
     {
-        if (attackFinished)
-        {
-            attackFinished = false;
-            return true;
-        }
-        return false;
+        return attackFinished;
     }
 
     private void PickNewPattern()

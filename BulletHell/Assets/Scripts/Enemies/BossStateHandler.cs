@@ -32,7 +32,13 @@ public class BossStateHandler : MonoBehaviour
 
     public void HandleWaiting()
     {
+        if (boss.isPlayingPose)
+            return; 
         fireCooldown -= Time.deltaTime;
+
+        if(boss.isUnstable)
+            boss.isUnstable = false;
+
         if (fireCooldown <= 0f)
         {
             boss.currentState = BossBase.State.Moving;
@@ -42,18 +48,23 @@ public class BossStateHandler : MonoBehaviour
     public void HandleAttacking()
     {
         if (boss.SecondPhase)
-            HandleConjuring();
+        {
+            fireCooldown = boss.unstableFireCooldown;
+            boss.isUnstable = true;
+        }
+        else
+            fireCooldown = boss.fireRate;
 
-        fireCooldown = boss.fireRate;
         boss.bulletSpawner.StartFiring();
 
-        if (boss.bulletSpawner.AttackFinished())
+        if (boss.bulletSpawner.AttackFinished() && !boss.isPlayingPose)
         {
+            if(boss.isConjuring)
+                boss.isConjuring = false;
             boss.currentState = BossBase.State.Waiting;
             boss.bulletSpawner.ResetAttack();
         }
     }
-
 
 
     public void HandleMoving()
@@ -63,16 +74,6 @@ public class BossStateHandler : MonoBehaviour
         {
             boss.currentState = BossBase.State.Attacking;
             boss.hasTarget = false;
-        }
-    }
-
-    public void HandleConjuring()
-    {
-        boss.bulletSpawner.StartFiring();
-        if (boss.bulletSpawner.AttackFinished())
-        {
-            boss.currentState = BossBase.State.Waiting;
-            boss.bulletSpawner.ResetAttack();
         }
     }
 }

@@ -101,12 +101,12 @@ public abstract class EnemyBase : MonoBehaviour
         oilBurnCoroutine = null;
     }
 
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         //GameManager.Instance.AddEnemy(this);
     }
 
-    private void OnDisable()
+    public virtual void OnDisable()
     {
         //GameManager.Instance.RemoveEnemy(this);
     }
