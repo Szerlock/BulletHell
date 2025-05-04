@@ -32,11 +32,6 @@ public class PlayerMovement : MonoBehaviour
     public bool isAiming = false;
 
     [Header("Rotate Character")]
-    [SerializeField] private float rotationSpeed = 5f;
-    [SerializeField] private float pitchMin = -30f;
-    [SerializeField] private float pitchMax = 60f;
-    [SerializeField] private float yaw = 0f;
-    [SerializeField] private float pitch = 15f;
     [SerializeField] private Vector3 offset;
 
     void Start()

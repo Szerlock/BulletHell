@@ -20,6 +20,11 @@ public class BossBase : EnemyBase
     public bool isMoving = false;
     public bool hasTarget = false;
 
+    [Header("SecondPhase")]
+    public bool isUnstable = false;
+    public bool isConjuring = false;
+    public bool SecondPhase = false;
+
     public State currentState = State.Waiting;
 
     public enum State
@@ -28,7 +33,9 @@ public class BossBase : EnemyBase
         Moving,
         Attacking,
         AttackAgain,
-        Death
+        Death,
+        Unstable,
+        Conjuring,
     }
 
     protected override void Start()
@@ -88,10 +95,12 @@ public class BossBase : EnemyBase
             transform.LookAt(targetPos);
         }
     }
-    protected virtual void Die()
+    protected override void Die()
     {
         Debug.Log($"{gameObject.name} died");
         Destroy(gameObject);
     }
     protected virtual void OnStartMoving() { }
+
+    protected virtual void StartSecondPhase() { }
 }

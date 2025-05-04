@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7f66f9b6f167e0347990c5baa6f59b31
+guid: 3208cf9f28216d64dab5d545918e0078
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -31,11 +31,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Unstable Start
+      name: Conjuring End
       takeName: Take 001
       internalID: 1827226128182048838
-      firstFrame: 1
-      lastFrame: 40
+      firstFrame: 200
+      lastFrame: 260
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

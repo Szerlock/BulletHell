@@ -7,6 +7,8 @@ public class BulletSpawner : MonoBehaviour
 {
     public GameObject bulletPrefab;
     public List<BulletPatternData> patterns;
+    public List<BulletPatternData> unstablePatterns;
+
     public Transform player;
     private int lastPatternIndex = -1;
     private BulletPatternData currentPattern;
@@ -17,9 +19,12 @@ public class BulletSpawner : MonoBehaviour
     private bool isFiring = false;
     private Vector3 spawnOffset = Vector3.zero;
 
+    private BossBase boss;
+
     void Start()
     {
         PickNewPattern();
+        boss = GameManager.Instance.currentBoss;
     }
 
     public void StartFiring()
@@ -27,7 +32,12 @@ public class BulletSpawner : MonoBehaviour
         if (!isFiring)
         {
             isFiring = true;
-            PickNewPattern();
+            if (!boss.SecondPhase)
+                PickNewPattern();
+            else
+            {
+                PickNewUnstablePattern();
+            }
             StartCoroutine(FireBullets());
         }
     }
@@ -371,6 +381,19 @@ public class BulletSpawner : MonoBehaviour
         while (index == lastPatternIndex && patterns.Count > 1);
 
         currentPattern = patterns[index];
+        lastPatternIndex = index;
+    }
+
+    private void PickNewUnstablePattern()
+    {
+        int index;
+        do
+        {
+            index = Random.Range(0, unstablePatterns.Count);
+        }
+        while (index == lastPatternIndex && unstablePatterns.Count > 1);
+
+        currentPattern = unstablePatterns[index];
         lastPatternIndex = index;
     }
 

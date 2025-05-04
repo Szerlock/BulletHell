@@ -9,6 +9,8 @@ public class Boss1 : BossBase
     [SerializeField] private List<string> pose2Clips;
     [SerializeField] private List<string> pose3Clips;
     [SerializeField] private string idleStateName = "BallerinaIdle";
+    [SerializeField] private List<string> conjuringClips;
+    [SerializeField] private List<string> unstableClips;
 
     [SerializeField] private float rotationSpeed;
     [SerializeField] private RotateFinal rotator;
@@ -18,6 +20,11 @@ public class Boss1 : BossBase
         if (currentState == State.Moving && isMoving)
         {
             RotateWhileMoving();
+        }
+
+        if(currentState == State.Unstable)
+        {
+            PlayAnimationSequence("Unstable");
         }
     }
 
@@ -56,9 +63,23 @@ public class Boss1 : BossBase
             0 => pose1Clips,
             1 => pose2Clips,
             2 => pose3Clips,
+            _ => throw new System.NotImplementedException(),
         };
 
         StartCoroutine(PlayPoseSequence(chosenPose));
+    }
+
+    public void PlayAnimationSequence(string name)
+    {
+        switch (name)
+        {
+            case "Conjuring":
+                StartCoroutine(PlayPoseSequence(conjuringClips));
+                break;
+            default:
+                StartCoroutine(PlayPoseSequence(unstableClips));
+                break;
+        }
     }
 
     private IEnumerator PlayPoseSequence(List<string> clipNames)
@@ -75,6 +96,10 @@ public class Boss1 : BossBase
         yield return new WaitForSeconds(GetClipLength(lastClip));
 
         animator.Play(idleStateName);
+        if(SecondPhase)
+        {
+            StartCoroutine(PlayPoseSequence(conjuringClips));
+        }
     }
 
     private float GetClipLength(string clipName)
@@ -93,5 +118,21 @@ public class Boss1 : BossBase
     protected override void OnStartMoving()
     {
         PlayRandomPoseSequence();
+    }
+
+    public override void TakeDamage(float amount)
+    {
+        base.TakeDamage(amount);
+        if (currentHealth <= currentHealth/2)
+        {
+            StartSecondPhase();
+        }
+    }
+
+    protected override void StartSecondPhase()
+    {
+        SecondPhase = true;
+        isUnstable = true;
+        isConjuring = true;
     }
 }

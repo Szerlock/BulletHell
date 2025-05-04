@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using UnityEngine;
 
 public class BossStateHandler : MonoBehaviour
@@ -40,6 +41,9 @@ public class BossStateHandler : MonoBehaviour
 
     public void HandleAttacking()
     {
+        if (boss.SecondPhase)
+            HandleConjuring();
+
         fireCooldown = boss.fireRate;
         boss.bulletSpawner.StartFiring();
 
@@ -50,6 +54,8 @@ public class BossStateHandler : MonoBehaviour
         }
     }
 
+
+
     public void HandleMoving()
     {
         boss.MoveToTarget();
@@ -57,6 +63,16 @@ public class BossStateHandler : MonoBehaviour
         {
             boss.currentState = BossBase.State.Attacking;
             boss.hasTarget = false;
+        }
+    }
+
+    public void HandleConjuring()
+    {
+        boss.bulletSpawner.StartFiring();
+        if (boss.bulletSpawner.AttackFinished())
+        {
+            boss.currentState = BossBase.State.Waiting;
+            boss.bulletSpawner.ResetAttack();
         }
     }
 }
