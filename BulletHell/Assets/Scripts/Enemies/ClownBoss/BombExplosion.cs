@@ -1,0 +1,23 @@
+using UnityEngine;
+
+public class BombExplosion : MonoBehaviour
+{
+    public float damage;
+
+    private void Start()
+    {
+        Destroy(gameObject, 1f);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            CharacterController3D playerHealth = other.GetComponent<CharacterController3D>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage);
+            }
+        }
+    }
+}
