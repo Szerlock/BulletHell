@@ -13,6 +13,7 @@ public class Bomb : MonoBehaviour
     private bool isThrown = false;
     [SerializeField] LayerMask groundMask;
     private bool BombStopped = false;
+    public float downForce;
 
     public float distance;
 
@@ -55,6 +56,8 @@ public class Bomb : MonoBehaviour
         isThrown = false;
         rb.linearVelocity = Vector3.zero; 
         rb.useGravity = true;
+
+        rb.AddForce(Vector3.down * downForce, ForceMode.Acceleration);
     }
 
     private void ThrowBomb()
