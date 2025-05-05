@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss1 : BossBase
+public class FinalBoss : BossBase
 {
 
     [SerializeField] private List<string> pose1Clips;
@@ -17,7 +17,16 @@ public class Boss1 : BossBase
 
     private Coroutine currentPoseCoroutine;
 
+    protected override void Start()
+    {
+        base.Start();
+        bossStateHandler = new FinalBossStateHandler();
+        bossStateHandler.Init(this);
 
+        currentHealth = Health;
+        moveTimer = moveCooldown;
+        GameManager.Instance.currentBoss = this;
+    }
 
     private void Update()
     {

@@ -2,19 +2,16 @@ using NUnit.Framework;
 using System;
 using UnityEngine;
 
-public class BossStateHandler : MonoBehaviour
+public class FinalBossStateHandler : StateHandler
 {
-    private BossBase boss;
 
-    private float fireCooldown;
-
-    public void Init(BossBase bossInstance)
+    public override void Init(BossBase bossInstance)
     {
         boss = bossInstance;
         fireCooldown = boss.fireCooldown;
     }
 
-    public void Update()
+    public override void Update()
     {
         switch (boss.currentState)
         {
@@ -30,7 +27,7 @@ public class BossStateHandler : MonoBehaviour
         }
     }
 
-    public void HandleWaiting()
+    public override void HandleWaiting()
     {
         if (boss.isPlayingPose)
             return; 
@@ -45,7 +42,7 @@ public class BossStateHandler : MonoBehaviour
         }
     }
 
-    public void HandleAttacking()
+    public override void HandleAttacking()
     {
         if (boss.SecondPhase)
         {
@@ -67,7 +64,7 @@ public class BossStateHandler : MonoBehaviour
     }
 
 
-    public void HandleMoving()
+    public override void HandleMoving()
     {
         boss.MoveToTarget();
         if (!boss.isMoving)

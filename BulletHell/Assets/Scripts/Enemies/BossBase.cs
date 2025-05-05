@@ -15,11 +15,11 @@ public class BossBase : EnemyBase
     public bool isAttacking = false;
 
 
-    [SerializeField] BossStateHandler bossStateHandler;
+    [SerializeField] public StateHandler bossStateHandler;
 
     [Header("Moving Settings")]
     [SerializeField] public float moveCooldown;
-    [SerializeField] private float moveTimer;
+    [SerializeField] public float moveTimer;
     private Vector3 targetPosition;
     public bool isMoving = false;
     public bool hasTarget = false;
@@ -38,12 +38,17 @@ public class BossBase : EnemyBase
         Attacking,
         AttackAgain,
         Death,
+        Juggling,
+        Hiding,
+        Laying,
     }
 
     protected override void Start()
     {
         base.Start();
+        bossStateHandler = new FinalBossStateHandler();
         bossStateHandler.Init(this);
+
         currentHealth = Health;
         moveTimer = moveCooldown;
         GameManager.Instance.currentBoss = this;
