@@ -49,6 +49,16 @@ public class ClownBoss : BossBase
         }
     }
 
+    private void HideInBox()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private void ThrowBombs()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override void TakeDamage(float amount)
     {
         base.TakeDamage(amount);
