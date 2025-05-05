@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public float gravity = -9.81f;
 
     [SerializeField] private CharacterController controller;
-    [SerializeField] private Transform cameraTransform;
+    [SerializeField] public Transform cameraTransform;
     [SerializeField] private Transform minigun;
     private Vector3 velocity;
     public bool isGrounded;
@@ -155,18 +155,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void RotateTowardsCamera()
     {
-        //Vector3 lookDirection = cameraTransform.forward;
-        //lookDirection.y = 0f;
-        //if (lookDirection.magnitude >= 0.1f)
-        //{
-
-        //    Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
-        //    Quaternion offsetRotation = Quaternion.Euler(offset);
-
-        //    targetRotation *= offsetRotation;
-
-        //    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
-        //}
         Vector3 lookDirection = cameraTransform.forward;
         lookDirection.y = 0f;
 

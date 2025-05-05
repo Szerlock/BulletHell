@@ -56,6 +56,12 @@ public class MinigunController : MonoBehaviour
     public float shakeFrequency;
     [SerializeField] private GameObject shakeCam;
 
+    [Header("Rotate Minigun object")]
+    public Vector3 offset;
+    public Vector3 minigunOffset;
+    public GameObject minigun;
+    public Transform followMinigun;
+
     void Start()
     {
         baseFireRate = fireRate;
@@ -98,6 +104,8 @@ public class MinigunController : MonoBehaviour
                 playerMovement.isAiming = false;
             }
         }
+        FollowMinigun();
+        RotateMinigunTowardsCamera();
     }
 
     private void IncreaseAttackSpeed()
@@ -191,5 +199,40 @@ public class MinigunController : MonoBehaviour
         direction = cam.transform.forward;
         return true;
 
+    }
+
+    private void FollowMinigun()
+    {
+        transform.position = followMinigun.position;
+        transform.rotation = followMinigun.rotation;
+        transform.localScale = followMinigun.localScale;
+    }
+
+    private void RotateMinigunTowardsCamera()
+    {
+        Vector3 lookDirection = playerMovement.cameraTransform.forward;
+        lookDirection.y = 0f;
+
+        if (lookDirection.magnitude >= 0.1f)
+        {
+            Quaternion currentRotation = minigun.transform.rotation;
+
+            Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+            Quaternion offsetRotation = Quaternion.Euler(minigunOffset);
+            targetRotation *= offsetRotation;
+
+            Vector3 euler = Quaternion.Slerp(currentRotation, targetRotation, Time.deltaTime * 10f).eulerAngles;
+            euler.x = currentRotation.eulerAngles.x;
+
+            if(playerMovement.isGrounded)
+            {
+                float pitch = playerMovement.cameraTransform.localEulerAngles.x;
+
+                Quaternion characterRotation = Quaternion.Euler(pitch, minigun.transform.eulerAngles.y, 0f);
+                minigun.transform.rotation = Quaternion.Slerp(minigun.transform.rotation, characterRotation, Time.deltaTime * 10f);
+            }
+            else 
+                minigun.transform.rotation = Quaternion.Euler(euler);
+        }
     }
 }
