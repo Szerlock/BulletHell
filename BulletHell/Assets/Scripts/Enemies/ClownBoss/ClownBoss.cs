@@ -16,6 +16,7 @@ public class ClownBoss : BossBase
     [Header("Bomb Attack Variables")]
     [SerializeField] private List<Transform> bombTargets;
     [SerializeField] private GameObject Bomb;
+    [SerializeField] private Transform spawnBombLoc;
     public int bombCount;
     private int bombsThrown;
     public int TimesToThrow;
@@ -64,20 +65,23 @@ public class ClownBoss : BossBase
     {
         int ropeIndex = Random.Range(0, 3);
 
-        switch (0)
+        switch (ropeIndex)
         {
             case 0:
                 currentStartTransform = rope1[0];
                 currentEndTransform = rope1[1];
+                transform.position = rope1[2].position;
                 break;
-            //case 1:
-            //    currentStartTransform = rope2[0];
-            //    currentEndTransform = rope2[1];
-            //    break;
-            ////case 2:
-            //    currentStartTransform = rope3[0];
-            //    currentEndTransform = rope3[1];
-            //    break;
+            case 1:
+                currentStartTransform = rope2[0];
+                currentEndTransform = rope2[1];
+                transform.position = rope2[2].position;
+                break;
+            case 2:
+                currentStartTransform = rope3[0];
+                currentEndTransform = rope3[1];
+                transform.position = rope3[2].position;
+                break;
         }
         ropePicked = true;
     }
@@ -90,6 +94,7 @@ public class ClownBoss : BossBase
             float step = speed * Time.deltaTime;
 
             transform.position = Vector3.MoveTowards(transform.position, targetTransform.position, step);
+            transform.LookAt(targetTransform);
 
             if (Vector3.Distance(transform.position, targetTransform.position) < 0.1f)
             {
@@ -125,6 +130,9 @@ public class ClownBoss : BossBase
             List<Transform> tempList = new List<Transform>(bombTargets);
             bombsThrown = 0;
 
+            animator.Play("ThrowBombs", -1, 0f);
+            transform.LookAt(player);
+            yield return new WaitForSeconds(1f);
             while (bombsThrown < bombCount)
             {
 
@@ -133,7 +141,7 @@ public class ClownBoss : BossBase
                 Transform selectedPosition = tempList[randomIndex];
                 tempList.RemoveAt(randomIndex);
 
-                GameObject bomb = Instantiate(Bomb, transform.position, Quaternion.identity);
+                GameObject bomb = Instantiate(Bomb, spawnBombLoc.position, Quaternion.identity);
 
                 Bomb bombScript = bomb.GetComponent<Bomb>();
                 bombScript.Init(selectedPosition);
@@ -143,6 +151,7 @@ public class ClownBoss : BossBase
             yield return new WaitForSeconds(WaitingTimeBomb);
         }
         isAttacking = false;
+        ropePicked = false;
     }
 
     public override void TakeDamage(float amount)

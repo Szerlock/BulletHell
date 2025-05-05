@@ -314,4 +314,5 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
+  downForce: 5
   distance: 0
