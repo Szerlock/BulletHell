@@ -3,7 +3,7 @@ using UnityEngine;
 public class Bomb : MonoBehaviour
 {
     [SerializeField] private GameObject explosionGameObject;
-    float throwForce = 10f;    
+    public float throwForce;    
     public float height = 5f;
     public float stopDistance; 
     public CircleDrawer circleDrawer;
@@ -38,7 +38,6 @@ public class Bomb : MonoBehaviour
 
         if (distance > stopDistance && !BombStopped)
         {
-            //transform.position = Vector3.MoveTowards(transform.position, bombTarget.position, throwForce * Time.deltaTime);
             Vector3 direction = (bombTarget.position - transform.position);
 
 
