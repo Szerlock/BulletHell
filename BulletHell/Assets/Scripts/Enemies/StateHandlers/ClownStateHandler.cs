@@ -3,12 +3,12 @@ using UnityEngine;
 public class ClownStateHandler : StateHandler
 {
     private ClownBoss bossType;
-    private float attackCooldown;
+    [SerializeField] private float attackCooldown;
 
     public override void Init(BossBase bossInstance)
     {
         bossType = (ClownBoss)bossInstance;
-        attackCooldown = boss.fireCooldown;
+        attackCooldown = bossType.fireCooldown;
         fireCooldown = attackCooldown;
     }
 

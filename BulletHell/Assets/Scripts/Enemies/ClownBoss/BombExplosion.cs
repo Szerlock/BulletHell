@@ -6,6 +6,7 @@ public class BombExplosion : MonoBehaviour
 
     private void Start()
     {
+        // play explosion vfx
         Destroy(gameObject, 1f);
     }
 

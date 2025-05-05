@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,10 +12,24 @@ public class ClownBoss : BossBase
     [SerializeField] private List<float> damageTracker;
     [SerializeField] private List<string> attackNames;
 
+
+    [Header("Bomb Attack Variables")]
+    [SerializeField] private List<Transform> bombTargets;
+    [SerializeField] private GameObject Bomb;
+    public int bombCount;
+    private int bombsThrown;
+    public int TimesToThrow;
+    public float WaitingTimeBomb;
+
+    [Header("Movement Variables")]
+    private Transform currentStartTransform; 
+    private Transform currentEndTransform;   
+    private bool movingToEnd = true;
+    private bool ropePicked;
+
     protected override void Start()
     {
         base.Start();
-        bossStateHandler = new ClownStateHandler();
         bossStateHandler.Init(this);
 
         currentHealth = Health;
@@ -28,20 +43,69 @@ public class ClownBoss : BossBase
         {
             Juggling();
         }
+        else
+        {
+            ropePicked = false;
+        }
     }
 
     private void Juggling()
     {
-        animator.Play("Juggling");
+        animator.Play("Clown Juggling");
+        if (!ropePicked)
+        {
+            PickRope();
+        }
+        else
+            MoveBetweenRopePoints();
+    }
+
+    private void PickRope()
+    {
+        int ropeIndex = Random.Range(0, 3);
+
+        switch (0)
+        {
+            case 0:
+                currentStartTransform = rope1[0];
+                currentEndTransform = rope1[1];
+                break;
+            //case 1:
+            //    currentStartTransform = rope2[0];
+            //    currentEndTransform = rope2[1];
+            //    break;
+            ////case 2:
+            //    currentStartTransform = rope3[0];
+            //    currentEndTransform = rope3[1];
+            //    break;
+        }
+        ropePicked = true;
+    }
+
+    private void MoveBetweenRopePoints()
+    {
+        if (currentStartTransform != null && currentEndTransform != null)
+        {
+            Transform targetTransform = movingToEnd ? currentEndTransform : currentStartTransform;
+            float step = speed * Time.deltaTime;
+
+            transform.position = Vector3.MoveTowards(transform.position, targetTransform.position, step);
+
+            if (Vector3.Distance(transform.position, targetTransform.position) < 0.1f)
+            {
+                movingToEnd = !movingToEnd;
+            }
+        }
     }
 
     public void PickAttack()
     {
+        isAttacking = true;
         int attackIndex = Random.Range(0, attackNames.Count);
         switch (attackNames[attackIndex])
         {
             case "Bombs":
-                ThrowBombs();
+                StartCoroutine(ThrowBombs());
                 break;
             case "Box":
                 HideInBox();
@@ -54,9 +118,31 @@ public class ClownBoss : BossBase
         throw new System.NotImplementedException();
     }
 
-    private void ThrowBombs()
+    private IEnumerator ThrowBombs()
     {
-        throw new System.NotImplementedException();
+        for (int i = 0; i < TimesToThrow; i++)
+        {
+            List<Transform> tempList = new List<Transform>(bombTargets);
+            bombsThrown = 0;
+
+            while (bombsThrown < bombCount)
+            {
+
+                int randomIndex = Random.Range(0, tempList.Count);
+
+                Transform selectedPosition = tempList[randomIndex];
+                tempList.RemoveAt(randomIndex);
+
+                GameObject bomb = Instantiate(Bomb, transform.position, Quaternion.identity);
+
+                Bomb bombScript = bomb.GetComponent<Bomb>();
+                bombScript.Init(selectedPosition);
+                bombsThrown++;
+            }
+
+            yield return new WaitForSeconds(WaitingTimeBomb);
+        }
+        isAttacking = false;
     }
 
     public override void TakeDamage(float amount)

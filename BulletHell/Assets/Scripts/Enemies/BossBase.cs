@@ -46,7 +46,6 @@ public class BossBase : EnemyBase
     protected override void Start()
     {
         base.Start();
-        bossStateHandler = new FinalBossStateHandler();
         bossStateHandler.Init(this);
 
         currentHealth = Health;
