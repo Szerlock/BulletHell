@@ -7,7 +7,7 @@ public class BombExplosion : MonoBehaviour
     private void Start()
     {
         // play explosion vfx
-        Destroy(gameObject, 1f);
+        Destroy(gameObject, 5f);
     }
 
     private void OnTriggerEnter(Collider other)

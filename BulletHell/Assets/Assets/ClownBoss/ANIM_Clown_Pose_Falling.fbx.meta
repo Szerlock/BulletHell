@@ -34,7 +34,7 @@ ModelImporter:
       name: Clown Falling
       takeName: Take 001
       internalID: 1827226128182048838
-      firstFrame: 10
+      firstFrame: 1
       lastFrame: 50
       wrapMode: 0
       orientationOffsetY: 0

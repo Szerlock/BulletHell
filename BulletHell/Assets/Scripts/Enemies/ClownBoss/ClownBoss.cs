@@ -11,6 +11,7 @@ public class ClownBoss : BossBase
     [SerializeField] private Animator boxAnimator;
     [SerializeField] private List<float> damageTracker;
     [SerializeField] private List<string> attackNames;
+    [SerializeField] private List<MeshRenderer> balls;  
 
 
     [Header("Bomb Attack Variables")]
@@ -21,6 +22,11 @@ public class ClownBoss : BossBase
     private int bombsThrown;
     public int TimesToThrow;
     public float WaitingTimeBomb;
+
+    [Header("HideInBox Attack Variables")]
+    [SerializeField] private List<Transform> boxPositions;
+    [SerializeField] private GameObject Box;
+
 
     [Header("Movement Variables")]
     private Transform currentStartTransform; 
@@ -56,6 +62,7 @@ public class ClownBoss : BossBase
         if (!ropePicked)
         {
             PickRope();
+            ShowBalls();
         }
         else
             MoveBetweenRopePoints();
@@ -120,7 +127,20 @@ public class ClownBoss : BossBase
 
     private void HideInBox()
     {
-        throw new System.NotImplementedException();
+        HideBalls();
+        foreach (Transform box in boxPositions)
+        {
+            GameObject spawnedBox = Instantiate(Box, box.position + new Vector3(-20, 7, 0), Quaternion.identity);
+            spawnedBox.transform.LookAt(player);
+        }
+
+        int index = Random.Range(0, boxPositions.Count);
+        Transform chosenBox = boxPositions[index];
+
+        animator.Play("Clown Reveal");
+        transform.position = chosenBox.position;
+
+        transform.LookAt(player);
     }
 
     private IEnumerator ThrowBombs()
@@ -192,5 +212,21 @@ public class ClownBoss : BossBase
 
         Debug.LogWarning($"Clip '{clipName}' not found in Animator.");
         return 10;
+    }
+
+    private void ShowBalls()
+    {
+        foreach (MeshRenderer ball in balls)
+        {
+            ball.enabled = true;
+        }
+    }
+
+    private void HideBalls()
+    {
+        foreach (MeshRenderer ball in balls)
+        {
+            ball.enabled = false;
+        }
     }
 }
