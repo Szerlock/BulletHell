@@ -28,6 +28,17 @@ public class ClownBoss : BossBase
     [SerializeField] private GameObject Box;
     [SerializeField] private Vector3 spawnOffsetRelativeToBox = new Vector3(0, -4, -1.5f);
 
+    [Header("RotateBox Variables")]
+    public List<Transform> airPositions;
+    public List<Transform> boxList;
+    public bool isShuffling = false;
+    public float shuffleDuration;
+    public float waitingTime;
+    public float moveDuration = 1f;
+    public List<Vector3> rotationBoxes;
+
+
+
     [Header("Movement Variables")]
     private Transform currentStartTransform; 
     private Transform currentEndTransform;   
@@ -129,46 +140,111 @@ public class ClownBoss : BossBase
     {
         HideBalls();
 
+        List<GameObject> boxes = new List<GameObject>();
+
         foreach (Transform box in boxPositions)
         {
             GameObject spawnedBox = Instantiate(Box, box.position + new Vector3(0, 7, 0), Quaternion.identity);
             Vector3 lookTarget = new Vector3(player.position.x, spawnedBox.transform.position.y, player.position.z);
             spawnedBox.transform.LookAt(lookTarget);
+            boxes.Add(spawnedBox);
+            boxList.Add(spawnedBox.transform);
+            rotationBoxes.Add(lookTarget);
         }
 
         int index = Random.Range(0, boxPositions.Count);
-        Transform chosenBox = boxPositions[index];
+        Transform chosenBox = boxes[index].transform;
 
 
         animator.Play("Clown Reveal");
         transform.parent = chosenBox;
-        transform.position = spawnOffsetRelativeToBox;
+        transform.localPosition = spawnOffsetRelativeToBox;
 
         Vector3 target = new Vector3(player.position.x, transform.position.y, player.position.z);
         transform.transform.LookAt(target);
+        StartShuffle();
     }
 
-    private void OnDrawGizmos()
+    public void StartShuffle()
     {
-        if (boxPositions == null || boxPositions.Count == 0) return;
+        StartCoroutine(ShuffleBoxes());
+    }
 
-        foreach (Transform box in boxPositions)
+    private IEnumerator ShuffleBoxes()
+    {
+        yield return new WaitForSeconds(GetClipLength("Clown Reveal"));
+        isShuffling = true;
+
+        // Spin Boxes
+        for (int i = 0; i < boxList.Count; i++)
         {
-            Vector3 offsetPos = box.position + box.TransformDirection(spawnOffsetRelativeToBox);
+            StartCoroutine(MoveToPosition(boxList[i], airPositions[i].position, moveDuration));
+            StartCoroutine(SpinBox(boxList[i]));
+        }
+        yield return new WaitForSeconds(moveDuration + 0.1f);
 
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(offsetPos, 0.25f); 
-
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(box.position, offsetPos); 
-
-            if (player != null)
+        float elapsed = 0f;
+        while (elapsed < shuffleDuration)
+        {
+            int a = Random.Range(0, boxList.Count);
+            int b = Random.Range(0, boxList.Count);
+            if (a != b)
             {
-                Vector3 faceDir = player.position - offsetPos;
-                faceDir.y = 0;
-                Gizmos.color = Color.red;
-                Gizmos.DrawRay(offsetPos, faceDir.normalized * 1.5f);
+                Vector3 temp = boxList[a].position;
+                StartCoroutine(MoveToPosition(boxList[a], boxList[b].position, 0.3f));
+                StartCoroutine(MoveToPosition(boxList[b], temp, 0.3f));
             }
+
+            elapsed += waitingTime;
+            yield return new WaitForSeconds(waitingTime);
+        }
+        isShuffling = false;
+
+        List<int> availableIndices = new List<int>();
+        for (int i = 0; i < boxPositions.Count; i++) availableIndices.Add(i);
+
+        for (int i = 0; i < boxList.Count; i++)
+        {
+            int randomIndex = Random.Range(0, availableIndices.Count);
+            int chosenGroundIndex = availableIndices[randomIndex];
+            availableIndices.RemoveAt(randomIndex);
+
+            StartCoroutine(MoveToPosition(boxList[i], boxPositions[chosenGroundIndex].position + new Vector3(0, 7, 0), moveDuration));
+        }
+
+        yield return new WaitForSeconds(moveDuration + 0.1f);
+
+    }
+
+    private IEnumerator MoveToPosition(Transform obj, Vector3 target, float duration)
+    {
+        Vector3 start = obj.position;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            obj.position = Vector3.Lerp(start, target, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        obj.position = target;
+    }
+
+    private IEnumerator SpinBox(Transform box)
+    {
+        float time = 0f;
+        Vector3 spinSpeed = new Vector3(
+            Random.Range(90f, 180f),
+            Random.Range(90f, 180f),
+            Random.Range(90f, 180f)
+        );
+
+        while (isShuffling)
+        {
+            box.Rotate(spinSpeed * Time.deltaTime);
+            time += Time.deltaTime;
+            yield return null;
         }
     }
 
