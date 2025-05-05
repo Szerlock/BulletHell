@@ -4770,7 +4770,7 @@ MonoBehaviour:
   Bomb: {fileID: 4967633630945854151, guid: 942dd9a4201034c40aa49c8e234a2f82, type: 3}
   bombCount: 12
   TimesToThrow: 3
-  WaitingTimeBomb: 0
+  WaitingTimeBomb: 3
 --- !u!95 &1701582721
 Animator:
   serializedVersion: 7
