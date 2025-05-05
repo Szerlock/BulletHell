@@ -11,7 +11,7 @@ public class ClownBoss : BossBase
     [SerializeField] private Animator boxAnimator;
     [SerializeField] private List<float> damageTracker;
     [SerializeField] private List<string> attackNames;
-    [SerializeField] private List<MeshRenderer> balls;  
+    [SerializeField] private List<GameObject> balls;  
 
 
     [Header("Bomb Attack Variables")]
@@ -26,7 +26,7 @@ public class ClownBoss : BossBase
     [Header("HideInBox Attack Variables")]
     [SerializeField] private List<Transform> boxPositions;
     [SerializeField] private GameObject Box;
-
+    [SerializeField] private Vector3 spawnOffsetRelativeToBox = new Vector3(0, -4, -1.5f);
 
     [Header("Movement Variables")]
     private Transform currentStartTransform; 
@@ -128,19 +128,48 @@ public class ClownBoss : BossBase
     private void HideInBox()
     {
         HideBalls();
+
         foreach (Transform box in boxPositions)
         {
-            GameObject spawnedBox = Instantiate(Box, box.position + new Vector3(-20, 7, 0), Quaternion.identity);
-            spawnedBox.transform.LookAt(player);
+            GameObject spawnedBox = Instantiate(Box, box.position + new Vector3(0, 7, 0), Quaternion.identity);
+            Vector3 lookTarget = new Vector3(player.position.x, spawnedBox.transform.position.y, player.position.z);
+            spawnedBox.transform.LookAt(lookTarget);
         }
 
         int index = Random.Range(0, boxPositions.Count);
         Transform chosenBox = boxPositions[index];
 
-        animator.Play("Clown Reveal");
-        transform.position = chosenBox.position;
 
-        transform.LookAt(player);
+        animator.Play("Clown Reveal");
+        transform.parent = chosenBox;
+        transform.position = spawnOffsetRelativeToBox;
+
+        Vector3 target = new Vector3(player.position.x, transform.position.y, player.position.z);
+        transform.transform.LookAt(target);
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (boxPositions == null || boxPositions.Count == 0) return;
+
+        foreach (Transform box in boxPositions)
+        {
+            Vector3 offsetPos = box.position + box.TransformDirection(spawnOffsetRelativeToBox);
+
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(offsetPos, 0.25f); 
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(box.position, offsetPos); 
+
+            if (player != null)
+            {
+                Vector3 faceDir = player.position - offsetPos;
+                faceDir.y = 0;
+                Gizmos.color = Color.red;
+                Gizmos.DrawRay(offsetPos, faceDir.normalized * 1.5f);
+            }
+        }
     }
 
     private IEnumerator ThrowBombs()
@@ -216,17 +245,17 @@ public class ClownBoss : BossBase
 
     private void ShowBalls()
     {
-        foreach (MeshRenderer ball in balls)
+        foreach (GameObject ball in balls)
         {
-            ball.enabled = true;
+            ball.SetActive(true);
         }
     }
 
     private void HideBalls()
     {
-        foreach (MeshRenderer ball in balls)
+        foreach (GameObject ball in balls)
         {
-            ball.enabled = false;
+            ball.SetActive(false);
         }
     }
 }
