@@ -273,4 +273,9 @@ public class CharacterController3D : MonoBehaviour
     {
         currentHealth = maxHealth;
     }
+
+    public void PushPlayer()
+    {
+        StartCoroutine(movement.ApplyPushBackwards());
+    }
 }

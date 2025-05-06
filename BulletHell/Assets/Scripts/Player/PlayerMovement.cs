@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -10,6 +11,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private CharacterController controller;
     [SerializeField] public Transform cameraTransform;
     [SerializeField] private Transform minigun;
+
+    [Header("PushBack")]
+    [SerializeField] private float pushForce;
+    [SerializeField] private float duration;
+
     private Vector3 velocity;
     public bool isGrounded;
 
@@ -175,6 +181,18 @@ public class PlayerMovement : MonoBehaviour
                 Quaternion characterRotation = Quaternion.Euler(pitch, transform.eulerAngles.y, 0f);
                 transform.rotation = Quaternion.Slerp(transform.rotation, characterRotation, Time.deltaTime * 10f);
             }
+        }
+    }
+
+    public IEnumerator ApplyPushBackwards()
+    {
+        float timer = 0f;
+        while (timer < duration)
+        {
+            Vector3 pushDir = -transform.forward;
+            controller.Move(pushDir * pushForce * Time.deltaTime);
+            timer += Time.deltaTime;
+            yield return null;
         }
     }
 }

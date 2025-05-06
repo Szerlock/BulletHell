@@ -4667,6 +4667,10 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8842420740122079421, guid: f1b96d569ec18074ca3066d77f27542c, type: 3}
+      propertyPath: hammer
+      value: 
+      objectReference: {fileID: 1384788159}
+    - target: {fileID: 8842420740122079421, guid: f1b96d569ec18074ca3066d77f27542c, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 409125288}
@@ -4698,6 +4702,10 @@ PrefabInstance:
       propertyPath: stunDuration
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8842420740122079421, guid: f1b96d569ec18074ca3066d77f27542c, type: 3}
+      propertyPath: hammerAnimator
+      value: 
+      objectReference: {fileID: 1384788160}
     - target: {fileID: 8842420740122079421, guid: f1b96d569ec18074ca3066d77f27542c, type: 3}
       propertyPath: WaitingTimeBomb
       value: 3

@@ -32,6 +32,9 @@ public class ClownBoss : BossBase
     [SerializeField] private Vector3 spawnOffsetRelativeToBox = new Vector3(0, -4, -1.5f);
     [SerializeField] private float stunDuration;
     [SerializeField] private float lingerTime;
+    [SerializeField] private Animator hammerAnimator;
+    [SerializeField] private GameObject hammer;
+
 
     [Header("RotateBox Variables")]
     public List<Transform> airPositions;
@@ -183,6 +186,7 @@ public class ClownBoss : BossBase
     private IEnumerator ShuffleBoxes()
     {
         yield return new WaitForSeconds(GetClipLength("Clown Reveal"));
+        transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
         isShuffling = true;
 
         // Spin Boxes
@@ -230,26 +234,38 @@ public class ClownBoss : BossBase
 
     public IEnumerator HammerSlam()
     {
+        hammer.SetActive(true);
+        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         boxAnimator.Play("Box Hammer");
         animator.Play("Clown Hammer");
+        hammerAnimator.Play("Hammer Slam");
         yield return new WaitForSeconds(GetClipLength("Clown Hammer"));
         GameManager.Instance.Player.TakeDamage(Damage);
         yield return new WaitForSeconds(lingerTime);
         // Play VFX
+        hammer.SetActive(false);
         isAttacking = false;
-        transform.SetParent(null);
+        ReturnToNormal();
         RemoveBoxes();
+    }
+
+    private void ReturnToNormal()
+    {
+        transform.SetParent(null);
+        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
     }
 
     public IEnumerator Stunned()
     {
+        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         boxAnimator.Play("Box Hammer");
         animator.Play("Clown Stunned");
         yield return new WaitForSeconds(stunDuration);
         // Play VFX
         TakeDamage(GameManager.Instance.Player.damage);
+        GameManager.Instance.Player.PushPlayer();
         isAttacking = false;
-        transform.SetParent(null);
+        ReturnToNormal();
         RemoveBoxes();
     }
 
