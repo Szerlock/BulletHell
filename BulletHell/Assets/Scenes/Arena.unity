@@ -5293,7 +5293,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1651712749
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6181,6 +6181,9 @@ MonoBehaviour:
   - {fileID: 796480434}
   augmentPanel: {fileID: 497868993}
   UITabsShowing:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
