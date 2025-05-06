@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("PushBack")]
     [SerializeField] private float pushForce;
     [SerializeField] private float duration;
+    [SerializeField] private float upwardForce;
 
     private Vector3 velocity;
     public bool isGrounded;
@@ -187,12 +188,20 @@ public class PlayerMovement : MonoBehaviour
     public IEnumerator ApplyPushBackwards()
     {
         float timer = 0f;
+        Vector3 pushDir = (-transform.forward * pushForce + Vector3.up * upwardForce);
+
+        float originalVelocityY = velocity.y;
+
+        velocity.y = 0f;
+
         while (timer < duration)
         {
-            Vector3 pushDir = -transform.forward;
-            controller.Move(pushDir * pushForce * Time.deltaTime);
+            controller.Move(pushDir * Time.deltaTime);
             timer += Time.deltaTime;
             yield return null;
         }
+
+        velocity.y = originalVelocityY;
+
     }
 }

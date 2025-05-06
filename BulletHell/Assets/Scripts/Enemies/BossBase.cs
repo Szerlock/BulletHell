@@ -41,6 +41,8 @@ public class BossBase : EnemyBase
         Juggling,
         Hiding,
         Laying,
+        Falling,
+        Conjuring
     }
 
     protected override void Start()

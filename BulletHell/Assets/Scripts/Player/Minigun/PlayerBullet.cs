@@ -125,11 +125,9 @@ public class PlayerBullet : MonoBehaviour
                         enemy.ApplyBurn(effect.tickDamage, effect.tickInterval, effect.duration);
                     }
                 }
-                Destroy(gameObject);
                 break;
 
             case "EnemyBullet":
-                Destroy(gameObject);
                 break;
             case "Player":
                 break;
@@ -141,9 +139,11 @@ public class PlayerBullet : MonoBehaviour
                 {
                     oilZone.Ignite();
                 }
-                Destroy(gameObject);
+                break;
+            default:
                 break;
         }
+        Destroy(gameObject);
     }
 
     private float CalculateShortDistance(EnemyBase enemy, float finalDamage)

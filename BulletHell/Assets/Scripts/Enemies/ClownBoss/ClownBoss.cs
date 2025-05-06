@@ -34,6 +34,7 @@ public class ClownBoss : BossBase
     [SerializeField] private float lingerTime;
     [SerializeField] private Animator hammerAnimator;
     [SerializeField] private GameObject hammer;
+    public bool boxesUntargetable = false;
 
 
     [Header("RotateBox Variables")]
@@ -147,6 +148,7 @@ public class ClownBoss : BossBase
     private void HideInBox()
     {
         HideBalls();
+        boxesUntargetable = true;
 
         List<GameObject> boxes = new List<GameObject>();
 
@@ -185,9 +187,10 @@ public class ClownBoss : BossBase
 
     private IEnumerator ShuffleBoxes()
     {
-        yield return new WaitForSeconds(GetClipLength("Clown Reveal"));
-        transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
         isShuffling = true;
+
+        yield return new WaitForSeconds(GetClipLength("Clown Reveal"));
+        transform.localScale = new Vector3(0f, 0f, 0f);
 
         // Spin Boxes
         for (int i = 0; i < boxList.Count; i++)
@@ -229,24 +232,41 @@ public class ClownBoss : BossBase
         }
 
         yield return new WaitForSeconds(moveDuration + 0.1f);
-
+        boxesUntargetable = false;
     }
 
     public IEnumerator HammerSlam()
     {
         hammer.SetActive(true);
-        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        ReturnToNormal();
         boxAnimator.Play("Box Hammer");
         animator.Play("Clown Hammer");
         hammerAnimator.Play("Hammer Slam");
         yield return new WaitForSeconds(GetClipLength("Clown Hammer"));
         GameManager.Instance.Player.TakeDamage(Damage);
+        GameManager.Instance.Player.PushPlayer();
         yield return new WaitForSeconds(lingerTime);
         // Play VFX
         hammer.SetActive(false);
         isAttacking = false;
-        ReturnToNormal();
         RemoveBoxes();
+    }
+
+    public IEnumerator Stunned()
+    {
+        ReturnToNormal();
+        boxAnimator.Play("Box Hammer");
+        animator.Play("Clown Stunned");
+        yield return new WaitForSeconds(stunDuration);
+        // Play VFX
+        TakeDamage(GameManager.Instance.Player.damage);
+        isAttacking = false;
+        RemoveBoxes();
+    }
+
+    public void StartConjuring()
+    { 
+        
     }
 
     private void ReturnToNormal()
@@ -255,26 +275,13 @@ public class ClownBoss : BossBase
         transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
     }
 
-    public IEnumerator Stunned()
-    {
-        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        boxAnimator.Play("Box Hammer");
-        animator.Play("Clown Stunned");
-        yield return new WaitForSeconds(stunDuration);
-        // Play VFX
-        TakeDamage(GameManager.Instance.Player.damage);
-        GameManager.Instance.Player.PushPlayer();
-        isAttacking = false;
-        ReturnToNormal();
-        RemoveBoxes();
-    }
-
     private void RemoveBoxes()
     {
         foreach (Transform box in boxList)
         {
             Destroy(box.gameObject);
         }
+        boxList.Clear();
     }
 
     private IEnumerator MoveToPosition(Transform obj, Vector3 target, float duration, bool rotateToPlayer)
@@ -294,7 +301,7 @@ public class ClownBoss : BossBase
         if (rotateToPlayer)
         {
             Quaternion startRot = obj.rotation;
-            Vector3 lookTarget = new Vector3(0, obj.position.y, player.position.z);
+            Vector3 lookTarget = new Vector3(player.position.x, obj.position.y, player.position.z);
             Quaternion targetRot = Quaternion.LookRotation(lookTarget - obj.position);
 
             float t = 0f;
@@ -381,8 +388,10 @@ public class ClownBoss : BossBase
 
     private IEnumerator PlayAnimation(string name)
     {
+        currentState = State.Falling;
         animator.Play(name);
         yield return new WaitForSeconds(GetClipLength(name));
+        currentState = State.Conjuring;
         // Eventually play puff vfx
     }
 

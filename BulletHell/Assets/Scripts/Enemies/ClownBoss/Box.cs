@@ -9,6 +9,8 @@ public class Box : MonoBehaviour
     {
         if (other.CompareTag("PlayerBullet"))
         {
+            if (clownBoss.boxesUntargetable)
+                return;
             if (ChoosenBox)
             {
                 StartCoroutine(clownBoss.Stunned());
