@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6382929113422350566
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1717591723396430526, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: m_Name
+      value: PS_Stunned 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1717591723396430526, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2056491827768315214, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: lengthInSec
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2056491827768315214, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: SubModule.subEmitters.Array.data[0].emitter
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2056491827768315214, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2056491827768315214, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[1].countCurve.scalar
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2056491827768315214, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[2].countCurve.scalar
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2056491827768315214, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.minScalar
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2056491827768315214, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[1].countCurve.minScalar
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2056491827768315214, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[2].countCurve.minScalar
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457479117825870102, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -23.014616
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457479117825870102, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457479117825870102, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -7.144352
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457479117825870102, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457479117825870102, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457479117825870102, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457479117825870102, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457479117825870102, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457479117825870102, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457479117825870102, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects:
+    - {fileID: 5384190863693724852, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
