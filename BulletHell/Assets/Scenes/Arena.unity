@@ -5228,7 +5228,7 @@ GameObject:
   - component: {fileID: 1651712750}
   - component: {fileID: 1651712749}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5318,8 +5318,8 @@ Transform:
   m_GameObject: {fileID: 1651712748}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.1, y: 2.77, z: -5.1}
-  m_LocalScale: {x: 211.05144, y: 211.05144, z: 211.05144}
+  m_LocalPosition: {x: 32, y: 2.77, z: -5.1}
+  m_LocalScale: {x: 170.01038, y: 170.01038, z: 170.01038}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
