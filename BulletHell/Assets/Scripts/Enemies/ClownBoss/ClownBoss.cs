@@ -14,9 +14,7 @@ public class ClownBoss : BossBase
     [SerializeField] private GameObject chosenBox;
     [SerializeField] private List<float> damageTracker;
     [SerializeField] private List<string> attackNames;
-    [SerializeField] private List<GameObject> balls;
-    [SerializeField] private Animator hammerAnimator;
-    [SerializeField] private GameObject hammer;
+    [SerializeField] private List<GameObject> balls;  
 
 
     [Header("Bomb Attack Variables")]
@@ -232,15 +230,12 @@ public class ClownBoss : BossBase
 
     public IEnumerator HammerSlam()
     {
-        hammer.SetActive(true);
         boxAnimator.Play("Box Hammer");
         animator.Play("Clown Hammer");
-        hammerAnimator.Play("Hammer Slam");
         yield return new WaitForSeconds(GetClipLength("Clown Hammer"));
         GameManager.Instance.Player.TakeDamage(Damage);
         yield return new WaitForSeconds(lingerTime);
         // Play VFX
-        hammer.SetActive(false);
         isAttacking = false;
         transform.SetParent(null);
         RemoveBoxes();
