@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
+using Random = UnityEngine.Random;
 
 public class BulletSpawner : MonoBehaviour
 {
@@ -145,11 +146,14 @@ public class BulletSpawner : MonoBehaviour
                         break;
                 }
 
-                if (currentPattern.patternType != PatternType.Aimed)
+                if (player != null)
                 {
-                    Vector3 toPlayer = (player.position - transform.position).normalized;
-                    Quaternion rotationToPlayer = Quaternion.LookRotation(toPlayer);
-                    dir = rotationToPlayer * dir;
+                    if (currentPattern.patternType != PatternType.Aimed)
+                    {
+                        Vector3 toPlayer = (player.position - transform.position).normalized;
+                        Quaternion rotationToPlayer = Quaternion.LookRotation(toPlayer);
+                        dir = rotationToPlayer * dir;
+                    }
                 }
 
                 GameObject bullet = GetBullet();
@@ -161,6 +165,7 @@ public class BulletSpawner : MonoBehaviour
                 bulletScript.SetDirection(dir * currentPattern.bulletSpeed);
                 bulletScript.DestroyAfter(currentPattern.bulletLifetime);
                 bulletScript.speed = currentPattern.bulletSpeed;
+                bulletScript.SetDamage(boss.Damage);
 
                 bulletsFired++;
             }
@@ -248,7 +253,7 @@ public class BulletSpawner : MonoBehaviour
 
     private Vector3 Random3D()
     {
-        return Random.onUnitSphere.normalized;
+        return UnityEngine.Random.onUnitSphere.normalized;
     }
 
     private Vector3 SineWarpDisk(int i)
@@ -377,12 +382,21 @@ public class BulletSpawner : MonoBehaviour
         int index;
         do
         {
-            index = Random.Range(0, patterns.Count);
+            index = UnityEngine.Random.Range(0, patterns.Count);
         }
         while (index == lastPatternIndex && patterns.Count > 1);
 
         currentPattern = patterns[index];
         lastPatternIndex = index;
+    }
+
+    public void PickSpecificPattern(string name)
+    {
+        if (Enum.TryParse(name, out PatternType parsedPattern))
+        {
+            BulletPatternData pattern = patterns.Find(p => p.patternType == parsedPattern);
+        }
+        StartCoroutine(FireBullets());
     }
 
     private void PickNewUnstablePattern()

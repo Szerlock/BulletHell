@@ -22,8 +22,8 @@ public class ClownStateHandler : StateHandler
             case BossBase.State.Juggling:
                 HandleMoving();
                 break;
-            case BossBase.State.Hiding:
-                HideBoss();
+            case BossBase.State.Conjuring:
+                Conjuring();
                 break;
         }
     }
@@ -49,9 +49,13 @@ public class ClownStateHandler : StateHandler
         }
     }
 
-    public void HideBoss()
+    public void Conjuring()
     {
-    
+        if (!bossType.isConjuring)
+        {
+            bossType.StartConjuring();
+            bossType.currentState = BossBase.State.Attacking;
+        }
     }
 
     public override void HandleWaiting()

@@ -55,6 +55,7 @@ public abstract class EnemyBase : MonoBehaviour
     {
         Debug.Log($"{gameObject.name} died");
         Destroy(gameObject);
+        //GameManager.Instance.RemoveEnemy(this);
     }
 
     public void ApplyBurn(float tickDamage, float interval, float duration)

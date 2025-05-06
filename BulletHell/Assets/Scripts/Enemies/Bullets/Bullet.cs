@@ -5,7 +5,9 @@ public class Bullet : MonoBehaviour
 {
     public float speed;
     private Vector3 direction;
-    private float damage;
+    [SerializeField] private float damage;
+    public bool isBreakable = false;
+    public float health;
 
     public void SetDirection(Vector3 dir)
     {
@@ -29,18 +31,29 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        switch (other.tag)
         {
-            CharacterController3D player = other.GetComponent<CharacterController3D>();
-            if (player != null)
-            {
-                player.TakeDamage(damage);
-            }
+            case "Ground":
+                Destroy(gameObject);
+                break;
+            case "Player":
+                CharacterController3D player = other.GetComponent<CharacterController3D>();
+                if (player != null)
+                {
+                    player.TakeDamage(damage);
+                }
+                break;
+            case "PlayerBullet":
+                if (isBreakable)
+                { 
+                    health -= GameManager.Instance.Player.damage;
+                    if (health <= 0)
+                    {
+                        Destroy(gameObject);
+                    }
+                }
+                break;
         }
-        //else
-        //{
-        //    Disable();
-        //}
     }
 
     void Disable()

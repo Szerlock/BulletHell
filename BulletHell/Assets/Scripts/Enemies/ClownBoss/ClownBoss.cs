@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -54,6 +55,13 @@ public class ClownBoss : BossBase
     private bool movingToEnd = true;
     private bool ropePicked;
 
+    [Header("Conjuring Variables")]
+    public List<Transform> decoySpots;
+    public GameObject decoyPrefab;
+    public List<GameObject> bossDecoys;
+    public Transform decoyTarget;
+
+
     protected override void Start()
     {
         base.Start();
@@ -73,6 +81,12 @@ public class ClownBoss : BossBase
         else
         {
             ropePicked = false;
+        }
+
+        if (isConjuring && bossDecoys.Count == 0)
+        { 
+            isAttacking = false;
+            isConjuring = false;
         }
     }
 
@@ -265,8 +279,35 @@ public class ClownBoss : BossBase
     }
 
     public void StartConjuring()
-    { 
-        
+    {
+        isConjuring = true;
+        StartCoroutine(SpawnDecoys());
+    }
+
+    public IEnumerator SpawnDecoys()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            GameObject decoy = Instantiate(decoyPrefab, decoySpots[i].position, decoySpots[i].rotation);
+            decoy.transform.LookAt(decoyTarget);
+            bossDecoys.Add(decoy);
+
+            if (decoy.TryGetComponent(out Animator animator))
+            {
+                animator.Play("Clown Conjuring");
+            }
+        }
+
+        yield return new WaitForSeconds(GetClipLength("Clown Conjuring"));
+
+        foreach(var decoy in bossDecoys)
+        {
+            if (decoy.TryGetComponent(out BossDecoy bossDecoy))
+            {
+                bossDecoy.target = decoyTarget;
+                bossDecoy.Init();
+            }
+        }
     }
 
     private void ReturnToNormal()
@@ -372,12 +413,19 @@ public class ClownBoss : BossBase
         if(currentHealth <= damageTracker[0])
         {
             damageTracker.RemoveAt(0);
-            StartCoroutine(PlayAnimation("Clown Falling"));
+            Fall();
         }
         if (currentHealth <= currentHealth / 2)
         {
             StartSecondPhase();
         }
+    }
+
+    private void Fall()
+    {
+        transform.LookAt(player);
+        currentState = State.Falling;
+        StartCoroutine(PlayAnimation("Clown Falling"));
     }
 
     protected override void StartSecondPhase()
