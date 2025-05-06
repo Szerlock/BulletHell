@@ -125,6 +125,7 @@ MonoBehaviour:
   speed: 5
   damage: 10
   isBreakable: 1
+  health: 10
 --- !u!54 &-6710482048406075042
 Rigidbody:
   m_ObjectHideFlags: 0

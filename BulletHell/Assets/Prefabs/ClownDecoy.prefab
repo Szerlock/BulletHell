@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c15b4bc705fb06e4d969cc16e3a5c2b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 1582963478826174163, guid: 444a3fe946fda494ba381649afea523e, type: 3}
+  bulletPrefab: {fileID: 1582963478826174163, guid: 8d2f72bc8d80e4f47943b316154471e5, type: 3}
   patterns:
   - {fileID: 11400000, guid: 6fed992f285e6d54994c97aa10e710d1, type: 2}
   unstablePatterns: []
@@ -157,7 +157,7 @@ MonoBehaviour:
   downRange: 0
   bulletSpawner: {fileID: 3061038929063039959}
   target: {fileID: 0}
-  interval: 3
+  interval: 2
 --- !u!136 &4937859077391360968
 CapsuleCollider:
   m_ObjectHideFlags: 0
