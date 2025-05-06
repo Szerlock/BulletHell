@@ -238,6 +238,7 @@ public class ClownBoss : BossBase
         // Play VFX
         isAttacking = false;
         transform.SetParent(null);
+        RemoveBoxes();
     }
 
     public IEnumerator Stunned()
@@ -249,6 +250,15 @@ public class ClownBoss : BossBase
         TakeDamage(GameManager.Instance.Player.damage);
         isAttacking = false;
         transform.SetParent(null);
+        RemoveBoxes();
+    }
+
+    private void RemoveBoxes()
+    {
+        foreach (Transform box in boxList)
+        {
+            Destroy(box.gameObject);
+        }
     }
 
     private IEnumerator MoveToPosition(Transform obj, Vector3 target, float duration, bool rotateToPlayer)
