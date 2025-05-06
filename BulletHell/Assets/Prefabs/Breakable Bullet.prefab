@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 556385514513670086}
   - component: {fileID: -6710482048406075042}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: Breakable Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,6 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   damage: 10
+  isBreakable: 1
 --- !u!54 &-6710482048406075042
 Rigidbody:
   m_ObjectHideFlags: 0

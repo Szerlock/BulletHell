@@ -20,7 +20,6 @@ public class FinalBoss : BossBase
     protected override void Start()
     {
         base.Start();
-        bossStateHandler = new FinalBossStateHandler();
         bossStateHandler.Init(this);
 
         currentHealth = Health;
