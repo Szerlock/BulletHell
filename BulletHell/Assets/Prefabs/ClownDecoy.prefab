@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c15b4bc705fb06e4d969cc16e3a5c2b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 1582963478826174163, guid: 8d2f72bc8d80e4f47943b316154471e5, type: 3}
+  bulletPrefab: {fileID: 7466435494112184850, guid: 5eb1dd4d09c2c2244992156e9276968b, type: 3}
   patterns:
   - {fileID: 11400000, guid: 6fed992f285e6d54994c97aa10e710d1, type: 2}
   unstablePatterns: []
@@ -109,6 +109,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -2843909369972686622, guid: cdb971d91c33e0148bc1afca533e674b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 235114d82074052428d1d6130c345cb4, type: 2}
     - target: {fileID: 919132149155446097, guid: cdb971d91c33e0148bc1afca533e674b, type: 3}
       propertyPath: m_Name
       value: ClownDecoy
