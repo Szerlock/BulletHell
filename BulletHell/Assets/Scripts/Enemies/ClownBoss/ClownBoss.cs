@@ -1,7 +1,9 @@
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ClownBoss : BossBase
 {
@@ -9,6 +11,7 @@ public class ClownBoss : BossBase
     [SerializeField] private List<Transform> rope2;
     [SerializeField] private List<Transform> rope3;
     [SerializeField] private Animator boxAnimator;
+    [SerializeField] private GameObject chosenBox;
     [SerializeField] private List<float> damageTracker;
     [SerializeField] private List<string> attackNames;
     [SerializeField] private List<GameObject> balls;  
@@ -27,6 +30,8 @@ public class ClownBoss : BossBase
     [SerializeField] private List<Transform> boxPositions;
     [SerializeField] private GameObject Box;
     [SerializeField] private Vector3 spawnOffsetRelativeToBox = new Vector3(0, -4, -1.5f);
+    [SerializeField] private float stunDuration;
+    [SerializeField] private float lingerTime;
 
     [Header("RotateBox Variables")]
     public List<Transform> airPositions;
@@ -147,17 +152,22 @@ public class ClownBoss : BossBase
             GameObject spawnedBox = Instantiate(Box, box.position + new Vector3(0, 7, 0), Quaternion.identity);
             Vector3 lookTarget = new Vector3(player.position.x, spawnedBox.transform.position.y, player.position.z);
             spawnedBox.transform.LookAt(lookTarget);
+            spawnedBox.GetComponent<Box>().clownBoss = this;
             boxes.Add(spawnedBox);
             boxList.Add(spawnedBox.transform);
             rotationBoxes.Add(lookTarget);
         }
 
         int index = Random.Range(0, boxPositions.Count);
-        Transform chosenBox = boxes[index].transform;
+        chosenBox = boxes[index];
+        chosenBox.GetComponent<Box>().ChoosenBox = true;
 
 
+        boxAnimator = chosenBox.GetComponent<Animator>();
+        boxAnimator.Play("Box Reveal"); 
         animator.Play("Clown Reveal");
-        transform.parent = chosenBox;
+        
+        transform.parent = chosenBox.transform;
         transform.localPosition = spawnOffsetRelativeToBox;
 
         Vector3 target = new Vector3(player.position.x, transform.position.y, player.position.z);
@@ -178,7 +188,7 @@ public class ClownBoss : BossBase
         // Spin Boxes
         for (int i = 0; i < boxList.Count; i++)
         {
-            StartCoroutine(MoveToPosition(boxList[i], airPositions[i].position, moveDuration));
+            StartCoroutine(MoveToPosition(boxList[i], airPositions[i].position, moveDuration, false));
             StartCoroutine(SpinBox(boxList[i]));
         }
         yield return new WaitForSeconds(moveDuration + 0.1f);
@@ -191,8 +201,8 @@ public class ClownBoss : BossBase
             if (a != b)
             {
                 Vector3 temp = boxList[a].position;
-                StartCoroutine(MoveToPosition(boxList[a], boxList[b].position, 0.3f));
-                StartCoroutine(MoveToPosition(boxList[b], temp, 0.3f));
+                StartCoroutine(MoveToPosition(boxList[a], boxList[b].position, 0.3f, false));
+                StartCoroutine(MoveToPosition(boxList[b], temp, 0.3f, false));
             }
 
             elapsed += waitingTime;
@@ -209,14 +219,39 @@ public class ClownBoss : BossBase
             int chosenGroundIndex = availableIndices[randomIndex];
             availableIndices.RemoveAt(randomIndex);
 
-            StartCoroutine(MoveToPosition(boxList[i], boxPositions[chosenGroundIndex].position + new Vector3(0, 7, 0), moveDuration));
+            Transform box = boxList[i];
+            Vector3 targetPos = boxPositions[chosenGroundIndex].position + new Vector3(0, 7, 0);
+            StartCoroutine(MoveToPosition(box, targetPos, moveDuration, true));
         }
 
         yield return new WaitForSeconds(moveDuration + 0.1f);
 
     }
 
-    private IEnumerator MoveToPosition(Transform obj, Vector3 target, float duration)
+    public IEnumerator HammerSlam()
+    {
+        boxAnimator.Play("Box Hammer");
+        animator.Play("Clown Hammer");
+        yield return new WaitForSeconds(GetClipLength("Clown Hammer"));
+        GameManager.Instance.Player.TakeDamage(Damage);
+        yield return new WaitForSeconds(lingerTime);
+        // Play VFX
+        isAttacking = false;
+        transform.SetParent(null);
+    }
+
+    public IEnumerator Stunned()
+    {
+        boxAnimator.Play("Box Hammer");
+        animator.Play("Clown Stunned");
+        yield return new WaitForSeconds(stunDuration);
+        // Play VFX
+        TakeDamage(GameManager.Instance.Player.damage);
+        isAttacking = false;
+        transform.SetParent(null);
+    }
+
+    private IEnumerator MoveToPosition(Transform obj, Vector3 target, float duration, bool rotateToPlayer)
     {
         Vector3 start = obj.position;
         float elapsed = 0f;
@@ -229,6 +264,25 @@ public class ClownBoss : BossBase
         }
 
         obj.position = target;
+
+        if (rotateToPlayer)
+        {
+            Quaternion startRot = obj.rotation;
+            Vector3 lookTarget = new Vector3(0, obj.position.y, player.position.z);
+            Quaternion targetRot = Quaternion.LookRotation(lookTarget - obj.position);
+
+            float t = 0f;
+            float rotDuration = 0.2f;
+
+            while (t < rotDuration)
+            {
+                obj.rotation = Quaternion.Slerp(startRot, targetRot, t / rotDuration);
+                t += Time.deltaTime;
+                yield return null;
+            }
+
+            obj.rotation = targetRot;
+        }
     }
 
     private IEnumerator SpinBox(Transform box)

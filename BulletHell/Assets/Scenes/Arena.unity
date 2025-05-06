@@ -4670,9 +4670,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 409125288}
     - target: {fileID: 8842420740122079421, guid: f1b96d569ec18074ca3066d77f27542c, type: 3}
+      propertyPath: lingerTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842420740122079421, guid: f1b96d569ec18074ca3066d77f27542c, type: 3}
       propertyPath: boxAnimator
       value: 
-      objectReference: {fileID: 6511590308784222554, guid: 8792327d2ccfe52489a660f7877149bc, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 8842420740122079421, guid: f1b96d569ec18074ca3066d77f27542c, type: 3}
       propertyPath: waitingTime
       value: 1.2
@@ -4690,12 +4694,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1174836388}
     - target: {fileID: 8842420740122079421, guid: f1b96d569ec18074ca3066d77f27542c, type: 3}
+      propertyPath: stunDuration
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842420740122079421, guid: f1b96d569ec18074ca3066d77f27542c, type: 3}
       propertyPath: WaitingTimeBomb
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8842420740122079421, guid: f1b96d569ec18074ca3066d77f27542c, type: 3}
       propertyPath: shuffleDuration
-      value: 10
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8842420740122079421, guid: f1b96d569ec18074ca3066d77f27542c, type: 3}
       propertyPath: balls.Array.size

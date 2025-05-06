@@ -8,6 +8,7 @@ TagManager:
   - EnemyBullet
   - OilZone
   - Ground
+  - PlayerBullet
   layers:
   - Default
   - TransparentFX
