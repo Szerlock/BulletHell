@@ -42,17 +42,13 @@ public class BossBase : EnemyBase
         Hiding,
         Laying,
         Falling,
-        Conjuring
+        Conjuring,
+        Unstable,
     }
 
     protected override void Start()
     {
         base.Start();
-        bossStateHandler.Init(this);
-
-        currentHealth = Health;
-        moveTimer = moveCooldown;
-        GameManager.Instance.currentBoss = this;
         //bossStateHandler.HandleWaiting();
     }
 

@@ -68,10 +68,6 @@ public class ClownBoss : BossBase
     {
         base.Start();
         bossStateHandler.Init(this);
-
-        currentHealth = Health;
-        moveTimer = moveCooldown;
-        GameManager.Instance.currentBoss = this;
     }
 
     private void Update()

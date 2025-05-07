@@ -17,6 +17,10 @@ public class MiniBallerinaBoss : BossBase
     [SerializeField] private float timeBetweenTransitions;
     private Coroutine danceRoutine;
 
+    [Header("AirAttack")]
+    [SerializeField] private float airRadiusCooldown;
+    [SerializeField] private float airPosition; 
+
     protected override void Start()
     {
         base.Start();
@@ -75,7 +79,6 @@ public class MiniBallerinaBoss : BossBase
 
     public void AnimateChainRadius(float targetRadius, float duration)
     {
-        StopAllCoroutines();
         StartCoroutine(AnimateRadiusCoroutine(targetRadius, duration));
     }
 

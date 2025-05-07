@@ -21,10 +21,6 @@ public class FinalBoss : BossBase
     {
         base.Start();
         bossStateHandler.Init(this);
-
-        currentHealth = Health;
-        moveTimer = moveCooldown;
-        GameManager.Instance.currentBoss = this;
     }
 
     private void Update()

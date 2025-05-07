@@ -628,8 +628,9 @@ MonoBehaviour:
   - {fileID: 397106030}
   chainRadius: 10
   chainExpandSpeed: 1
-  orbitSpeed: 2
+  orbitSpeed: 20
   danceRadii:
+  - 10
   - 20
   - 30
   - 40
