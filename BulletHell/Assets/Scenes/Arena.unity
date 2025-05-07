@@ -1249,13 +1249,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d282edc0c0d421d4c9060f4b44bf7e4a, type: 2}
   - {fileID: 11400000, guid: 532ad72094c4e9f48acfce2713ec19ae, type: 2}
   - {fileID: 11400000, guid: 22c09b6e369ed304584b78ca49092509, type: 2}
-  - {fileID: 11400000, guid: 8908eb26518d4c4488a5971e7a0b0c4c, type: 2}
   - {fileID: 11400000, guid: 969e42af72335ad4f8e524305bc94f84, type: 2}
   - {fileID: 11400000, guid: 693c9a0cbfb26b141a3aa28604c1e0e6, type: 2}
   - {fileID: 11400000, guid: 9f2a57efafacf19478730378185d84b7, type: 2}
-  - {fileID: 11400000, guid: 57ed7e1511e8b3e4fbdbaf1b6d3dbdfc, type: 2}
   unstablePatterns: []
   player: {fileID: 0}
+  currentPattern: {fileID: 0}
   boss: {fileID: 0}
 --- !u!1 &394432961
 GameObject:
@@ -5432,6 +5431,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 969e42af72335ad4f8e524305bc94f84, type: 2}
   unstablePatterns: []
   player: {fileID: 0}
+  currentPattern: {fileID: 0}
   boss: {fileID: 0}
 --- !u!4 &1745018683
 Transform:
