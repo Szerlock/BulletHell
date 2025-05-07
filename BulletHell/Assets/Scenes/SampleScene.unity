@@ -457,6 +457,10 @@ MonoBehaviour:
   Health: 500
   Damage: 10
   currentHealth: 200
+  animator: {fileID: 0}
+  horizontalRange: 0.5
+  upRange: 0
+  downRange: 0
   MovePositions:
   - {fileID: 2072690875}
   - {fileID: 655022761}
@@ -465,13 +469,27 @@ MonoBehaviour:
   bulletSpawner: {fileID: 304759818}
   fireRate: 3
   fireCooldown: 0
+  unstableFireCooldown: 0
   player: {fileID: 1551142768}
-  bossStateHandler: {fileID: 788263777}
+  isPlayingPose: 0
+  isAttacking: 0
+  bossStateHandler: {fileID: 0}
   moveCooldown: 0
   moveTimer: 0
   isMoving: 0
   hasTarget: 0
+  isUnstable: 0
+  isConjuring: 0
+  SecondPhase: 0
   currentState: 0
+  pose1Clips: []
+  pose2Clips: []
+  pose3Clips: []
+  idleStateName: BallerinaIdle
+  conjuringClips: []
+  unstableClips: []
+  rotationSpeed: 0
+  rotator: {fileID: 0}
 --- !u!4 &299034632
 Transform:
   m_ObjectHideFlags: 0
@@ -611,6 +629,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9f2a57efafacf19478730378185d84b7, type: 2}
   - {fileID: 11400000, guid: 57ed7e1511e8b3e4fbdbaf1b6d3dbdfc, type: 2}
   - {fileID: 11400000, guid: 969e42af72335ad4f8e524305bc94f84, type: 2}
+  unstablePatterns: []
   player: {fileID: 1551142768}
 --- !u!4 &304759819
 Transform:
@@ -1389,6 +1408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllEnemies: []
+  currentBoss: {fileID: 0}
   Player: {fileID: 1551142771}
 --- !u!4 &610203250
 Transform:
@@ -1812,6 +1832,10 @@ MonoBehaviour:
   shakeMagnitude: 0
   shakeFrequency: 0
   shakeCam: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  minigunOffset: {x: 0, y: 0, z: 0}
+  minigun: {fileID: 0}
+  followMinigun: {fileID: 0}
 --- !u!1 &939418731
 GameObject:
   m_ObjectHideFlags: 0
@@ -2420,6 +2444,9 @@ MonoBehaviour:
   controller: {fileID: 1551142769}
   cameraTransform: {fileID: 330585546}
   minigun: {fileID: 0}
+  pushForce: 0
+  duration: 0
+  upwardForce: 0
   isGrounded: 0
   groundCheck: {fileID: 668194335}
   groundDistance: 0.4
@@ -2431,11 +2458,6 @@ MonoBehaviour:
   dashDuration: 0.2
   dashCooldown: 1
   isAiming: 0
-  rotationSpeed: 5
-  pitchMin: -30
-  pitchMax: 60
-  yaw: 0
-  pitch: 15
   offset: {x: 0, y: 0, z: 0}
 --- !u!114 &1551142771
 MonoBehaviour:

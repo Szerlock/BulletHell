@@ -173,7 +173,7 @@ public class FinalBoss : BossBase
         }
     }
 
-    protected override void StartSecondPhase()
+    public override void StartSecondPhase()
     {
         SecondPhase = true;
         fireCooldown = unstableFireCooldown;

@@ -15,8 +15,10 @@ public class ClownBoss : BossBase
     [SerializeField] private GameObject chosenBox;
     [SerializeField] private List<float> damageTracker;
     [SerializeField] private List<string> attackNames;
-    [SerializeField] private List<GameObject> balls;  
+    [SerializeField] private List<GameObject> balls;
 
+    [Header("Unstable")]
+    [SerializeField] private ChangeMaterial changeMaterial;
 
     [Header("Bomb Attack Variables")]
     [SerializeField] private List<Transform> bombTargets;
@@ -286,6 +288,7 @@ public class ClownBoss : BossBase
 
     public IEnumerator SpawnDecoys()
     {
+        isAttacking = true;
         for (int i = 0; i < 5; i++)
         {
             GameObject decoy = Instantiate(decoyPrefab, decoySpots[i].position, decoySpots[i].rotation);
@@ -410,12 +413,12 @@ public class ClownBoss : BossBase
     public override void TakeDamage(float amount)
     {
         base.TakeDamage(amount);
-        if(currentHealth <= damageTracker[0])
+        if(damageTracker.Count > 0 && currentHealth <= damageTracker[0])
         {
             damageTracker.RemoveAt(0);
             Fall();
         }
-        if (currentHealth <= currentHealth / 2)
+        if (currentHealth <= Health / 2)
         {
             StartSecondPhase();
         }
@@ -428,10 +431,11 @@ public class ClownBoss : BossBase
         StartCoroutine(PlayAnimation("Clown Falling"));
     }
 
-    protected override void StartSecondPhase()
+    public override void StartSecondPhase()
     {
         SecondPhase = true;
         fireCooldown = unstableFireCooldown;
+        changeMaterial.ChangeMat(true);
     }
 
     private IEnumerator PlayAnimation(string name)

@@ -29,8 +29,11 @@ public class FloatingText : MonoBehaviour
     {
         initialOffset += Vector3.up * floatSpeed * Time.deltaTime;
 
-        transform.position = unit.position + initialOffset;
-        transform.rotation = Quaternion.LookRotation(transform.position - mainCam.transform.position);
+        if (transform != null && unit != null)
+        {
+            transform.position = unit.position + initialOffset;
+            transform.rotation = Quaternion.LookRotation(transform.position - mainCam.transform.position);
+        }
     }
         
     public void SetText(string value)

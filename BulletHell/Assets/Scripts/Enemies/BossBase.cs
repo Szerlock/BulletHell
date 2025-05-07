@@ -111,7 +111,7 @@ public class BossBase : EnemyBase
     }
     protected virtual void OnStartMoving() { }
 
-    protected virtual void StartSecondPhase() { }
+    public virtual void StartSecondPhase() { }
     //public override void OnEnable()
     //{
     //    GameManager.Instance.currentBoss = this;
