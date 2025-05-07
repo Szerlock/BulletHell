@@ -16,7 +16,7 @@ MonoBehaviour:
   bulletsPerWave: 15
   spiralSpeed: 2
   bulletSpeed: 10
-  bulletLifetime: 5
+  bulletLifetime: 8
   fireRate: 0.1
   totalBullets: 200
   numberOfLayers: 1

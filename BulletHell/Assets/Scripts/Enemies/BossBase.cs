@@ -49,7 +49,6 @@ public class BossBase : EnemyBase
     protected override void Start()
     {
         base.Start();
-        //bossStateHandler.HandleWaiting();
     }
 
     private void FixedUpdate()

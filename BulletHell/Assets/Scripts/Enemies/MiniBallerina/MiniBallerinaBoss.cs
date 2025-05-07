@@ -8,6 +8,7 @@ public class MiniBallerinaBoss : BossBase
     [SerializeField] private float chainRadius;
     [SerializeField] private float chainExpandSpeed;
     [SerializeField] private float orbitSpeed;
+    public bool isFiring = false;
 
     private float currentRadius;
 
@@ -16,16 +17,18 @@ public class MiniBallerinaBoss : BossBase
     [SerializeField] private float transitionDuration;
     [SerializeField] private float timeBetweenTransitions;
     private Coroutine danceRoutine;
+    [SerializeField] private float minRadiusDifference = 10;
 
     [Header("AirAttack")]
     [SerializeField] private float airRadiusCooldown;
-    [SerializeField] private float airPosition; 
+    [SerializeField] private float airPosition;
+    [SerializeField] private float airRadius;
 
     protected override void Start()
     {
         base.Start();
 
-        //bossStateHandler.Init(this);
+        bossStateHandler.Init(this);
 
         currentHealth = Health;
         GameManager.Instance.currentBoss = this;
@@ -70,10 +73,14 @@ public class MiniBallerinaBoss : BossBase
     {
         while (true)
         {
-            float newRadius = danceRadii[UnityEngine.Random.Range(0, danceRadii.Count)];
-            AnimateChainRadius(newRadius, transitionDuration);
+            float newRadius = danceRadii[Random.Range(0, danceRadii.Count)];
 
-            yield return new WaitForSeconds(timeBetweenTransitions);
+            if (Mathf.Abs(newRadius - Mathf.Abs(currentRadius)) <= minRadiusDifference)
+            {
+                newRadius *= -1f;
+            }
+            AnimateChainRadius(newRadius, transitionDuration);
+            yield return new WaitForSeconds(Random.Range(5, timeBetweenTransitions));
         }
     }
 
@@ -101,5 +108,33 @@ public class MiniBallerinaBoss : BossBase
     public float GetChainRadius()
     {
         return currentRadius;
+    }
+
+    public void BallerinasFire()
+    {
+        isFiring = true;
+        foreach (BallerinaUnit ballerina in ballerinas)
+        {
+            ballerina.bulletSpawner.StartFiring();
+        }
+    }
+
+    public bool IsBallerinaAttackFinished()
+    {
+        bool finished = false;
+        foreach (BallerinaUnit ballerina in ballerinas)
+        {
+            finished = ballerina.bulletSpawner.AttackFinished();
+        }
+        return finished;
+    }
+
+    public void ResetAttack()
+    {
+        isFiring = false;
+        foreach (BallerinaUnit ballerina in ballerinas)
+        {
+            ballerina.bulletSpawner.ResetAttack();
+        }
     }
 }

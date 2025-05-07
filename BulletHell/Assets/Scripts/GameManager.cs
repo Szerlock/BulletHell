@@ -23,8 +23,11 @@ public class GameManager : MonoBehaviour
 
     public void AddEnemy(EnemyBase enemy)
     {
-
-            AllEnemies.Add(enemy);
+        AllEnemies.Add(enemy);
+        if (currentBoss == null)
+        {
+            currentBoss = (BossBase)enemy;
+        }
     }
 
     public void RemoveEnemy(EnemyBase enemy)

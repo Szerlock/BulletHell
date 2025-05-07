@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Data.Common;
 using UnityEngine;
 
@@ -8,6 +9,9 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float damage;
     public bool isBreakable = false;
     public float health;
+    [SerializeField] public float lifeTime;
+    private Coroutine lifeCoroutine;
+
 
     public void SetDirection(Vector3 dir)
     {
@@ -19,14 +23,9 @@ public class Bullet : MonoBehaviour
         damage = dmg;
     }
 
-    void Update()
+    public void Move(float dt)
     {
-        transform.position += direction * speed * Time.deltaTime;
-    }
-
-    public void DestroyAfter(float seconds)
-    {
-        Invoke(nameof(Disable), seconds);
+        transform.position += direction * speed * dt;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -34,14 +33,15 @@ public class Bullet : MonoBehaviour
         switch (other.tag)
         {
             case "Ground":
-                Destroy(gameObject);
+                Disable();
                 break;
             case "Player":
-                CharacterController3D player = other.GetComponent<CharacterController3D>();
+                CharacterController3D player = GameManager.Instance.Player;
                 if (player != null)
                 {
                     player.TakeDamage(damage);
                 }
+                Disable();
                 break;
             case "PlayerBullet":
                 if (isBreakable)
@@ -49,7 +49,7 @@ public class Bullet : MonoBehaviour
                     health -= GameManager.Instance.Player.damage;
                     if (health <= 0)
                     {
-                        Destroy(gameObject);
+                        Disable();
                     }
                 }
                 break;
@@ -58,7 +58,29 @@ public class Bullet : MonoBehaviour
 
     void Disable()
     {
-        // Send back to pool
-        gameObject.SetActive(false);
+        BulletPool.Instance.ReturnBullet(gameObject);
+        Debug.Log("disabling");
+    }
+
+    void OnEnable()
+    {
+        BulletManager.Instance.Register(this);
+        lifeCoroutine = StartCoroutine(LifeTimer());
+    }
+
+    void OnDisable()
+    {
+        BulletManager.Instance.Unregister(this);
+        if (lifeCoroutine != null)
+        {
+            StopCoroutine(lifeCoroutine);
+            lifeCoroutine = null;
+        }
+    }
+
+    private IEnumerator LifeTimer()
+    {
+        yield return new WaitForSeconds(lifeTime);
+        Disable();
     }
 }

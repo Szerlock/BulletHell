@@ -20,24 +20,37 @@ public class BulletSpawner : MonoBehaviour
     private bool isFiring = false;
     private Vector3 spawnOffset = Vector3.zero;
 
-    private BossBase boss;
+    public BossBase boss;
 
     void Start()
     {
         PickNewPattern();
-        boss = GameManager.Instance.currentBoss;
+        player = GameManager.Instance.Player.transform;
+        if (boss == null)
+            boss = GameManager.Instance.currentBoss;
     }
 
+    [ContextMenu("Fire")]
     public void StartFiring()
     {
         if (boss.isConjuring)
-            return;
+        return;
 
         if (!isFiring)
         {
             isFiring = true;
-            if (!boss.SecondPhase)
+            if (boss.isConjuring)
+            {
+                PickNewUnstablePattern();
+            }
+            else if (!boss.SecondPhase)
+            {
                 PickNewPattern();
+            }
+            if (!boss.SecondPhase)
+            {
+                PickNewPattern();
+            }
             else
             {
                 PickNewUnstablePattern();
@@ -49,7 +62,7 @@ public class BulletSpawner : MonoBehaviour
 
     private IEnumerator FireBullets()
     {
-        if (boss.SecondPhase)
+        if (boss != null && boss.SecondPhase)
             yield return new WaitForSeconds(2f);
         while (bulletsFired < currentPattern.totalBullets)
         {
@@ -156,15 +169,14 @@ public class BulletSpawner : MonoBehaviour
                     }
                 }
 
-                GameObject bullet = GetBullet();
+                GameObject bullet = BulletPool.Instance.GetBullet();
                 bullet.transform.position = transform.position + spawnOffset;
                 bullet.transform.rotation = Quaternion.identity;
-                bullet.SetActive(true);
 
                 Bullet bulletScript = bullet.GetComponent<Bullet>();
                 bulletScript.SetDirection(dir * currentPattern.bulletSpeed);
-                bulletScript.DestroyAfter(currentPattern.bulletLifetime);
                 bulletScript.speed = currentPattern.bulletSpeed;
+                bulletScript.lifeTime = currentPattern.bulletLifetime;
                 bulletScript.SetDamage(boss.Damage);
 
                 bulletsFired++;
@@ -410,12 +422,6 @@ public class BulletSpawner : MonoBehaviour
 
         currentPattern = unstablePatterns[index];
         lastPatternIndex = index;
-    }
-
-    private GameObject GetBullet()
-    {
-        // Replace this with a pool manager in production
-        return Instantiate(bulletPrefab);
     }
 
     public void ResetAttack()

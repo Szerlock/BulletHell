@@ -18,6 +18,6 @@ MonoBehaviour:
   bulletSpeed: 10
   bulletLifetime: 5
   fireRate: 0.2
-  totalBullets: 500
-  numberOfLayers: 5
+  totalBullets: 300
+  numberOfLayers: 2
   layerSpacing: 0.6

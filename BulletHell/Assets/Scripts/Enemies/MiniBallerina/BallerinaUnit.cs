@@ -5,10 +5,12 @@ public class BallerinaUnit : MonoBehaviour
     private MiniBallerinaBoss boss;
     private Vector3 targetPosition;
     [SerializeField] private float rotateSpeed = 360f;
+    public BulletSpawner bulletSpawner;
 
     public void Init(MiniBallerinaBoss bossController)
     {
         boss = bossController;
+        bulletSpawner.boss = bossController;
     }
 
     public void MoveToPosition(Vector3 position)    

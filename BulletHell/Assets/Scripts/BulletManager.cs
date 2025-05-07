@@ -1,0 +1,35 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BulletManager : MonoBehaviour
+{
+    private readonly List<Bullet> activeBullets = new();
+    public static BulletManager Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    void Update()
+    {
+        float dt = Time.deltaTime;
+
+        for (int i = activeBullets.Count - 1; i >= 0; i--)
+        {
+            Bullet b = activeBullets[i];
+            b.Move(dt);
+        }
+    }
+
+    public void Register(Bullet bullet)
+    {
+        if (!activeBullets.Contains(bullet))
+            activeBullets.Add(bullet);
+    }
+
+    public void Unregister(Bullet bullet)
+    {
+        activeBullets.Remove(bullet);
+    }
+}

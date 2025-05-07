@@ -3,28 +3,53 @@ using UnityEngine;
 public class MiniBallerinaStateHandler : StateHandler
 {
     private MiniBallerinaBoss ballerina;
+    private float currentfireCooldown;
+
+    public override void Init(BossBase bossInstance)
+    {
+        ballerina = bossInstance as MiniBallerinaBoss;
+        currentfireCooldown = ballerina.fireCooldown;
+    }
+
+    public override void Update()
+    {
+        switch (ballerina.currentState)
+        {
+            case BossBase.State.Attacking:
+                HandleAttacking();
+                break;
+            case BossBase.State.Waiting:
+                HandleWaiting();
+                break;
+        }
+    }
 
     public override void HandleAttacking()
     {
-        throw new System.NotImplementedException();
+        currentfireCooldown = ballerina.fireCooldown;
+
+        if(!ballerina.isFiring)
+        ballerina.BallerinasFire();
+
+        if (ballerina.IsBallerinaAttackFinished())
+        {
+            ballerina.currentState = BossBase.State.Waiting;
+            ballerina.ResetAttack();
+        }
+    }
+
+    public override void HandleWaiting()
+    {
+        currentfireCooldown -= Time.deltaTime;
+
+        if (currentfireCooldown <= 0f)
+        {
+            ballerina.currentState = BossBase.State.Attacking;
+        }
     }
 
     public override void HandleMoving()
     {
         throw new System.NotImplementedException();
-    }
-
-    public override void HandleWaiting()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void Init(BossBase bossInstance)
-    {
-        ballerina = bossInstance as MiniBallerinaBoss;
-    }
-
-    public override void Update()
-    {
     }
 }
