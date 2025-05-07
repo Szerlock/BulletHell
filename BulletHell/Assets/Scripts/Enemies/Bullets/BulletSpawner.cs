@@ -12,7 +12,7 @@ public class BulletSpawner : MonoBehaviour
 
     public Transform player;
     private int lastPatternIndex = -1;
-    private BulletPatternData currentPattern;
+    public BulletPatternData currentPattern;
 
     private float currentAngle = 0f;
     private bool attackFinished = false;
@@ -39,11 +39,7 @@ public class BulletSpawner : MonoBehaviour
         if (!isFiring)
         {
             isFiring = true;
-            if (boss.isConjuring)
-            {
-                PickNewUnstablePattern();
-            }
-            else if (!boss.SecondPhase)
+            if (!boss.SecondPhase)
             {
                 PickNewPattern();
             }
@@ -58,6 +54,11 @@ public class BulletSpawner : MonoBehaviour
             }
             StartCoroutine(FireBullets());
         }
+    }
+
+    public void Fire()
+    { 
+        StartCoroutine(FireBullets());
     }
 
     private IEnumerator FireBullets()
@@ -170,6 +171,11 @@ public class BulletSpawner : MonoBehaviour
                 }
 
                 GameObject bullet = BulletPool.Instance.GetBullet();
+                if (bullet == null)
+                {
+                    bulletsFired++;
+                    continue;
+                }
                 bullet.transform.position = transform.position + spawnOffset;
                 bullet.transform.rotation = Quaternion.identity;
 
@@ -185,6 +191,7 @@ public class BulletSpawner : MonoBehaviour
             if (currentPattern.patternType == PatternType.Spiral || currentPattern.patternType == PatternType.LayeredSpiral)
                 currentAngle += currentPattern.spiralSpeed;
         }
+        Debug.Log(currentPattern.name);
     }
 
     private Vector3 LayeredSpiralPattern(int i, int layer)
@@ -389,17 +396,22 @@ public class BulletSpawner : MonoBehaviour
         return attackFinished;
     }
 
-    private void PickNewPattern()
+    public void PickNewPattern()
     {
         int index;
         do
         {
-            index = UnityEngine.Random.Range(0, patterns.Count);
+            index = Random.Range(0, patterns.Count);
         }
         while (index == lastPatternIndex && patterns.Count > 1);
 
         currentPattern = patterns[index];
         lastPatternIndex = index;
+    }
+
+    public void SetPattern(BulletPatternData pattern)
+    { 
+        currentPattern = pattern;
     }
 
     public void PickSpecificPattern(string name)

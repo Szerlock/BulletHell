@@ -113,14 +113,16 @@ public class MiniBallerinaBoss : BossBase
     public void BallerinasFire()
     {
         isFiring = true;
+        bulletSpawner.PickNewPattern();
         foreach (BallerinaUnit ballerina in ballerinas)
         {
-            ballerina.bulletSpawner.StartFiring();
+            ballerina.bulletSpawner.SetPattern(bulletSpawner.currentPattern);
+            ballerina.bulletSpawner.Fire();
         }
     }
 
     public bool IsBallerinaAttackFinished()
-    {
+    {   
         bool finished = false;
         foreach (BallerinaUnit ballerina in ballerinas)
         {
