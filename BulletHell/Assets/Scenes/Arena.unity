@@ -731,12 +731,12 @@ MonoBehaviour:
   transitionDuration: 2
   timeBetweenTransitions: 7
   minRadiusDifference: 10
-  airAttackCooldown: 10
+  airAttackCooldown: 30
   airPosition: {x: 0, y: 25, z: 0}
   airRadius: 25
   airTransitionDuration: 4
   timerAir: 0
-  boxCenter: {x: 0, y: 2, z: 0}
+  boxCenter: {x: 0, y: 3, z: 0}
   boxSize: {x: 90, y: 4, z: 80}
 --- !u!4 &276203756
 Transform:

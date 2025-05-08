@@ -219,9 +219,11 @@ public class MiniBallerinaBoss : BossBase
         }
     }
 
+    [ContextMenu("Second Phase")]
     public override void StartSecondPhase()
     {
         currentState = State.Unstable;
+        StopAllCoroutines();
         foreach (BallerinaUnit ballerina in ballerinas)
         {
             ballerina.changeMaterial.ChangeMat(true);

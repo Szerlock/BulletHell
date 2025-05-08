@@ -45,6 +45,9 @@ public class MiniBallerinaStateHandler : StateHandler
     {
         currentfireCooldown -= Time.deltaTime;
 
+        if(currentfireCooldown <= 0f)
+            ballerina.currentState = BossBase.State.Unstable;
+
         if (currentfireCooldown <= 0f)
         {
             ballerina.currentState = BossBase.State.Attacking;
