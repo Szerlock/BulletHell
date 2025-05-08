@@ -9,6 +9,7 @@ TagManager:
   - OilZone
   - Ground
   - PlayerBullet
+  - MiniBallerina
   layers:
   - Default
   - TransparentFX

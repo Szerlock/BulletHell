@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MiniBallerinaBoss : BossBase
@@ -9,6 +11,7 @@ public class MiniBallerinaBoss : BossBase
     [SerializeField] private float chainExpandSpeed;
     [SerializeField] private float orbitSpeed;
     public bool isFiring = false;
+    [SerializeField] private ChangeMaterial changeMaterial;
 
     private float currentRadius;
 
@@ -20,9 +23,15 @@ public class MiniBallerinaBoss : BossBase
     [SerializeField] private float minRadiusDifference = 10;
 
     [Header("AirAttack")]
-    [SerializeField] private float airRadiusCooldown;
-    [SerializeField] private float airPosition;
+    [SerializeField] private float airAttackCooldown;
+    [SerializeField] private Vector3 airPosition;
     [SerializeField] private float airRadius;
+    [SerializeField] private float airTransitionDuration;
+    [SerializeField] private float timerAir;
+
+    [Header("Unstable")]
+    [SerializeField] private Vector3 boxCenter;
+    [SerializeField] private Vector3 boxSize;
 
     protected override void Start()
     {
@@ -35,11 +44,13 @@ public class MiniBallerinaBoss : BossBase
 
         currentRadius = chainRadius;
 
+        float miniHealth = currentHealth / 5;
+
         foreach(BallerinaUnit ballerina in ballerinas)
         {
-            ballerina.Init(this);
+            ballerina.Init(this, miniHealth);
         }
-
+        timerAir = airAttackCooldown;
         StartDanceRoutine();
     }
 
@@ -47,7 +58,15 @@ public class MiniBallerinaBoss : BossBase
     {
         currentRadius = Mathf.Lerp(currentRadius, chainRadius, Time.deltaTime * chainExpandSpeed);
 
-        UpdateBallerinaPositions();
+        if(!isAttacking)
+        timerAir -= Time.deltaTime;
+        if (timerAir <= 0 && currentState != State.Unstable)
+        {
+            PerformAirAttack();
+        }
+
+        if(currentState != State.Unstable)
+            UpdateBallerinaPositions();
     }
 
     private void UpdateBallerinaPositions()
@@ -138,5 +157,114 @@ public class MiniBallerinaBoss : BossBase
         {
             ballerina.bulletSpawner.ResetAttack();
         }
+    }
+    public void PerformAirAttack()
+    {
+        timerAir = airAttackCooldown;
+        isAttacking = true;
+        currentState = State.Conjuring;
+        StopAllCoroutines();
+        float chainRadius;
+        if (currentRadius < 0)
+            chainRadius = -airRadius;
+        else
+            chainRadius = airRadius;
+        AnimateChainRadius(chainRadius, transitionDuration);
+        StartCoroutine(ConjuringSequence());
+    }
+
+    private IEnumerator ConjuringSequence()
+    {
+
+        float elapsed = 0f;
+        Vector3 startPos = transform.position;
+        Vector3 airPos = airPosition;
+
+        while (elapsed < airTransitionDuration)
+        {
+            transform.position = Vector3.Lerp(startPos, airPos, elapsed / airTransitionDuration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = airPos;
+        
+        bulletSpawner.StartFiring();
+        yield return new WaitUntil(() => bulletSpawner.AttackFinished() == true);
+        currentState = State.Waiting;
+
+        elapsed = 0f;
+
+        while (elapsed < airTransitionDuration)
+        {
+            transform.position = Vector3.Lerp(airPos, startPos, elapsed / airTransitionDuration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = startPos;
+        bulletSpawner.ResetAttack();
+        isAttacking = false;
+
+        StartDanceRoutine();
+    }
+
+    public override void TakeDamage(float amount)
+    {
+        currentHealth -= amount;
+        if (currentHealth < Health / 2)
+            StartSecondPhase();
+        if (currentHealth < 0f)
+        {
+            Die();
+        }
+    }
+
+    public override void StartSecondPhase()
+    {
+        currentState = State.Unstable;
+        foreach (BallerinaUnit ballerina in ballerinas)
+        {
+            ballerina.changeMaterial.ChangeMat(true);
+        }
+        StartCoroutine(RunAroundBox());
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireCube(boxCenter, boxSize);
+    }
+
+    public void UnstableAttack()
+    {
+        isFiring = true;
+        foreach (BallerinaUnit ballerina in ballerinas)
+        {
+            ballerina.bulletSpawner.StartFiring();
+        }
+    }
+
+    private IEnumerator RunAroundBox()
+    {
+        while (currentState == State.Unstable)
+        {
+            for (int i = 0; i < ballerinas.Count; i++)
+            {
+                Vector3 nextPos = GetRandomPointInBox();
+                ballerinas[i].MoveToPosition(nextPos);
+                yield return new WaitUntil(() => ballerinas[i].HasReachedTarget());
+                yield return new WaitForSeconds(Random.Range(0.5f, 2f));
+            }
+        }
+    }
+
+    private Vector3 GetRandomPointInBox()
+    {
+        Vector3 halfSize = boxSize * 0.5f;
+        return new Vector3(
+            Random.Range(boxCenter.x - halfSize.x, boxCenter.x + halfSize.x),
+            boxCenter.y,
+            Random.Range(boxCenter.z - halfSize.z, boxCenter.z + halfSize.z)
+        );
     }
 }

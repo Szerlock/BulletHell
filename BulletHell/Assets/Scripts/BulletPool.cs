@@ -13,6 +13,7 @@ public class BulletPool : MonoBehaviour
 
     public Queue<GameObject> pool = new Queue<GameObject>();
     private int currentSize;
+    private bool isExpanding = false;
 
     private void Awake()
     {
@@ -29,6 +30,7 @@ public class BulletPool : MonoBehaviour
 
     private IEnumerator ExpandPoolCoroutine()
     {
+        isExpanding = true;
         int expandCount = Mathf.Min(expand, maxPoolSize - currentSize);
         int batchSize = 10;
 
@@ -42,6 +44,7 @@ public class BulletPool : MonoBehaviour
             if (i % batchSize == 0)
                 yield return null;
         }
+        isExpanding = false;
     }
 
     public GameObject GetBullet()
@@ -69,6 +72,8 @@ public class BulletPool : MonoBehaviour
 
     public void ExpandPoolAsync(MonoBehaviour runner)
     {
-        runner.StartCoroutine(ExpandPoolCoroutine());
+        if (!isExpanding && currentSize < maxPoolSize)
+
+            runner.StartCoroutine(ExpandPoolCoroutine());
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Shell
   m_EditorClassIdentifier: 
   patternType: 12
-  bulletsPerWave: 500
+  bulletsPerWave: 100
   spiralSpeed: 0
   bulletSpeed: 10
   bulletLifetime: 5

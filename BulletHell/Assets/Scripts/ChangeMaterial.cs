@@ -4,26 +4,35 @@ using UnityEngine;
 public class ChangeMaterial : MonoBehaviour
 {
     [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
+    [SerializeField] private MeshRenderer meshRenderer; 
     [SerializeField] private Material originalMaterial;
     [SerializeField] private Material unstableMaterial;
 
 
     public void ChangeMat(bool isUnstable)
     {
-        List<Material> materialList = new List<Material>(skinnedMeshRenderer.materials);
-
-        for (int i = 0; i < materialList.Count; i++)
+        if (skinnedMeshRenderer != null)
         {
-            if (isUnstable)
+            List<Material> materialList = new List<Material>(skinnedMeshRenderer.materials);
+
+            for (int i = 0; i < materialList.Count; i++)
             {
-                materialList[i] = unstableMaterial;
+                if (isUnstable)
+                {
+                    materialList[i] = unstableMaterial;
+                }
+                else if (!isUnstable)
+                {
+                    materialList[i] = originalMaterial;
+                }
             }
-            else if (!isUnstable)
-            {
-                materialList[i] = originalMaterial;
-            }
+
+            skinnedMeshRenderer.materials = materialList.ToArray();
         }
 
-        skinnedMeshRenderer.materials = materialList.ToArray();
+        if (meshRenderer != null)
+        {
+            meshRenderer.material = isUnstable ? unstableMaterial : originalMaterial;
+        }
     }
 }

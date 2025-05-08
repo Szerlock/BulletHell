@@ -21,6 +21,9 @@ public class MiniBallerinaStateHandler : StateHandler
             case BossBase.State.Waiting:
                 HandleWaiting();
                 break;
+            case BossBase.State.Unstable:
+                HandleUnstable();
+                break;
         }
     }
 
@@ -45,6 +48,20 @@ public class MiniBallerinaStateHandler : StateHandler
         if (currentfireCooldown <= 0f)
         {
             ballerina.currentState = BossBase.State.Attacking;
+        }
+    }
+
+    public void HandleUnstable()
+    {
+        currentfireCooldown = ballerina.fireCooldown;
+
+        if (!ballerina.isFiring)
+            ballerina.UnstableAttack();
+
+        if (ballerina.IsBallerinaAttackFinished())
+        {
+            ballerina.currentState = BossBase.State.Waiting;
+            ballerina.ResetAttack();
         }
     }
 

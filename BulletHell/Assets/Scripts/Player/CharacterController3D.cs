@@ -276,6 +276,19 @@ public class CharacterController3D : MonoBehaviour
 
     public void PushPlayer()
     {
+        TakeDamage(1);
         StartCoroutine(movement.ApplyPushBackwards());
     }
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        BossBase boss = hit.gameObject.GetComponent<BossBase>();
+        if (boss != null)
+        {
+            PushPlayer();
+        }
+        else if (hit.gameObject.tag == "MiniBallerina")
+            PushPlayer();
+    }
 }
+

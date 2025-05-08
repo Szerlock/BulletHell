@@ -9,18 +9,26 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float damage;
     public bool isBreakable = false;
     public float health;
-    [SerializeField] public float lifeTime;
+    [SerializeField] private float lifeTime;
     private Coroutine lifeCoroutine;
 
-
-    public void SetDirection(Vector3 dir)
+    private void Start()
     {
-        direction = dir.normalized;
+        Debug.Log($"[Awake] Bullet prefab default lifetime: {lifeTime}");
+
     }
 
-    public void SetDamage(float dmg)
+    public void InitializeBullet(Vector3 dir, float dmg, float lt)
     {
+        direction = dir.normalized;
         damage = dmg;
+        lifeTime = lt;
+
+        if (lifeCoroutine != null)
+        {
+            StopCoroutine(lifeCoroutine);
+        }
+        lifeCoroutine = StartCoroutine(LifeTimer());
     }
 
     public void Move(float dt)
@@ -58,8 +66,8 @@ public class Bullet : MonoBehaviour
 
     void Disable()
     {
+        Debug.Log("Disable");
         BulletPool.Instance.ReturnBullet(gameObject);
-        Debug.Log("disabling");
     }
 
     void OnEnable()

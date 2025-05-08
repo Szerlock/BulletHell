@@ -18,6 +18,7 @@ public abstract class EnemyBase : MonoBehaviour
     public float downRange;
 
 
+
     protected virtual void Start()
     {
         GameManager.Instance.AddEnemy(this);

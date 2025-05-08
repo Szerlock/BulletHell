@@ -140,6 +140,9 @@ public class PlayerBullet : MonoBehaviour
                     oilZone.Ignite();
                 }
                 break;
+            case "MiniBallerina":
+                other.GetComponent<BallerinaUnit>().TakeDamage(damage);
+                break;
             default:
                 break;
         }

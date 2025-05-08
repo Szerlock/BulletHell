@@ -11,6 +11,6 @@ public class BurnsMoreEffective : AugmentBase
     public override void ApplyEffect()
     {
         BurnEffect burnEffect = GlobalBurnStats.GetBurnEffect();
-        GlobalBurnStats.SetBurnStats(burnEffect.tickDamage*2, burnEffect.tickInterval, burnEffect.duration * 2);
+        GlobalBurnStats.SetBurnStats(burnEffect.tickDamage*1.5f, burnEffect.tickInterval, burnEffect.duration);
     }
 }

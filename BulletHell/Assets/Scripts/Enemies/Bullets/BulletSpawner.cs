@@ -39,11 +39,11 @@ public class BulletSpawner : MonoBehaviour
         if (!isFiring)
         {
             isFiring = true;
-            if (!boss.SecondPhase)
+            if (boss.currentState == BossBase.State.Conjuring)
             {
-                PickNewPattern();
+                PickNewUnstablePattern();
             }
-            if (!boss.SecondPhase)
+            else if (!boss.SecondPhase)
             {
                 PickNewPattern();
             }
@@ -180,10 +180,9 @@ public class BulletSpawner : MonoBehaviour
                 bullet.transform.rotation = Quaternion.identity;
 
                 Bullet bulletScript = bullet.GetComponent<Bullet>();
-                bulletScript.SetDirection(dir * currentPattern.bulletSpeed);
+                bulletScript.InitializeBullet(dir * currentPattern.bulletSpeed, boss.Damage, currentPattern.bulletLifetime);
                 bulletScript.speed = currentPattern.bulletSpeed;
-                bulletScript.lifeTime = currentPattern.bulletLifetime;
-                bulletScript.SetDamage(boss.Damage);
+
 
                 bulletsFired++;
             }
@@ -191,7 +190,6 @@ public class BulletSpawner : MonoBehaviour
             if (currentPattern.patternType == PatternType.Spiral || currentPattern.patternType == PatternType.LayeredSpiral)
                 currentAngle += currentPattern.spiralSpeed;
         }
-        Debug.Log(currentPattern.name);
     }
 
     private Vector3 LayeredSpiralPattern(int i, int layer)
