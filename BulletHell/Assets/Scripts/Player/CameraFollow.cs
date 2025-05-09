@@ -11,6 +11,7 @@ public class CameraFollow : MonoBehaviour
     private float yaw = 0f;
     private float pitch = 15f;
 
+
     void LateUpdate()
     {
         if (target == null) return;
@@ -29,5 +30,6 @@ public class CameraFollow : MonoBehaviour
 
         transform.position = desiredPosition;
         transform.LookAt(target.position + Vector3.up * 1.5f);
+
     }
 }

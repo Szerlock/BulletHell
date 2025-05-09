@@ -5,10 +5,12 @@ public class DragonShooting : MonoBehaviour
 {
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform shootPoint;
-    [SerializeField] private float shootCooldown = 2f;
+    [SerializeField] public float shootCooldown;
     [SerializeField] private float projectileDamage;
     [SerializeField] private float projectileSpeed; 
     [SerializeField] private ProjectileType projectileType;
+    public bool healingDragon;
+
     private float shootTimer;
 
     void Update()
@@ -24,8 +26,23 @@ public class DragonShooting : MonoBehaviour
 
     private void ShootAtNearestEnemy()
     {
+        Transform target = null;
+
+        if (healingDragon)
+        {
+            target = GameManager.Instance.Player.transform;
+        }
+        else
+        {
+            EnemyBase bossTarget = BossManager.Instance.currentBoss;
+            if (bossTarget != null)
+            {
+                target = bossTarget.transform;
+            }
+        }
+
         //EnemyBase target = GameManager.Instance.FindClosestEnemy();
-        EnemyBase target = BossManager.Instance.currentBoss;
+        //EnemyBase target = BossManager.Instance.currentBoss;
         if (target == null) return;
 
         Vector3 dir = (target.transform.position - shootPoint.position).normalized;

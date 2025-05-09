@@ -105,7 +105,7 @@ public class BossBase : EnemyBase
     protected override void Die()
     {
         Debug.Log($"{gameObject.name} died");
-        StartCoroutine(BossManager.Instance.NextBoss());
+        BossManager.Instance.BossDead();
         Destroy(gameObject);
     }
     protected virtual void OnStartMoving() { }

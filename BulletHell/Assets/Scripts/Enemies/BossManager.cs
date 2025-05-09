@@ -30,6 +30,11 @@ public class BossManager : MonoBehaviour
         StartCoroutine(NextBoss());
     }
 
+    public void BossDead()
+    {
+        StartCoroutine(NextBoss());
+    }
+
     public IEnumerator NextBoss()
     {
         augmentManager.finishedPickingAugment = false; 
@@ -38,5 +43,6 @@ public class BossManager : MonoBehaviour
         currentBoss = allBosses[currentBossIndex];
         currentBossIndex++;
         currentBoss.Init();
+        yield return null;
     }
 }

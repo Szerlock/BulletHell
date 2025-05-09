@@ -185,6 +185,7 @@ public class CharacterController3D : MonoBehaviour
         int index = GetAvailablePositionIndex();
         GameObject healingDragon = Instantiate(healingDragonPrefab, spawnPositions[index].position, Quaternion.identity);
         healingDragon.GetComponent<FollowCharDragon>().SetTarget(spawnPositions[index]);
+        healingDragon.GetComponent<DragonShooting>().shootCooldown = 60;
         positionOccupied[index] = true;
     }
 

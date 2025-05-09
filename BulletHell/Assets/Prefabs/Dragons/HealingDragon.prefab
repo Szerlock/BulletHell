@@ -238,6 +238,7 @@ MonoBehaviour:
   projectileDamage: 1
   projectileSpeed: 5
   projectileType: 2
+  healingDragon: 1
 --- !u!114 &676991152861868059
 MonoBehaviour:
   m_ObjectHideFlags: 0

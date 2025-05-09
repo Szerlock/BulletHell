@@ -13,6 +13,8 @@ public class MinigunController : MonoBehaviour
     [SerializeField] private float bulletLifetime;
     [SerializeField] private Camera cam;
     [SerializeField] private float bulletSpeed;
+    [SerializeField] private float minX;
+    [SerializeField] private float maxX;
 
     [Header("Animations")]
     [SerializeField] private Animator animator;
@@ -227,15 +229,18 @@ public class MinigunController : MonoBehaviour
             Vector3 euler = Quaternion.Slerp(currentRotation, targetRotation, Time.deltaTime * 10f).eulerAngles;
             euler.x = currentRotation.eulerAngles.x;
 
-            if(playerMovement.isGrounded)
+            if (playerMovement.isGrounded)
             {
                 float pitch = playerMovement.cameraTransform.localEulerAngles.x;
 
                 Quaternion characterRotation = Quaternion.Euler(pitch, minigun.transform.eulerAngles.y, 0f);
                 minigun.transform.rotation = Quaternion.Slerp(minigun.transform.rotation, characterRotation, Time.deltaTime * 10f);
             }
-            else 
+            else
+            {
+                euler.x = currentRotation.eulerAngles.x;
                 minigun.transform.rotation = Quaternion.Euler(euler);
+            }
         }
     }
 }
