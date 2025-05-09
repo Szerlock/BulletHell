@@ -14,18 +14,22 @@ public class ClownStateHandler : StateHandler
 
     public override void Update()
     {
-        switch (bossType.currentState)
-        {
-            case BossBase.State.Attacking:
-                HandleAttacking();
-                break;
-            case BossBase.State.Juggling:
-                HandleMoving();
-                break;
-            case BossBase.State.Conjuring:
-                Conjuring();
-                break;
-        }
+        if (bossType)
+            if (bossType.isInitialized)
+            {
+                switch (bossType.currentState)
+                {
+                    case BossBase.State.Attacking:
+                        HandleAttacking();
+                        break;
+                    case BossBase.State.Juggling:
+                        HandleMoving();
+                        break;
+                    case BossBase.State.Conjuring:
+                        Conjuring();
+                        break;
+                }
+            }
     }
 
     public override void HandleAttacking()

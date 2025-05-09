@@ -134,22 +134,24 @@ public class CharacterController3D : MonoBehaviour
 
     private EnemyBase FindClosestEnemy()
     {
-        EnemyBase closest = null;
-        float minDistance = Mathf.Infinity;
+        //EnemyBase closest = null;
+        //float minDistance = Mathf.Infinity;
 
-        foreach (EnemyBase enemy in GameManager.Instance.AllEnemies)
-        {
-            if (enemy == null) continue;
+        //foreach (EnemyBase enemy in GameManager.Instance.AllEnemies)
+        //{
+        //    if (enemy == null) continue;
 
-            float dist = Vector3.Distance(transform.position, enemy.transform.position);
-            if (dist < minDistance)
-            {
-                minDistance = dist;
-                closest = enemy;
-            }
-        }
+        //    float dist = Vector3.Distance(transform.position, enemy.transform.position);
+        //    if (dist < minDistance)
+        //    {
+        //        minDistance = dist;
+        //        closest = enemy;
+        //    }
+        //}
 
-        return closest;
+        //return closest;
+
+        return BossManager.Instance.currentBoss;
     }
 
     private void ThrowOilUrnAt(EnemyBase enemy)

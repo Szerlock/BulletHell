@@ -16,10 +16,8 @@ public abstract class AugmentBase : MonoBehaviour
             augmentSystem = FindFirstObjectByType<AugmentSystem>();
         augmentSystem.UpdateAugmentPicker(augmentName);
 
-
+        Debug.Log($"{augmentName} Picked");
         ApplyEffect();
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void SetAugmentSystem(AugmentSystem system)

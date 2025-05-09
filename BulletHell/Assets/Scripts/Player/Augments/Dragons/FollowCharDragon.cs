@@ -48,22 +48,26 @@ public class FollowCharDragon : MonoBehaviour
 
     private Transform FindClosestEnemy()
     {
-        EnemyBase closest = null;
-        float minDistance = Mathf.Infinity;
+        //EnemyBase closest = null;
+        //float minDistance = Mathf.Infinity;
 
-        foreach (var enemy in GameManager.Instance.AllEnemies)
-        {
-            if (enemy == null) continue;
+        //foreach (var enemy in GameManager.Instance.AllEnemies)
+        //{
+        //    if (enemy == null) continue;
 
-            float dist = Vector3.Distance(transform.position, enemy.transform.position);
-            if (dist < minDistance)
-            {
-                minDistance = dist;
-                closest = enemy;
-            }
-        }
+        //    float dist = Vector3.Distance(transform.position, enemy.transform.position);
+        //    if (dist < minDistance)
+        //    {
+        //        minDistance = dist;
+        //        closest = enemy;
+        //    }
+        //}
 
-        return closest.gameObject.transform;
+        //return closest.gameObject.transform;
+
+        return BossManager.Instance.currentBoss != null
+            ? BossManager.Instance.currentBoss.transform
+            : null;
     }
 
 }

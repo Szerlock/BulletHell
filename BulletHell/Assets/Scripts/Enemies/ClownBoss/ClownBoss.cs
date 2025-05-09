@@ -64,27 +64,30 @@ public class ClownBoss : BossBase
     public Transform decoyTarget;
 
 
-    protected override void Start()
+    public override void Init()
     {
-        base.Start();
+        base.Init();
         bossStateHandler.Init(this);
     }
 
     private void Update()
     {
-        if (currentState == State.Juggling)
+        if (isInitialized)
         {
-            Juggling();
-        }
-        else
-        {
-            ropePicked = false;
-        }
+            if (currentState == State.Juggling)
+            {
+                Juggling();
+            }
+            else
+            {
+                ropePicked = false;
+            }
 
-        if (isConjuring && bossDecoys.Count == 0)
-        { 
-            isAttacking = false;
-            isConjuring = false;
+            if (isConjuring && bossDecoys.Count == 0)
+            {
+                isAttacking = false;
+                isConjuring = false;
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FinalBoss : BossBase
@@ -17,23 +18,29 @@ public class FinalBoss : BossBase
 
     private Coroutine currentPoseCoroutine;
 
-    protected override void Start()
+    public override void Init()
     {
-        base.Start();
+        base.Init();
         bossStateHandler.Init(this);
     }
 
     private void Update()
     {
-        if (currentState == State.Moving && isMoving)
+        if (isInitialized)
         {
-            RotateWhileMoving();
+            if (currentState == State.Moving && isMoving)
+            {
+                RotateWhileMoving();
+            }
         }
     }
 
     private void FixedUpdate()
     {
-        baseMoveUpdate();
+        if (isInitialized)
+        {
+            baseMoveUpdate();
+        }
     }
 
     private void baseMoveUpdate()

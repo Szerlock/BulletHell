@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 
 public class MinigunController : MonoBehaviour
 {
@@ -78,29 +79,32 @@ public class MinigunController : MonoBehaviour
             fireRate = baseFireRate;
         }
 
-        if (fireCooldown <= 0f)
+        if (Cursor.lockState == CursorLockMode.Locked && !Cursor.visible)
         {
-            Vector3 shootDirection;
-            if (Input.GetKey(KeyCode.Mouse0))
+            if (fireCooldown <= 0f)
             {
-                if (GetCrosshairWorldDirection(out shootDirection))
+                Vector3 shootDirection;
+                if (Input.GetKey(KeyCode.Mouse0))
                 {
-                    if (rampingUPUnlocked)
-                        IncreaseAttackSpeed();
+                    if (GetCrosshairWorldDirection(out shootDirection))
+                    {
+                        if (rampingUPUnlocked)
+                            IncreaseAttackSpeed();
 
-                    Shoot(shootDirection);
-                    animator.SetBool("isShooting", true);
-                    barrelAnimator.SetBool("isShooting", true);
-                    playerMovement.isAiming = true;
-                    fireCooldown = 1f / fireRate;
+                        Shoot(shootDirection);
+                        animator.SetBool("isShooting", true);
+                        barrelAnimator.SetBool("isShooting", true);
+                        playerMovement.isAiming = true;
+                        fireCooldown = 1f / fireRate;
+                    }
                 }
-            }
-            else
-            {
-                playerMovement.isHovering = false;
-                animator.SetBool("isShooting", false);
-                barrelAnimator.SetBool("isShooting", false);
-                playerMovement.isAiming = false;
+                else
+                {
+                    playerMovement.isHovering = false;
+                    animator.SetBool("isShooting", false);
+                    barrelAnimator.SetBool("isShooting", false);
+                    playerMovement.isAiming = false;
+                }
             }
         }
         FollowMinigun();

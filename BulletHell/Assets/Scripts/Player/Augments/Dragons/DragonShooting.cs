@@ -24,7 +24,8 @@ public class DragonShooting : MonoBehaviour
 
     private void ShootAtNearestEnemy()
     {
-        EnemyBase target = GameManager.Instance.FindClosestEnemy();
+        //EnemyBase target = GameManager.Instance.FindClosestEnemy();
+        EnemyBase target = BossManager.Instance.currentBoss;
         if (target == null) return;
 
         Vector3 dir = (target.transform.position - shootPoint.position).normalized;

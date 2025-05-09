@@ -1,11 +1,15 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BossManager : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> allBosses;
-    private Transform currentBoss;
+    [SerializeField] private List<BossBase> allBosses;
+    public BossBase currentBoss;
     public static BossManager Instance { get; private set; }
+    [SerializeField] private int augmentsToPick;
+    [SerializeField] private AugmentsPicker augmentManager;
+
 
     private int currentBossIndex = 0;
 
@@ -23,20 +27,16 @@ public class BossManager : MonoBehaviour
 
     private void Start()
     {
-        currentBoss = allBosses[currentBossIndex].transform;
+        StartCoroutine(NextBoss());
     }
 
-    public void NextBoss()
+    public IEnumerator NextBoss()
     {
-        if (currentBossIndex + 1 < allBosses.Count)
-        {
-            currentBossIndex++;
-            currentBoss = allBosses[currentBossIndex].transform;
-        }
-    }
-
-    public Transform GetCurrentBoss()
-    {
-        return currentBoss;
+        augmentManager.finishedPickingAugment = false; 
+        StartCoroutine(augmentManager.StartAugmentPicking(augmentsToPick));
+        yield return new WaitUntil(() => augmentManager.finishedPickingAugment == true);
+        currentBoss = allBosses[currentBossIndex];
+        currentBossIndex++;
+        currentBoss.Init();
     }
 }

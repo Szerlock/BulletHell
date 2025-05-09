@@ -53,11 +53,13 @@ public class PlayerMovement : MonoBehaviour
         if (dashCooldownTimer > 0f)
             dashCooldownTimer -= Time.deltaTime;
 
-        HandleDashInput();
+        if (Cursor.lockState == CursorLockMode.Locked && !Cursor.visible)
+        {
+            HandleDashInput();
 
-        if (!isDashing)
-            HandleMovement();
-
+            if (!isDashing)
+                HandleMovement();
+        }
         ApplyGravity();
 
         controller.Move(velocity * Time.deltaTime);

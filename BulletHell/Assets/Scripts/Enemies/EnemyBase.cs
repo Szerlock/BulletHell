@@ -21,7 +21,7 @@ public abstract class EnemyBase : MonoBehaviour
 
     protected virtual void Start()
     {
-        GameManager.Instance.AddEnemy(this);
+        //GameManager.Instance.AddEnemy(this);
         currentHealth = Health;
     }
 

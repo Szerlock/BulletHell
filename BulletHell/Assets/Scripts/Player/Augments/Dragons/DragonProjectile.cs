@@ -68,5 +68,9 @@ public class DragonProjectile : MonoBehaviour
 
             Destroy(gameObject);
         }
+        else if (other.CompareTag("MiniBallerina"))
+        { 
+            other.GetComponent<BallerinaUnit>().TakeDamage(damage);
+        }
     }
 }

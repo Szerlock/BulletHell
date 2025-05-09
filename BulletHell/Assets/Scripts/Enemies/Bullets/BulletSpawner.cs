@@ -27,7 +27,7 @@ public class BulletSpawner : MonoBehaviour
         PickNewPattern();
         player = GameManager.Instance.Player.transform;
         if (boss == null)
-            boss = GameManager.Instance.currentBoss;
+            boss = BossManager.Instance.currentBoss;
     }
 
     [ContextMenu("Fire")]

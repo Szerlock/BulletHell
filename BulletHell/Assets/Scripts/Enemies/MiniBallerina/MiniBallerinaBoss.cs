@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -32,21 +33,21 @@ public class MiniBallerinaBoss : BossBase
     [Header("Unstable")]
     [SerializeField] private Vector3 boxCenter;
     [SerializeField] private Vector3 boxSize;
+    [SerializeField] private float circleRadius;
+    [SerializeField] private Vector3 circleCenter;
 
-    protected override void Start()
+    public override void Init()
     {
-        base.Start();
-
+        base.Init();
         bossStateHandler.Init(this);
 
         currentHealth = Health;
-        GameManager.Instance.currentBoss = this;
 
         currentRadius = chainRadius;
 
         float miniHealth = currentHealth / 5;
 
-        foreach(BallerinaUnit ballerina in ballerinas)
+        foreach (BallerinaUnit ballerina in ballerinas)
         {
             ballerina.Init(this, miniHealth);
         }
@@ -54,19 +55,23 @@ public class MiniBallerinaBoss : BossBase
         StartDanceRoutine();
     }
 
+
     private void Update()
     {
-        currentRadius = Mathf.Lerp(currentRadius, chainRadius, Time.deltaTime * chainExpandSpeed);
-
-        if(!isAttacking)
-        timerAir -= Time.deltaTime;
-        if (timerAir <= 0 && currentState != State.Unstable)
+        if (isInitialized)
         {
-            PerformAirAttack();
-        }
+            currentRadius = Mathf.Lerp(currentRadius, chainRadius, Time.deltaTime * chainExpandSpeed);
 
-        if(currentState != State.Unstable)
-            UpdateBallerinaPositions();
+            if (!isAttacking)
+                timerAir -= Time.deltaTime;
+            if (timerAir <= 0 && isUnstable)
+            {
+                PerformAirAttack();
+            }
+
+            if (!isUnstable)
+                UpdateBallerinaPositions();
+        }
     }
 
     private void UpdateBallerinaPositions()
@@ -223,6 +228,7 @@ public class MiniBallerinaBoss : BossBase
     public override void StartSecondPhase()
     {
         currentState = State.Unstable;
+        isUnstable = true;
         StopAllCoroutines();
         foreach (BallerinaUnit ballerina in ballerinas)
         {
@@ -231,10 +237,30 @@ public class MiniBallerinaBoss : BossBase
         StartCoroutine(RunAroundBox());
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireCube(boxCenter, boxSize);
+        Gizmos.color = Color.green;
+        int segments = 64;
+        float angleStep = 360f / segments;
+        Vector3 prevPoint = Vector3.zero;
+        for (int i = 0; i <= segments; i++)
+        {
+            float angle = i * angleStep * Mathf.Deg2Rad;
+            Vector3 newPoint = new Vector3(
+                Mathf.Cos(angle) * circleRadius,
+                0f,
+                Mathf.Sin(angle) * circleRadius
+            ) + circleCenter;
+
+            if (i > 0)
+                Gizmos.DrawLine(prevPoint, newPoint);
+
+            prevPoint = newPoint;
+        }
+
+        Gizmos.color = Color.red;
+        Vector3 randomPoint = GetRandomPointInCircle();
+        Gizmos.DrawSphere(randomPoint, 0.3f);
     }
 
     public void UnstableAttack()
@@ -248,25 +274,33 @@ public class MiniBallerinaBoss : BossBase
 
     private IEnumerator RunAroundBox()
     {
-        while (currentState == State.Unstable)
+        while (isUnstable)
         {
             for (int i = 0; i < ballerinas.Count; i++)
             {
-                Vector3 nextPos = GetRandomPointInBox();
+                Vector3 nextPos = GetRandomPointInCircle();
                 ballerinas[i].MoveToPosition(nextPos);
-                yield return new WaitUntil(() => ballerinas[i].HasReachedTarget());
-                yield return new WaitForSeconds(Random.Range(0.5f, 2f));
             }
+            yield return new WaitUntil(() => ballerinas.All(b => b.HasReachedTarget()));
+            yield return new WaitForSeconds(Random.Range(0.5f, 2f));
         }
     }
 
-    private Vector3 GetRandomPointInBox()
+    private Vector3 GetRandomPointInCircle()
     {
-        Vector3 halfSize = boxSize * 0.5f;
-        return new Vector3(
-            Random.Range(boxCenter.x - halfSize.x, boxCenter.x + halfSize.x),
-            boxCenter.y,
-            Random.Range(boxCenter.z - halfSize.z, boxCenter.z + halfSize.z)
-        );
+        float angle = Random.Range(0f, Mathf.PI * 2);
+        float radius = Mathf.Sqrt(Random.Range(0f, 1f)) * circleRadius; 
+        float x = Mathf.Cos(angle) * radius;
+        float z = Mathf.Sin(angle) * radius;
+
+        return new Vector3(circleCenter.x + x, circleCenter.y, circleCenter.z + z);
+    }
+
+    public void RemoveBallerina(BallerinaUnit miniBal)
+    {
+        if (ballerinas.Contains(miniBal))
+        {
+            ballerinas.Remove(miniBal);
+        }
     }
 }

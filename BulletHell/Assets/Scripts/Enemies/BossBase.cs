@@ -13,6 +13,8 @@ public class BossBase : EnemyBase
     [SerializeField] public Transform player;
     public bool isPlayingPose = false;
     public bool isAttacking = false;
+    public bool isInitialized = false;
+
 
 
     [SerializeField] public StateHandler bossStateHandler;
@@ -46,8 +48,9 @@ public class BossBase : EnemyBase
         Unstable,
     }
 
-    protected override void Start()
+    public virtual void Init()
     {
+        isInitialized = true;
         base.Start();
     }
 
@@ -102,6 +105,7 @@ public class BossBase : EnemyBase
     protected override void Die()
     {
         Debug.Log($"{gameObject.name} died");
+        StartCoroutine(BossManager.Instance.NextBoss());
         Destroy(gameObject);
     }
     protected virtual void OnStartMoving() { }

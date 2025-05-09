@@ -13,18 +13,22 @@ public class FinalBossStateHandler : StateHandler
 
     public override void Update()
     {
-        switch (boss.currentState)
-        {
-            case BossBase.State.Waiting:
-                HandleWaiting();
-                break;
-            case BossBase.State.Attacking:
-                HandleAttacking();
-                break;
-            case BossBase.State.Moving:
-                HandleMoving();
-                break;
-        }
+        if (boss)
+            if (boss.isInitialized)
+            {
+                switch (boss.currentState)
+                {
+                    case BossBase.State.Waiting:
+                        HandleWaiting();
+                        break;
+                    case BossBase.State.Attacking:
+                        HandleAttacking();
+                        break;
+                    case BossBase.State.Moving:
+                        HandleMoving();
+                        break;
+                }
+            }
     }
 
     public override void HandleWaiting()

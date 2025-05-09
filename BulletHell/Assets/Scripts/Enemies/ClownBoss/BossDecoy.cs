@@ -22,6 +22,7 @@ public class BossDecoy : EnemyBase
     protected override void Die()
     {
         base.Die();
-        GameManager.Instance.currentBoss.GetComponent<ClownBoss>().bossDecoys.Remove(gameObject);
+        //GameManager.Instance.currentBoss.GetComponent<ClownBoss>().bossDecoys.Remove(gameObject);
+        BossManager.Instance.currentBoss.GetComponent<ClownBoss>().bossDecoys.Remove(gameObject);
     }
 }

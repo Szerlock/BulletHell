@@ -1,7 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.DedicatedServer;
-using UnityEngine.UI;
 
 public class AugmentsPicker : MonoBehaviour
 {
@@ -11,12 +10,30 @@ public class AugmentsPicker : MonoBehaviour
     [SerializeField] private Transform augmentPanel;
     [SerializeField] private List<GameObject> UITabsShowing;
 
+    public bool finishedPickingAugment = false;
+    private bool augmentPicked = false;
+    private int augmentPickedCount = 0;
+    private int AugmentNeeded = 0;
+
+    public IEnumerator StartAugmentPicking(int amount)
+    {
+        augmentPickedCount = 0;
+        AugmentNeeded = amount;
+        while (augmentPickedCount != AugmentNeeded)
+        {
+            PickAugment();
+            yield return new WaitUntil(() => augmentPicked == true);
+        }
+    }
+
+
     [ContextMenu("PickAugment")]
     public void PickAugment()
     {
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        augmentPicked = false;
 
         List<int> usedIndices = new List<int>();
         int count = Mathf.Min(3, potentialAugments.Count);
@@ -58,17 +75,32 @@ public class AugmentsPicker : MonoBehaviour
         {
             augmentUITabs.RemoveAt(index);
             potentialAugments.Remove(augment);
+            augmentPicked = true;
+            augmentPickedCount++;
+            RemoveCurrentAugmentTabs();
+
+            if (augmentPickedCount == AugmentNeeded)
             CloseUI();
         }
     }
 
-    private void CloseUI()
+    private void RemoveCurrentAugmentTabs()
     {
         foreach (GameObject tab in UITabsShowing)
         {
             Destroy(tab);
         }
         UITabsShowing.Clear();
+    }
+
+    private void CloseUI()
+    {
+        finishedPickingAugment = true;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        RemoveCurrentAugmentTabs();
+
+        // Remove Image
     }
 }
 

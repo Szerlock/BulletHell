@@ -51,8 +51,9 @@ public class PlayerBullet : MonoBehaviour
 
     private void Start()
     {
-        if(trackingUnlocked)
-            targetEnemy = GameManager.Instance.FindClosestEnemy();
+        if (trackingUnlocked)
+            //targetEnemy = GameManager.Instance.FindClosestEnemy();
+            targetEnemy = BossManager.Instance.currentBoss;
     }
 
     private void Update()
@@ -141,7 +142,9 @@ public class PlayerBullet : MonoBehaviour
                 }
                 break;
             case "MiniBallerina":
-                other.GetComponent<BallerinaUnit>().TakeDamage(damage);
+                BallerinaUnit mini = other.GetComponent<BallerinaUnit>();
+                if (mini)
+                    mini.TakeDamage(damage);
                 break;
             default:
                 break;

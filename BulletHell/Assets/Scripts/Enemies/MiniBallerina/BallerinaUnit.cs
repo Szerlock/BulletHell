@@ -25,12 +25,25 @@ public class BallerinaUnit : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 10f);
-        transform.Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
+        if(boss)
+        if (boss.isInitialized)
+        {
+            if (!boss.isUnstable)
+                transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 10f);
+            else
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, boss.speed * Time.deltaTime);
+
+            transform.Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
+        }
     }
 
     public void TakeDamage(float amount)
     {
+        currentHealth -= amount;
+        if (currentHealth <= 0)
+        {
+            BallerinaDead();
+        }
         boss.TakeDamage(amount);
     }
 
@@ -40,5 +53,9 @@ public class BallerinaUnit : MonoBehaviour
         return distance < 0.1f;
     }
 
-
+    public void BallerinaDead()
+    {
+        boss.RemoveBallerina(this);
+        Destroy(gameObject);
+    }
 }
