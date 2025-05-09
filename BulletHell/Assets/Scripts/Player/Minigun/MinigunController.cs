@@ -138,6 +138,7 @@ public class MinigunController : MonoBehaviour
                 playerMovement.isHovering = true;
             }
         }
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.bulletSFX);
 
         SpawnBullet(firePoint, direction);
         shakeCam.GetComponent<CameraShake>().Shake(shakeDuration, shakeMagnitude, shakeFrequency);
