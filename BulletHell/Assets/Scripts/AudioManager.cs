@@ -38,6 +38,7 @@ public class AudioManager : MonoBehaviour
         musicSource.clip = clip;
         musicSource.loop = true;
         musicSource.Play();
+        Debug.Log($"Play {clip}");
     }
 
     public void SetMusicVolume(float volume)
