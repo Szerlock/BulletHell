@@ -54,7 +54,7 @@ public class AugmentsPicker : MonoBehaviour
             GameObject tab = augmentUITabs[randomIndex];
 
             ShowAugment(tab, i, pickedAugment);
-            Debug.Log($"Picked augment {pickedAugment.name} for tab index {i}");
+            //Debug.Log($"Picked augment {pickedAugment.name} for tab index {i}");
 
         }
     }
@@ -64,7 +64,7 @@ public class AugmentsPicker : MonoBehaviour
         GameObject tab = Instantiate(AugmentTab, augmentUIPos[i].position, Quaternion.identity, augmentPanel);
         UITabsShowing.Add(tab);
         tab.GetComponent<AugmentUITab>().Init(augment);
-        Debug.Log($"Initializing tab with augment: {augment.name}");
+        //Debug.Log($"Initializing tab with augment: {augment.name}");
 
     }
 

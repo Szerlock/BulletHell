@@ -190,6 +190,7 @@ public class BulletSpawner : MonoBehaviour
             if (currentPattern.patternType == PatternType.Spiral || currentPattern.patternType == PatternType.LayeredSpiral)
                 currentAngle += currentPattern.spiralSpeed;
         }
+        Debug.Log(currentPattern.name);
     }
 
     private Vector3 LayeredSpiralPattern(int i, int layer)

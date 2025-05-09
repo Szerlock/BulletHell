@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 7466435494112184850, guid: 5eb1dd4d09c2c2244992156e9276968b, type: 3}
-  initialPoolSize: 800
+  initialPoolSize: 2500
   maxPoolSize: 3000
   expand: 50
 --- !u!4 &2733843
@@ -759,7 +759,7 @@ MonoBehaviour:
   MovePositions: []
   bulletSpawner: {fileID: 383224966}
   fireRate: 0
-  fireCooldown: 50
+  fireCooldown: 10
   unstableFireCooldown: 0
   player: {fileID: 409125288}
   isPlayingPose: 0
@@ -4776,6 +4776,10 @@ PrefabInstance:
       propertyPath: m_Center.y
       value: -105
       objectReference: {fileID: 0}
+    - target: {fileID: 4174332824856335707, guid: 0aaf5ecf5bbbabc4daaf07df976df45c, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 5489952890039531666, guid: 0aaf5ecf5bbbabc4daaf07df976df45c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4803,7 +4807,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4174332824856335707, guid: 0aaf5ecf5bbbabc4daaf07df976df45c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1670606934}
   m_SourcePrefab: {fileID: 100100000, guid: 0aaf5ecf5bbbabc4daaf07df976df45c, type: 3}
 --- !u!1 &1537768203
 GameObject:
@@ -5707,6 +5714,38 @@ Transform:
   - {fileID: 1879975588}
   m_Father: {fileID: 774288270}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 101.296}
+--- !u!1 &1670606929 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4174332824856335707, guid: 0aaf5ecf5bbbabc4daaf07df976df45c, type: 3}
+  m_PrefabInstance: {fileID: 1505251919}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &1670606934
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1670606929}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &1671955452
 PrefabInstance:
   m_ObjectHideFlags: 0

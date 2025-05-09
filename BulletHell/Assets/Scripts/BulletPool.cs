@@ -49,10 +49,14 @@ public class BulletPool : MonoBehaviour
 
     public GameObject GetBullet()
     {
+        //if (pool.Count == 0)
+        //{
+        //    ExpandPoolAsync(this);
+        //    //Debug.LogWarning("Bullet pool empty — expanding. Returning null.");
+        //    return null;
+        //}
         if (pool.Count == 0)
-        {
-            ExpandPoolAsync(this);
-            Debug.LogWarning("Bullet pool empty — expanding. Returning null.");
+        { 
             return null;
         }
 

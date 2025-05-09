@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: SineWaveDisk
   m_EditorClassIdentifier: 
   patternType: 9
-  bulletsPerWave: 50
+  bulletsPerWave: 40
   spiralSpeed: 0
   bulletSpeed: 10
   bulletLifetime: 5
   fireRate: 0.5
-  totalBullets: 500
+  totalBullets: 400
   numberOfLayers: 1
   layerSpacing: 0

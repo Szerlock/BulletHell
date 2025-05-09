@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Random3D
   m_EditorClassIdentifier: 
   patternType: 10
-  bulletsPerWave: 90
+  bulletsPerWave: 40
   spiralSpeed: 2.93
   bulletSpeed: 20
   bulletLifetime: 5
   fireRate: 0.2
-  totalBullets: 500
+  totalBullets: 300
   numberOfLayers: 1
   layerSpacing: 0

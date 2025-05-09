@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Serpent
   m_EditorClassIdentifier: 
   patternType: 13
-  bulletsPerWave: 200
+  bulletsPerWave: 40
   spiralSpeed: 0
   bulletSpeed: 10
   bulletLifetime: 5
   fireRate: 0.5
-  totalBullets: 500
+  totalBullets: 300
   numberOfLayers: 1
   layerSpacing: 0

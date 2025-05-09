@@ -43,6 +43,7 @@ public class MiniBallerinaBoss : BossBase
 
         currentHealth = Health;
 
+        bulletSpawner.boss = this;
         currentRadius = chainRadius;
 
         float miniHealth = currentHealth / 5;
