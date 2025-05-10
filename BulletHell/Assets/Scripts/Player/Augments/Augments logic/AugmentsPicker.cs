@@ -22,6 +22,7 @@ public class AugmentsPicker : MonoBehaviour
 
     public IEnumerator StartAugmentPicking(int amount)
     {
+        finishedPickingAugment = false;
         augmentPickedCount = 0;
         AugmentNeeded = amount;
         UIManager.Instance.PlayBackground();

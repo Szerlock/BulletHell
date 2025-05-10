@@ -421,8 +421,9 @@ public class ClownBoss : BossBase
     {
         if (!isInitialized) return;
         if (isConjuring) return;
+        HealthBar.Instance.SetHealth(currentHealth - amount);
         base.TakeDamage(amount);
-        if(damageTracker.Count > 0 && currentHealth <= damageTracker[0])
+        if (damageTracker.Count > 0 && currentHealth <= damageTracker[0])
         {
             damageTracker.RemoveAt(0);
             Fall();

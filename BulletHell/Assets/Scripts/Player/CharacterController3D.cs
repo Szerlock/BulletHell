@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterController3D : MonoBehaviour
 {
@@ -42,9 +43,19 @@ public class CharacterController3D : MonoBehaviour
     public List<Transform> spawnPositions;
     private List<bool> positionOccupied = new List<bool> { false, false, false, false };
 
+
+    [Header("Hearts")]
+    [SerializeField] private GameObject heartPrefab;
+    [SerializeField] private List<Image> heartImages = new List<Image>();
+    [SerializeField] private Transform newHeartPositions;
+    [SerializeField] private Sprite filledHeart;
+    [SerializeField] private Sprite emptyHeart;
+
+
     private void Start()
     {
         currentHealth = maxHealth;
+        UpdateHearts();
     }
 
     void Update()
@@ -123,6 +134,31 @@ public class CharacterController3D : MonoBehaviour
         else
         {
             ActivateIFrames();
+        }
+        UpdateHearts();
+    }
+
+    public void AddHeart()
+    {
+        GameObject newHeart = Instantiate(heartPrefab, newHeartPositions);
+        Image heartImage = newHeart.GetComponent<Image>();
+        heartImage.sprite = filledHeart;
+
+        heartImages.Add(heartImage);
+        maxHealth++;
+        currentHealth++;
+
+        UpdateHearts();
+    }
+
+    private void UpdateHearts()
+    {
+        for (int i = 0; i < heartImages.Count; i++)
+        {
+            if (i < currentHealth)
+                heartImages[i].sprite = filledHeart;
+            else
+                heartImages[i].sprite = emptyHeart;
         }
     }
 
@@ -223,6 +259,7 @@ public class CharacterController3D : MonoBehaviour
     {
         currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+        UpdateHearts();
     }
     void OnEnable()
     {
@@ -251,10 +288,10 @@ public class CharacterController3D : MonoBehaviour
 
     public void SetMaxHealth(float multiplier)
     {
-        float oldMaxHealth = maxHealth;
-        maxHealth *= multiplier;
-
-        Heal(maxHealth - oldMaxHealth);
+        maxHealth += 1;
+        AddHeart();
+        UpdateHearts();
+        Heal(1);
     }
 
     public void IncreasePower(float multiplier)
@@ -275,6 +312,7 @@ public class CharacterController3D : MonoBehaviour
     public void HealToFull()
     {
         currentHealth = maxHealth;
+        UpdateHearts();
     }
 
     public void PushPlayer()

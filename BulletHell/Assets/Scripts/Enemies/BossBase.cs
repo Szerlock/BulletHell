@@ -51,6 +51,7 @@ public class BossBase : EnemyBase
     public virtual void Init()
     {
         base.Start();
+        HealthBar.Instance.SetMaxHealth(Health);
     }
 
     private void FixedUpdate()

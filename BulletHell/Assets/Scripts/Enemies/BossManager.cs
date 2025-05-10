@@ -8,7 +8,7 @@ public class BossManager : MonoBehaviour
     public BossBase currentBoss;
     public static BossManager Instance { get; private set; }
     [SerializeField] private int augmentsToPick;
-    [SerializeField] private AugmentsPicker augmentManager;
+    [SerializeField] public AugmentsPicker augmentManager;
 
 
     private int currentBossIndex = 0;
@@ -23,13 +23,8 @@ public class BossManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    private void Start()
-    {
         StartCoroutine(NextBoss());
     }
-
     public void BossDead()
     {
         StartCoroutine(NextBoss());
@@ -40,13 +35,18 @@ public class BossManager : MonoBehaviour
         if (currentBossIndex > 0)
             AudioManager.Instance.UnloadBossMusic(currentBossIndex - 1);
 
-        augmentManager.finishedPickingAugment = false;
         AudioManager.Instance.PreloadBossMusic(currentBossIndex+1);
-        StartCoroutine(augmentManager.StartAugmentPicking(augmentsToPick));
-        yield return new WaitUntil(() => augmentManager.finishedPickingAugment == true);
+        yield return new WaitForSeconds(1f);
+        //StartCoroutine(augmentManager.StartAugmentPicking(augmentsToPick));
+        //yield return new WaitUntil(() => augmentManager.finishedPickingAugment == true);
+        //for (int i = 0; i < augmentsToPick; i++)
+        //{
+        //    SpawnMask.Instance.SpawnMaskAugment();
+        //}
+
         currentBoss = allBosses[currentBossIndex];
         currentBossIndex++;
         currentBoss.Init();
-        yield return null;
+        //yield return null;
     }
 }

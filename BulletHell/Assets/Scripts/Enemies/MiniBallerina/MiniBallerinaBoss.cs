@@ -241,6 +241,7 @@ public class MiniBallerinaBoss : BossBase
 
     public override void TakeDamage(float amount)
     {
+        HealthBar.Instance.SetHealth(currentHealth - amount);
         currentHealth -= amount;
         if (currentHealth < Health / 2 && !isUnstable)
             StartSecondPhase();

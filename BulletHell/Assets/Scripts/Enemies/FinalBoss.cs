@@ -173,6 +173,7 @@ public class FinalBoss : BossBase
     {
         if (!isInitialized) return;
         base.TakeDamage(amount);
+        HealthBar.Instance.SetHealth(currentHealth - amount);
         if (currentHealth <= currentHealth/2)
         {
             StartSecondPhase();

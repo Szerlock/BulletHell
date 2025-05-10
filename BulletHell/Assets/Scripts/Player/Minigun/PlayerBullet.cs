@@ -42,7 +42,7 @@ public class PlayerBullet : MonoBehaviour
         distanceDamageAugment = dtAugment;
         shortRangeAugment = shortUnlocked;
         playerTransform = GameManager.Instance.Player.transform;
-        lifeTimer = shortRangeAugment ? bulletLifetime / 2f : bulletLifetime;
+        lifeTimer = shortRangeAugment ? .5f : bulletLifetime;
         if (shortRangeAugment)
         {
             damage *= 2f;
@@ -103,6 +103,7 @@ public class PlayerBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        bool hitArena = false;
         switch (other.tag)
         {
             case "Enemy":
@@ -151,10 +152,14 @@ public class PlayerBullet : MonoBehaviour
                 if (mini)
                     mini.TakeDamage(damage);
                 break;
-            default:
+            case "ArenaBorder":
+                hitArena = true;
                 break;
+            default:
+                    break;
         }
-        Destroy(gameObject);
+        if(!hitArena)
+            Destroy(gameObject);
     }
 
     private float CalculateShortDistance(EnemyBase enemy, float finalDamage)

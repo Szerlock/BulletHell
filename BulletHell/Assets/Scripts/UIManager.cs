@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour
 
     public void PlayBackground()
     {
-        animator.gameObject.GetComponent<Image>().enabled = true;
+        animator.gameObject.SetActive(true);
         animator.Play(backGround, 0, 0);
     }
 
@@ -44,6 +44,6 @@ public class UIManager : MonoBehaviour
     public void EndBackground()
     {
         augment[0].Update(0);
-        animator.gameObject.GetComponent<Image>().enabled = false;
+        animator.gameObject.SetActive(false);
     }
 }

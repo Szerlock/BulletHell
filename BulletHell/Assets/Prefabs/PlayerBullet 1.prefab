@@ -157,8 +157,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   burnDuration: 5
-  burnTickDamage: 1
-  burnTickInterval: 1
+  burnTickDamage: 2
+  burnTickInterval: 0.5
   trackingSpeed: 1
   trackingDistance: 25
   distanceDamageAugment: 0

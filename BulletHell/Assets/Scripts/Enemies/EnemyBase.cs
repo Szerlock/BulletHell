@@ -29,7 +29,7 @@ public abstract class EnemyBase : MonoBehaviour
     {
         currentHealth -= amount;
         Debug.Log($"{gameObject.name} took {amount} damage. Remaining health: {currentHealth}");
-        HitNumber(amount);
+        //HitNumber(amount);
         if (currentHealth <= 0)
             Die();
     }
