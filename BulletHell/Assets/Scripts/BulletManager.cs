@@ -19,6 +19,11 @@ public class BulletManager : MonoBehaviour
         {
             Bullet b = activeBullets[i];
             b.Move(dt);
+
+            float sqrDistance = (b.transform.position - GameManager.Instance.Player.transform.position).sqrMagnitude;
+            bool shouldBeDanger = sqrDistance < (b.DangerDistance * b.DangerDistance);
+
+            b.SetDangerState(shouldBeDanger);
         }
     }
 

@@ -9,6 +9,7 @@ public class AugmentsPicker : MonoBehaviour
     //[SerializeField] private List<Transform> augmentUIPos;
     [SerializeField] private Transform augmentPanel;
     [SerializeField] private List<GameObject> UITabsShowing;
+    private Vector3 resetPos;
 
     public bool finishedPickingAugment = false;
     private bool augmentPicked = false;
@@ -23,6 +24,7 @@ public class AugmentsPicker : MonoBehaviour
     {
         augmentPickedCount = 0;
         AugmentNeeded = amount;
+        UIManager.Instance.PlayBackground();
         while (augmentPickedCount != AugmentNeeded)
         {
             PickAugment();
@@ -35,7 +37,6 @@ public class AugmentsPicker : MonoBehaviour
     public void PickAugment()
     {
 
-        UIManager.Instance.PlayBackground();
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         augmentPicked = false;
@@ -62,7 +63,7 @@ public class AugmentsPicker : MonoBehaviour
             //Debug.Log($"Picked augment {pickedAugment.name} for tab index {i}");
 
         }
-        StartCoroutine(UIManager.Instance.PlayAugments());
+        UIManager.Instance.PlayAugments();
     }
 
     public void ShowAugment(GameObject AugmentTab, int i, AugmentBase augment)
@@ -93,10 +94,12 @@ public class AugmentsPicker : MonoBehaviour
 
     private void RemoveCurrentAugmentTabs()
     {
-        foreach (GameObject tab in UITabsShowing)
+        for (int i = 0; i < UITabsShowing.Count; i++)
         {
-            Destroy(tab);
+            augmentUIAnimTabs[i].transform.position = resetPos;
+            Destroy(UITabsShowing[i]);
         }
+
         UITabsShowing.Clear();
     }
 

@@ -812,8 +812,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allBosses:
-  - {fileID: 916234377}
   - {fileID: 276203755}
+  - {fileID: 916234377}
   - {fileID: 452819705}
   currentBoss: {fileID: 0}
   augmentsToPick: 4

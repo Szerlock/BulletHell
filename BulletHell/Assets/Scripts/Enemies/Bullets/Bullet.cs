@@ -12,6 +12,18 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float lifeTime;
     private Coroutine lifeCoroutine;
 
+    [Header("Visual")]
+    [SerializeField] private Material normalMaterial;
+    [SerializeField] private Material dangerMaterial;
+    [SerializeField] private float dangerDistance = 5f;
+
+    [SerializeField] private Renderer rend;
+    private bool isInDangerState = false;
+
+    public float DangerDistance => dangerDistance;
+    public bool IsInDangerState => isInDangerState;
+
+
     public void InitializeBullet(Vector3 dir, float dmg, float lt)
     {
         direction = dir.normalized;
@@ -23,6 +35,14 @@ public class Bullet : MonoBehaviour
             StopCoroutine(lifeCoroutine);
         }
         lifeCoroutine = StartCoroutine(LifeTimer());
+    }
+
+    public void SetDangerState(bool danger)
+    {
+        if (rend == null || danger == isInDangerState) return;
+
+        isInDangerState = danger;
+        rend.material = danger ? dangerMaterial : normalMaterial;
     }
 
     public void Move(float dt)

@@ -89,6 +89,10 @@ MonoBehaviour:
   isBreakable: 0
   health: 0
   lifeTime: 0
+  normalMaterial: {fileID: 2100000, guid: 7df522e0135dd0a41accda9064c2be7c, type: 2}
+  dangerMaterial: {fileID: 2100000, guid: bba5a818f45c229438eb2bd1f365ec7e, type: 2}
+  dangerDistance: 20
+  rend: {fileID: 8979869750003985351}
 --- !u!135 &606231214754207862
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -110,3 +114,8 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 58.61411
   m_Center: {x: 0, y: 0, z: -0.0000019073486}
+--- !u!23 &8979869750003985351 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 7b81b6253e4a4424f91fc3b0e237cb5e, type: 3}
+  m_PrefabInstance: {fileID: 7737028389963429699}
+  m_PrefabAsset: {fileID: 0}

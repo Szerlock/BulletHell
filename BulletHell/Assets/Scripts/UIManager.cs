@@ -28,14 +28,14 @@ public class UIManager : MonoBehaviour
         animator.Play(backGround);
     }
 
-    public IEnumerator PlayAugments()
+    public void PlayAugments()
     {
-        augment[0].Play(augment1);
-        yield return new WaitForSeconds(GetClipLength(augment1));
-        augment[1].Play(augment2);
-        yield return new WaitForSeconds(GetClipLength(augment2));
-        augment[2].Play(augment3);
-        yield return new WaitForSeconds(GetClipLength(augment3));
+        augment[0].Play(augment1,0, 0);
+        augment[0].Update(0);
+        augment[1].Play(augment2, 0, 0);
+        augment[1].Update(0);
+        augment[2].Play(augment3, 0, 0);
+        augment[2].Update(0);
     }
 
     private float GetClipLength(string clipName)
