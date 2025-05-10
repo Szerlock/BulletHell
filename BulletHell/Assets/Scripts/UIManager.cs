@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private string augment1 = "Augment1Movement";
     [SerializeField] private string augment2 = "Augment2Movement";
     [SerializeField] private string augment3 = "Augment3Movement";
+
 
     void Awake()
     {
@@ -25,7 +27,8 @@ public class UIManager : MonoBehaviour
 
     public void PlayBackground()
     {
-        animator.Play(backGround);
+        animator.gameObject.GetComponent<Image>().enabled = true;
+        animator.Play(backGround, 0, 0);
     }
 
     public void PlayAugments()
@@ -38,16 +41,9 @@ public class UIManager : MonoBehaviour
         augment[2].Update(0);
     }
 
-    private float GetClipLength(string clipName)
+    public void EndBackground()
     {
-        RuntimeAnimatorController ac = animator.runtimeAnimatorController;
-        foreach (AnimationClip clip in ac.animationClips)
-        {
-            if (clip.name == clipName)
-                return clip.length;
-        }
-
-        Debug.LogWarning($"Clip '{clipName}' not found in Animator.");
-        return 10;
+        augment[0].Update(0);
+        animator.gameObject.GetComponent<Image>().enabled = false;
     }
 }

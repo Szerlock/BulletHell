@@ -301,7 +301,7 @@ RectTransform:
   m_GameObject: {fileID: 5763982936929132631}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.20518649, y: 0.666296, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1771008719787881873}
@@ -334,7 +334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -363,10 +363,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ee0c8b8019954a46826609a8eeb8dc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 942202760585163685}
-  descriptionText: {fileID: 4518847690947661875}
+  nameText: {fileID: 0}
+  descriptionText: {fileID: 0}
   iconImage: {fileID: 0}
   pickButton: {fileID: 7918240838305976487}
+  augment: {fileID: 0}
 --- !u!114 &7918240838305976487
 MonoBehaviour:
   m_ObjectHideFlags: 0

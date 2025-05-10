@@ -30,6 +30,7 @@ public class AugmentsPicker : MonoBehaviour
             PickAugment();
             yield return new WaitUntil(() => augmentPicked == true);
         }
+        UIManager.Instance.EndBackground();
     }
 
 
