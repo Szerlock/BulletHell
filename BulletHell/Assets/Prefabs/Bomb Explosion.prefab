@@ -89,11 +89,35 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3488124425520449207, guid: 24c961bdbaa094d49b3c74c4cf5b7787, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3488124425520449207, guid: 24c961bdbaa094d49b3c74c4cf5b7787, type: 3}
+      propertyPath: lengthInSec
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3488124425520449207, guid: 24c961bdbaa094d49b3c74c4cf5b7787, type: 3}
       propertyPath: playOnAwake
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5408698760402263250, guid: 24c961bdbaa094d49b3c74c4cf5b7787, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5408698760402263250, guid: 24c961bdbaa094d49b3c74c4cf5b7787, type: 3}
+      propertyPath: lengthInSec
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5408698760402263250, guid: 24c961bdbaa094d49b3c74c4cf5b7787, type: 3}
       propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5732449802600847771, guid: 24c961bdbaa094d49b3c74c4cf5b7787, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5732449802600847771, guid: 24c961bdbaa094d49b3c74c4cf5b7787, type: 3}
+      propertyPath: lengthInSec
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5732449802600847771, guid: 24c961bdbaa094d49b3c74c4cf5b7787, type: 3}
