@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MAT_Bullet
+  m_Name: MAT_BulletClose
   m_Shader: {fileID: 211, guid: 0000000000000000f000000000000000, type: 0}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -147,9 +147,9 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
-    - _Color: {r: 0.3679245, g: 0, b: 0.057197675, a: 1}
+    - _Color: {r: 0.6886792, g: 0.56615055, b: 0.19166073, a: 1}
     - _ColorAddSubDiff: {r: -1, g: 1, b: 0, a: 0}
-    - _EmissionColor: {r: 1.0348054, g: 0.38561147, b: 0.4358518, a: 1}
+    - _EmissionColor: {r: 0.76632506, g: 0.8113208, b: 0.3329477, a: 1}
     - _SoftParticleFadeParams: {r: 0.2, g: 1.25, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
