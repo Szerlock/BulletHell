@@ -36,6 +36,11 @@ public class MiniBallerinaBoss : BossBase
     [SerializeField] private float circleRadius;
     [SerializeField] private Vector3 circleCenter;
 
+    [Header("MoveTowards Places")]
+    [SerializeField] private List<Transform> ballerinaStartPositions;
+    [SerializeField] private float delayBetweenMovements;
+    private Coroutine cinematicEntranceRoutine;
+
     public override void Init()
     {
         base.Init();
@@ -53,9 +58,29 @@ public class MiniBallerinaBoss : BossBase
             ballerina.Init(this, miniHealth);
         }
         timerAir = airAttackCooldown;
-        StartDanceRoutine();
+
+        AudioManager.Instance.PlayBossMusic(1, 1);
+
+        StartCoroutine(CinematicEntranceCoroutine());
+        //StartDanceRoutine();
     }
 
+    private IEnumerator CinematicEntranceCoroutine()
+    {
+        for (int i = 0; i < ballerinas.Count; i++)
+        {
+            BallerinaUnit ballerina = ballerinas[i];
+            Vector3 target = ballerinaStartPositions[i].position;
+
+            ballerina.MoveToPosition(target);
+            yield return new WaitUntil(() => ballerina.HasReachedTarget());
+
+            yield return new WaitForSeconds(delayBetweenMovements);
+        }
+
+        isInitialized = true;
+        StartDanceRoutine();
+    }
 
     private void Update()
     {
@@ -217,7 +242,7 @@ public class MiniBallerinaBoss : BossBase
     public override void TakeDamage(float amount)
     {
         currentHealth -= amount;
-        if (currentHealth < Health / 2)
+        if (currentHealth < Health / 2 && !isUnstable)
             StartSecondPhase();
         if (currentHealth < 0f)
         {
@@ -235,6 +260,8 @@ public class MiniBallerinaBoss : BossBase
         {
             ballerina.changeMaterial.ChangeMat(true);
         }
+        AudioManager.Instance.PlayBossMusic(1, 2);
+
         StartCoroutine(RunAroundBox());
     }
 
@@ -303,5 +330,11 @@ public class MiniBallerinaBoss : BossBase
         {
             ballerinas.Remove(miniBal);
         }
+    }
+
+    protected override void Die()
+    {
+        base.Die();
+        GameManager.Instance.AllEnemies.Clear();
     }
 }

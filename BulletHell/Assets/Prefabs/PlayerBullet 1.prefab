@@ -72,6 +72,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerBullet 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5678228c3c719354b9fd374b1ec59c1f, type: 3}
+      propertyPath: m_TagString
+      value: PlayerBullet
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -156,7 +160,7 @@ MonoBehaviour:
   burnTickDamage: 1
   burnTickInterval: 1
   trackingSpeed: 1
-  trackingDistance: 20
+  trackingDistance: 25
   distanceDamageAugment: 0
   distanceMultiplier: 0.1
   maxEffectiveDistance: 30

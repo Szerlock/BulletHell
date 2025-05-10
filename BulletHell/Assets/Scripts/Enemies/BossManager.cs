@@ -37,7 +37,11 @@ public class BossManager : MonoBehaviour
 
     public IEnumerator NextBoss()
     {
-        augmentManager.finishedPickingAugment = false; 
+        if (currentBossIndex > 0)
+            AudioManager.Instance.UnloadBossMusic(currentBossIndex - 1);
+
+        augmentManager.finishedPickingAugment = false;
+        AudioManager.Instance.PreloadBossMusic(currentBossIndex+1);
         StartCoroutine(augmentManager.StartAugmentPicking(augmentsToPick));
         yield return new WaitUntil(() => augmentManager.finishedPickingAugment == true);
         currentBoss = allBosses[currentBossIndex];

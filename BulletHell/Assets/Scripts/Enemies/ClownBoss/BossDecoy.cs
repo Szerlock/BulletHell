@@ -10,6 +10,7 @@ public class BossDecoy : EnemyBase
     {
         Debug.Log("Init called. bulletSpawner = " + bulletSpawner);
         bulletSpawner.player = target;
+        GameManager.Instance.AddEnemy(transform);
         InvokeRepeating(nameof(CallPickSpecificPattern), 0f, interval);
     }
 
@@ -23,6 +24,7 @@ public class BossDecoy : EnemyBase
     {
         base.Die();
         //GameManager.Instance.currentBoss.GetComponent<ClownBoss>().bossDecoys.Remove(gameObject);
+        GameManager.Instance.RemoveEnemy(transform);
         BossManager.Instance.currentBoss.GetComponent<ClownBoss>().bossDecoys.Remove(gameObject);
     }
 }

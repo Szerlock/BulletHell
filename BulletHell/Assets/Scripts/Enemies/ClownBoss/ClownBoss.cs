@@ -63,10 +63,14 @@ public class ClownBoss : BossBase
     public List<GameObject> bossDecoys;
     public Transform decoyTarget;
 
+    [SerializeField] private Transform center;
 
     public override void Init()
     {
         base.Init();
+        AudioManager.Instance.PlayBossMusic(2, 1);
+        GameManager.Instance.AddEnemy(center);
+        isInitialized = true;
         bossStateHandler.Init(this);
     }
 
@@ -411,13 +415,15 @@ public class ClownBoss : BossBase
 
     public override void TakeDamage(float amount)
     {
+        if (!isInitialized) return;
+        if (isConjuring) return;
         base.TakeDamage(amount);
         if(damageTracker.Count > 0 && currentHealth <= damageTracker[0])
         {
             damageTracker.RemoveAt(0);
             Fall();
         }
-        if (currentHealth <= Health / 2)
+        if (currentHealth <= Health / 2 && !SecondPhase)
         {
             StartSecondPhase();
         }
@@ -430,10 +436,13 @@ public class ClownBoss : BossBase
         StartCoroutine(PlayAnimation("Clown Falling"));
     }
 
+    [ContextMenu("StartSecondPhase")]
     public override void StartSecondPhase()
     {
         SecondPhase = true;
         fireCooldown = unstableFireCooldown;
+        AudioManager.Instance.PlayBossMusic(2, 2);
+
         changeMaterial.ChangeMat(true);
     }
 

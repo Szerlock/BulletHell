@@ -17,10 +17,12 @@ public class FinalBoss : BossBase
     [SerializeField] private RotateFinal rotator;
 
     private Coroutine currentPoseCoroutine;
-
+    [SerializeField] private Transform center;
     public override void Init()
     {
         base.Init();
+        AudioManager.Instance.PlayBossMusic(3, 1);
+        GameManager.Instance.AddEnemy(center);
         bossStateHandler.Init(this);
     }
 
@@ -169,6 +171,7 @@ public class FinalBoss : BossBase
 
     public override void TakeDamage(float amount)
     {
+        if (!isInitialized) return;
         base.TakeDamage(amount);
         if (currentHealth <= currentHealth/2)
         {
@@ -179,6 +182,7 @@ public class FinalBoss : BossBase
     public override void StartSecondPhase()
     {
         SecondPhase = true;
+        AudioManager.Instance.PlayBossMusic(3, 2);
         fireCooldown = unstableFireCooldown;
     }
 }

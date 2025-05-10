@@ -12,7 +12,7 @@ public class PlayerBullet : MonoBehaviour
     private float lifeTimer;
 
     [Header("Tracking Augment Settings")]
-    private EnemyBase targetEnemy = null;
+    private Transform targetEnemy = null;
     [SerializeField] private float trackingSpeed;
     private bool trackingUnlocked;
     private Rigidbody rb;
@@ -52,8 +52,12 @@ public class PlayerBullet : MonoBehaviour
     private void Start()
     {
         if (trackingUnlocked)
-            //targetEnemy = GameManager.Instance.FindClosestEnemy();
-            targetEnemy = BossManager.Instance.currentBoss;
+        {
+            //if(BossManager.Instance.currentBoss is MiniBallerinaBoss)
+                targetEnemy = GameManager.Instance.FindClosestEnemy();
+            //else
+            //    targetEnemy = BossManager.Instance.currentBoss.transform;
+        }
     }
 
     private void Update()

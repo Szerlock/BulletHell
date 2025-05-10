@@ -16,6 +16,7 @@ public class BallerinaUnit : MonoBehaviour
         bulletSpawner.boss = bossController;
         maxHealth = health;
         currentHealth = maxHealth;
+        GameManager.Instance.AddEnemy(transform);
     }
 
     public void MoveToPosition(Vector3 position)    
@@ -25,20 +26,26 @@ public class BallerinaUnit : MonoBehaviour
 
     private void Update()
     {
-        if(boss)
-        if (boss.isInitialized)
-        {
-            if (!boss.isUnstable)
-                transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 10f);
-            else
-                transform.position = Vector3.MoveTowards(transform.position, targetPosition, boss.speed * Time.deltaTime);
+        if (boss)
+            if (boss.isInitialized)
+            {
+                if (!boss.isUnstable)
+                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * 10f);
+                else
+                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, boss.speed * Time.deltaTime);
 
-            transform.Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
-        }
+                transform.Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
+            }
+            else if(targetPosition != Vector3.zero)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * 10f);
+                transform.Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
+            }
     }
 
     public void TakeDamage(float amount)
     {
+        if (!boss.isInitialized) return;
         currentHealth -= amount;
         if (currentHealth <= 0)
         {
@@ -56,6 +63,7 @@ public class BallerinaUnit : MonoBehaviour
     public void BallerinaDead()
     {
         boss.RemoveBallerina(this);
+        GameManager.Instance.RemoveEnemy(transform);
         Destroy(gameObject);
     }
 }

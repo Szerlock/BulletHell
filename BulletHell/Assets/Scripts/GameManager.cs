@@ -4,7 +4,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    //public List<EnemyBase> AllEnemies = new List<EnemyBase>();
+    public List<Transform> AllEnemies = new List<Transform>();
     //public BossBase currentBoss;
     public CharacterController3D Player;
 
@@ -21,46 +21,42 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //public void AddEnemy(EnemyBase enemy)
-    //{
-    //    AllEnemies.Add(enemy);
-    //    if (currentBoss == null)
-    //    {
-    //        currentBoss = (BossBase)enemy;
-    //    }
-    //}
+    public void AddEnemy(Transform enemy)
+    {
+        AllEnemies.Add(enemy);
+    }
 
-    //public void RemoveEnemy(EnemyBase enemy)
-    //{
-    //    if (AllEnemies.Contains(enemy))
-    //    {
-    //        AllEnemies.Remove(enemy);
-    //    }
-    //    else
-    //    {
-    //        Debug.LogWarning("Enemy not found in the list.");
-    //    }
-    //}
+    public void RemoveEnemy(Transform enemy)
+    {
+        if (AllEnemies.Contains(enemy))
+        {
+            AllEnemies.Remove(enemy);
+        }
+        else
+        {
+            Debug.LogWarning("Enemy not found in the list.");
+        }
+    }
 
-    //public EnemyBase FindClosestEnemy()
-    //{
-    //    EnemyBase closest = null;
-    //    float minDistance = Mathf.Infinity;
+    public Transform FindClosestEnemy()
+    {
+        Transform closest = null;
+        float minDistance = Mathf.Infinity;
 
-    //    foreach (var enemy in GameManager.Instance.AllEnemies)
-    //    {
-    //        if (enemy == null) continue;
+        foreach (var enemy in AllEnemies)
+        {
+            if (enemy == null) continue;
 
-    //        float dist = Vector3.Distance(transform.position, enemy.transform.position);
-    //        if (dist < minDistance)
-    //        {
-    //            minDistance = dist;
-    //            closest = enemy;
-    //        }
-    //    }
+            float dist = Vector3.Distance(transform.position, enemy.transform.position);
+            if (dist < minDistance)
+            {
+                minDistance = dist;
+                closest = enemy;
+            }
+        }
 
-    //    return closest;
-    //}
+        return closest;
+    }
 
     //[ContextMenu("Clear List")]
     //public void ClearEnemies()

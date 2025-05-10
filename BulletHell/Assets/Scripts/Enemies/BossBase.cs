@@ -50,7 +50,6 @@ public class BossBase : EnemyBase
 
     public virtual void Init()
     {
-        isInitialized = true;
         base.Start();
     }
 
