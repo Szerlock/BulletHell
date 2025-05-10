@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558a8e2b6826cf840aae193990ba9f2e, type: 3}
   m_Name: ShadowsMidtonesHighlights
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   shadows:
     m_OverrideState: 1
     m_Value: {x: 0.599401, y: 0.63944846, z: 1, w: 0.38153}
@@ -93,10 +93,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5485954d14dfb9a4c8ead8edb0ded5b1, type: 3}
   m_Name: LiftGammaGain
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   lift:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.6701389, z: 0.8303882, w: -0.049689442}
+    m_Value: {x: 1, y: 0.57456493, z: 0.80386144, w: -0.049689442}
   gamma:
     m_OverrideState: 1
     m_Value: {x: 1, y: 0.8933111, z: 0.6256274, w: 0.23602484}
