@@ -29,8 +29,8 @@ public class Bomb : MonoBehaviour
         if (isThrown)
         {   
             MoveBombTowardsTarget();
-            UpdateCirclePosition();
         }
+        UpdateCirclePosition();
     }
 
     private void MoveBombTowardsTarget()

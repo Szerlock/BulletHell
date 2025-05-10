@@ -10,15 +10,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1717591723396430526, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
       propertyPath: m_Name
-      value: PS_Stunned 1
+      value: PS_MuzzleFlash
       objectReference: {fileID: 0}
     - target: {fileID: 1717591723396430526, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2056491827768315214, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2056491827768315214, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
       propertyPath: lengthInSec
-      value: 1
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2056491827768315214, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[2].time
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2056491827768315214, guid: 5a67ae1ac1ca66c4ab47f90b6b8272ee, type: 3}
       propertyPath: SubModule.subEmitters.Array.data[0].emitter
