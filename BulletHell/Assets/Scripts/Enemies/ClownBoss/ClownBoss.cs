@@ -454,9 +454,10 @@ public class ClownBoss : BossBase
     {
         currentState = State.Falling;
         animator.Play(name);
-        yield return new WaitForSeconds(GetClipLength(name));
-        currentState = State.Conjuring;
+        yield return new WaitForSeconds(.5f);
         poof.Play();
+        yield return new WaitForSeconds(.5f);
+        currentState = State.Conjuring;
         transform.localScale = Vector3.zero;
         // Eventually play puff vfx
     }
