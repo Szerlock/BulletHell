@@ -49,16 +49,16 @@ public class PlayerBullet : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        if (trackingUnlocked)
-        {
-            //if(BossManager.Instance.currentBoss is MiniBallerinaBoss)
-                targetEnemy = GameManager.Instance.FindClosestEnemy();
-            //else
-            //    targetEnemy = BossManager.Instance.currentBoss.transform;
-        }
-    }
+    //private void Start()
+    //{
+    //    if (trackingUnlocked)
+    //    {
+    //        //if(BossManager.Instance.currentBoss is MiniBallerinaBoss)
+    //            targetEnemy = GameManager.Instance.FindClosestEnemy();
+    //        //else
+    //        //    targetEnemy = BossManager.Instance.currentBoss.transform;
+    //    }
+    //}
 
     private void Update()
     {
@@ -66,6 +66,7 @@ public class PlayerBullet : MonoBehaviour
 
         if (trackingUnlocked)
         {
+            targetEnemy = GameManager.Instance.FindClosestEnemy(); 
             TrackEnemy();
         }
     }

@@ -10,19 +10,20 @@ public enum ProjectileType
 
 public class DragonProjectile : MonoBehaviour
 {
-    private Vector3 direction;
+    private Transform direction;
     public ProjectileType projectileType;
     [SerializeField] private float speed;
     [SerializeField] private float damage;
     [SerializeField] private float lifetime = 5f;
     [SerializeField] private float healAmount;
+    [SerializeField] private GameObject bombVfx; 
 
     private float timer = 0f;
 
 
-    public void Init(Vector3 dir, ProjectileType type, float dmg, float spd)
+    public void Init(Transform dir, ProjectileType type, float dmg, float spd)
     {
-        direction = dir.normalized;
+        direction = dir;
         projectileType = type;
         speed = spd;
         damage = dmg;
@@ -30,8 +31,14 @@ public class DragonProjectile : MonoBehaviour
 
     void Update()
     {
-        transform.position += direction * speed * Time.deltaTime;
+        if (direction == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
+        transform.position = Vector3.MoveTowards(transform.position, direction.position, speed * Time.deltaTime);
+       
         timer += Time.deltaTime;
         if (timer >= lifetime)
         {
@@ -49,6 +56,7 @@ public class DragonProjectile : MonoBehaviour
             {
                 case ProjectileType.Bomb:
                     enemy.TakeDamage(damage);
+                    Instantiate(bombVfx, transform.position, transform.rotation);
                     Debug.Log("Bomb projectile hit enemy");
                     break;
                 case ProjectileType.Fire:

@@ -34,12 +34,16 @@ public class DragonShooting : MonoBehaviour
         }
         else
         {
-            EnemyBase bossTarget = BossManager.Instance.currentBoss;
-            if (bossTarget != null)
-            {
-                target = bossTarget.transform;
-            }
+            target = GameManager.Instance.FindClosestEnemy();
         }
+        //else
+        //{
+        //    EnemyBase bossTarget = BossManager.Instance.currentBoss;
+        //    if (bossTarget != null)
+        //    {
+        //        target = bossTarget.transform;
+        //    }
+        //}
 
         //EnemyBase target = GameManager.Instance.FindClosestEnemy();
         //EnemyBase target = BossManager.Instance.currentBoss;
@@ -49,7 +53,7 @@ public class DragonShooting : MonoBehaviour
 
         GameObject projGO = Instantiate(projectilePrefab, shootPoint.position, Quaternion.LookRotation(dir));
         DragonProjectile proj = projGO.GetComponent<DragonProjectile>();
-        proj.Init(dir, projectileType, projectileDamage, projectileSpeed);
+        proj.Init(target, projectileType, projectileDamage, projectileSpeed);
     }
 
     public void UpgradeDragons(float multiplier)
