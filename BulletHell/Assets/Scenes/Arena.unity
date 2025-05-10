@@ -874,8 +874,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allBosses:
-  - {fileID: 276203755}
   - {fileID: 916234377}
+  - {fileID: 276203755}
   - {fileID: 452819705}
   currentBoss: {fileID: 0}
   augmentsToPick: 4
@@ -3232,7 +3232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &832575518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3302,7 +3302,7 @@ MonoBehaviour:
   m_IsGlobal: 1
   priority: 0
   blendDistance: 0
-  weight: 1
+  weight: 0
   sharedProfile: {fileID: 11400000, guid: ab09877e2e707104187f6f83e2f62510, type: 2}
 --- !u!4 &879581496
 Transform:
