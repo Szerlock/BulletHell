@@ -361,7 +361,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &175434326
 RectTransform:
   m_ObjectHideFlags: 0
@@ -378,7 +378,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -2000, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &175434327
@@ -895,6 +895,55 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   m_Enabled: 1
+--- !u!1 &347205437
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 347205439}
+  - component: {fileID: 347205438}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &347205438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347205437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a999595881026c54085ad359fb3c6d64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  backGround: AugmentBackground
+  augment1: Augment1Movement
+  augment2: Augment2Movement
+  augment3: Augment3Movement
+--- !u!4 &347205439
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347205437}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 732.65594, y: 633.0959, z: 81.65871}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &357290682
 GameObject:
   m_ObjectHideFlags: 0
@@ -3840,19 +3889,13 @@ MonoBehaviour:
   - {fileID: 5763982936929132631, guid: ed8c366791aa2624d890b39c7082d35c, type: 3}
   - {fileID: 5763982936929132631, guid: 458d4a15d82f90e468476f16855d598f, type: 3}
   - {fileID: 5763982936929132631, guid: 9195d25138ac5d24db7ac068e7f1f0d1, type: 3}
-  augmentUIPos:
-  - {fileID: 729622297}
-  - {fileID: 179054035}
-  - {fileID: 796480434}
   augmentPanel: {fileID: 497868993}
-  UITabsShowing:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  UITabsShowing: []
   finishedPickingAugment: 0
+  augmentUIAnimTabs:
+  - {fileID: 1793120933}
+  - {fileID: 559077862}
+  - {fileID: 504518879}
 --- !u!4 &1925648607
 Transform:
   m_ObjectHideFlags: 0
@@ -4592,3 +4635,4 @@ SceneRoots:
   - {fileID: 1520441802}
   - {fileID: 1790536886}
   - {fileID: 1052514819}
+  - {fileID: 347205439}

@@ -6,7 +6,7 @@ public class AugmentsPicker : MonoBehaviour
 {
     [SerializeField] private List<AugmentBase> potentialAugments;
     [SerializeField] private List<GameObject> augmentUITabs;
-    [SerializeField] private List<Transform> augmentUIPos;
+    //[SerializeField] private List<Transform> augmentUIPos;
     [SerializeField] private Transform augmentPanel;
     [SerializeField] private List<GameObject> UITabsShowing;
 
@@ -14,6 +14,10 @@ public class AugmentsPicker : MonoBehaviour
     private bool augmentPicked = false;
     private int augmentPickedCount = 0;
     private int AugmentNeeded = 0;
+
+    [Header("Augments Anim")]
+    [SerializeField] private List<Transform> augmentUIAnimTabs;
+
 
     public IEnumerator StartAugmentPicking(int amount)
     {
@@ -31,6 +35,7 @@ public class AugmentsPicker : MonoBehaviour
     public void PickAugment()
     {
 
+        UIManager.Instance.PlayBackground();
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         augmentPicked = false;
@@ -57,12 +62,14 @@ public class AugmentsPicker : MonoBehaviour
             //Debug.Log($"Picked augment {pickedAugment.name} for tab index {i}");
 
         }
+        StartCoroutine(UIManager.Instance.PlayAugments());
     }
 
     public void ShowAugment(GameObject AugmentTab, int i, AugmentBase augment)
     {
-        GameObject tab = Instantiate(AugmentTab, augmentUIPos[i].position, Quaternion.identity, augmentPanel);
+        GameObject tab = Instantiate(AugmentTab, augmentUIAnimTabs[i].position, Quaternion.identity, augmentPanel);
         UITabsShowing.Add(tab);
+        tab.transform.SetParent(augmentUIAnimTabs[i]);
         tab.GetComponent<AugmentUITab>().Init(augment);
         //Debug.Log($"Initializing tab with augment: {augment.name}");
 
