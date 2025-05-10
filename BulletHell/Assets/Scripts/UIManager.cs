@@ -10,8 +10,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private string augment2 = "Augment2Movement";
     [SerializeField] private string augment3 = "Augment3Movement";
 
-    void Start()
+    void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
     }
 
