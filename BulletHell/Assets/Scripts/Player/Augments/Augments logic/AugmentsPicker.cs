@@ -35,7 +35,7 @@ public class AugmentsPicker : MonoBehaviour
     public void PickAugment()
     {
 
-        //UIManager.Instance.PlayBackground();
+        UIManager.Instance.PlayBackground();
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         augmentPicked = false;
@@ -62,7 +62,7 @@ public class AugmentsPicker : MonoBehaviour
             //Debug.Log($"Picked augment {pickedAugment.name} for tab index {i}");
 
         }
-        //StartCoroutine(UIManager.Instance.PlayAugments());
+        StartCoroutine(UIManager.Instance.PlayAugments());
     }
 
     public void ShowAugment(GameObject AugmentTab, int i, AugmentBase augment)
