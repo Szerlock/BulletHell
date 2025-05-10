@@ -50,7 +50,6 @@ public class ClownBoss : BossBase
     public List<Vector3> rotationBoxes;
 
 
-
     [Header("Movement Variables")]
     private Transform currentStartTransform; 
     private Transform currentEndTransform;   
@@ -64,6 +63,8 @@ public class ClownBoss : BossBase
     public Transform decoyTarget;
 
     [SerializeField] private Transform center;
+    [SerializeField] private ParticleSystem boxPoof;
+    [SerializeField] private ParticleSystem poof;
 
     public override void Init()
     {
@@ -80,6 +81,7 @@ public class ClownBoss : BossBase
         {
             if (currentState == State.Juggling)
             {
+                ReturnToNormal();
                 Juggling();
             }
             else
@@ -326,6 +328,8 @@ public class ClownBoss : BossBase
     {
         foreach (Transform box in boxList)
         {
+            Instantiate(boxPoof.gameObject, box.position, Quaternion.identity);
+            boxPoof.Play();
             Destroy(box.gameObject);
         }
         boxList.Clear();
@@ -452,6 +456,8 @@ public class ClownBoss : BossBase
         animator.Play(name);
         yield return new WaitForSeconds(GetClipLength(name));
         currentState = State.Conjuring;
+        poof.Play();
+        transform.localScale = Vector3.zero;
         // Eventually play puff vfx
     }
 
