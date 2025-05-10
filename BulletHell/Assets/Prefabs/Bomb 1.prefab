@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   segments: 100
   radius: 5
-  lineMaterial: {fileID: 2100000, guid: 1d4ddaa7c400d41478c9b061af325a1a, type: 2}
+  lineMaterial: {fileID: 2100000, guid: 7df522e0135dd0a41accda9064c2be7c, type: 2}
 --- !u!120 &6550886277405931213
 LineRenderer:
   serializedVersion: 2
