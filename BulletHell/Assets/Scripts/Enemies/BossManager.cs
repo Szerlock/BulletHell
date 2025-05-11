@@ -10,6 +10,7 @@ public class BossManager : MonoBehaviour
     [SerializeField] private int augmentsToPick;
     [SerializeField] public AugmentsPicker augmentManager;
 
+    [SerializeField] private GameObject winCanvas;
 
     private int currentBossIndex = 0;
 
@@ -43,6 +44,11 @@ public class BossManager : MonoBehaviour
         //{
         //    SpawnMask.Instance.SpawnMaskAugment();
         //}
+        if (currentBossIndex >= allBosses.Count)
+        {
+            winCanvas.SetActive(true);
+            yield break;
+        }
 
         currentBoss = allBosses[currentBossIndex];
         currentBossIndex++;

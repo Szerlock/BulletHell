@@ -24,6 +24,9 @@ public class FinalBoss : BossBase
     [SerializeField] private Animator cutSceneAnimator;
     [SerializeField] private Transform cutScenePosition;
     private float startTime;
+    private bool isPaused = false;
+
+
     public override void Init()
     {
         base.Init();
@@ -69,7 +72,7 @@ public class FinalBoss : BossBase
 
     private void FixedUpdate()
     {
-        if (isInitialized)
+        if (isInitialized && !isPaused)
         {
             baseMoveUpdate();
         }
@@ -99,7 +102,7 @@ public class FinalBoss : BossBase
     public void PlayRandomPoseSequence()
     {
         if (currentPoseCoroutine != null)
-            //StopCoroutine(currentPoseCoroutine);
+            StopCoroutine(currentPoseCoroutine);
         currentPoseCoroutine = null;
         int poseIndex = UnityEngine.Random.Range(0, 3);
 
@@ -117,7 +120,7 @@ public class FinalBoss : BossBase
     public void PlayAnimationSequence(string name)
     {
         if (currentPoseCoroutine != null)
-            //StopCoroutine(currentPoseCoroutine);
+            StopCoroutine(currentPoseCoroutine);
         currentPoseCoroutine = null;
         currentPoseCoroutine = name switch
         {

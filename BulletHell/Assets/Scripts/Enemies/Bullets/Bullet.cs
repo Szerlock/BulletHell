@@ -9,7 +9,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float damage;
     public bool isBreakable = false;
     public float health;
-    [SerializeField] private float lifeTime;
+    [SerializeField] public float lifeTime;
     private Coroutine lifeCoroutine;
 
     [Header("Visual")]
@@ -30,11 +30,11 @@ public class Bullet : MonoBehaviour
         damage = dmg;
         lifeTime = lt;
 
-        if (lifeCoroutine != null)
-        {
-            StopCoroutine(lifeCoroutine);
-        }
-        lifeCoroutine = StartCoroutine(LifeTimer());
+        //if (lifeCoroutine != null)
+        //{
+        //    StopCoroutine(lifeCoroutine);
+        //}
+        //lifeCoroutine = StartCoroutine(LifeTimer());
     }
 
     public void SetDangerState(bool danger)
@@ -78,7 +78,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    void Disable()
+    public void Disable()
     {
         //Debug.Log("Disable");
         BulletPool.Instance.ReturnBullet(gameObject);
@@ -87,7 +87,7 @@ public class Bullet : MonoBehaviour
     void OnEnable()
     {
         BulletManager.Instance.Register(this);
-        lifeCoroutine = StartCoroutine(LifeTimer());
+        //lifeCoroutine = StartCoroutine(LifeTimer());
     }
 
     void OnDisable()
@@ -98,25 +98,5 @@ public class Bullet : MonoBehaviour
             StopCoroutine(lifeCoroutine);
             lifeCoroutine = null;
         }
-    }
-
-    private IEnumerator LifeTimer()
-    {
-
-        float elapsed = 0f;
-        while (elapsed < lifeTime)
-        {
-            while (!UIManager.Instance.backgroundUp)
-            {
-                yield return null; 
-            }
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        Disable();
-        //yield return new WaitForSeconds(lifeTime);
-        //Disable();
     }
 }
