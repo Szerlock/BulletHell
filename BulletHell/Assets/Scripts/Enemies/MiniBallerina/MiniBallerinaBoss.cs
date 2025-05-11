@@ -84,19 +84,22 @@ public class MiniBallerinaBoss : BossBase
 
     private void Update()
     {
-        if (isInitialized)
+        if (Cursor.lockState == CursorLockMode.Locked && !Cursor.visible)
         {
-            currentRadius = Mathf.Lerp(currentRadius, chainRadius, Time.deltaTime * chainExpandSpeed);
-
-            if (!isAttacking)
-                timerAir -= Time.deltaTime;
-            if (timerAir <= 0 && isUnstable)
+            if (isInitialized)
             {
-                PerformAirAttack();
-            }
+                currentRadius = Mathf.Lerp(currentRadius, chainRadius, Time.deltaTime * chainExpandSpeed);
 
-            if (!isUnstable)
-                UpdateBallerinaPositions();
+                if (!isAttacking)
+                    timerAir -= Time.deltaTime;
+                if (timerAir <= 0 && isUnstable)
+                {
+                    PerformAirAttack();
+                }
+
+                if (!isUnstable)
+                    UpdateBallerinaPositions();
+            }
         }
     }
 

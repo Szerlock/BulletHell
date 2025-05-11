@@ -28,11 +28,14 @@ public class FinalBoss : BossBase
 
     private void Update()
     {
-        if (isInitialized)
+        if (Cursor.lockState == CursorLockMode.Locked && !Cursor.visible)
         {
-            if (currentState == State.Moving && isMoving)
+            if (isInitialized)
             {
-                RotateWhileMoving();
+                if (currentState == State.Moving && isMoving)
+                {
+                    RotateWhileMoving();
+                }
             }
         }
     }

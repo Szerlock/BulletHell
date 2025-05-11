@@ -1290,8 +1290,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allBosses:
-  - {fileID: 916234377}
   - {fileID: 276203755}
+  - {fileID: 916234377}
   - {fileID: 452819705}
   currentBoss: {fileID: 0}
   augmentsToPick: 4
@@ -7428,7 +7428,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9c0b3ffa23e299f45b979ae2f770aae1, type: 3}
   - {fileID: 8300000, guid: 00e2a0bfff4afce48820cb564c692862, type: 3}
   - {fileID: 8300000, guid: bb3ee284aa0c7714088456086e78de1e, type: 3}
-  bulletSFX: {fileID: 8300000, guid: 5b32ae76a58861a42bc2894a386bb3c0, type: 3}
+  sfxClips:
+  - {fileID: 8300000, guid: 0494863a820e34e4e86204b465983dba, type: 3}
+  - {fileID: 8300000, guid: 2511ae135a02f1a4a96cdfa8121123e6, type: 3}
+  - {fileID: 8300000, guid: 5b32ae76a58861a42bc2894a386bb3c0, type: 3}
+  - {fileID: 8300000, guid: e969a0d50baa04f48bea2c74672ecec4, type: 3}
+  - {fileID: 8300000, guid: 1790f37ae8a549440a5fa3e0e0993aa3, type: 3}
+  - {fileID: 8300000, guid: 17eabde4d251e304bbe9f4654ff3f66e, type: 3}
 --- !u!1 &1793120932
 GameObject:
   m_ObjectHideFlags: 0

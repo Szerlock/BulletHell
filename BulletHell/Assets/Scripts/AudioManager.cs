@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -17,7 +18,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] bossPhaseTracks;
 
     [Header("SFX Clips")]
-    public AudioClip bulletSFX;
+    [SerializeField] private List<AudioClip> sfxClips;
 
     private void Awake()
     {
@@ -99,6 +100,32 @@ public class AudioManager : MonoBehaviour
     {
         if (clip == null) return;
         sfxSource.PlayOneShot(clip);
+    }
+    public void PlaySFX(string clipName)
+    {
+        AudioClip clip = sfxClips.Find(c => c.name == clipName);
+        if (clip != null)
+        {
+            PlaySFX(clip);
+        }
+        else
+        {
+            Debug.LogWarning($"SFX Clip '{clipName}' not found in the list.");
+        }
+    }
+
+    public void PlaySFXWithPitch(string clipName, float pitchMin = 0.95f, float pitchMax = 1.05f)
+    {
+        AudioClip clip = sfxClips.Find(c => c != null && c.name == clipName);
+        if (clip == null)
+        {
+            Debug.LogWarning($"Audio clip '{clipName}' not found.");
+            return;
+        }
+
+        sfxSource.pitch = Random.Range(pitchMin, pitchMax);
+        sfxSource.PlayOneShot(clip);
+        sfxSource.pitch = 1f;
     }
 
     public void SetSFXVolume(float volume)

@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 
 public class ClownBoss : BossBase
 {
@@ -77,22 +78,25 @@ public class ClownBoss : BossBase
 
     private void Update()
     {
-        if (isInitialized)
+        if (Cursor.lockState == CursorLockMode.Locked && !Cursor.visible)
         {
-            if (currentState == State.Juggling)
+            if (isInitialized)
             {
-                ReturnToNormal();
-                Juggling();
-            }
-            else
-            {
-                ropePicked = false;
-            }
+                if (currentState == State.Juggling)
+                {
+                    ReturnToNormal();
+                    Juggling();
+                }
+                else
+                {
+                    ropePicked = false;
+                }
 
-            if (isConjuring && bossDecoys.Count == 0)
-            {
-                isAttacking = false;
-                isConjuring = false;
+                if (isConjuring && bossDecoys.Count == 0)
+                {
+                    isAttacking = false;
+                    isConjuring = false;
+                }
             }
         }
     }
@@ -394,6 +398,7 @@ public class ClownBoss : BossBase
             bombsThrown = 0;
 
             animator.Play("ThrowBombs", -1, 0f);
+            AudioManager.Instance.PlaySFX("Bombing");
             transform.LookAt(player);
             yield return new WaitForSeconds(1f);
             while (bombsThrown < bombCount)
@@ -457,6 +462,7 @@ public class ClownBoss : BossBase
         animator.Play(name);
         yield return new WaitForSeconds(.5f);
         poof.Play();
+        AudioManager.Instance.PlaySFX("PoofClown");
         yield return new WaitForSeconds(.5f);
         currentState = State.Conjuring;
         transform.localScale = Vector3.zero;

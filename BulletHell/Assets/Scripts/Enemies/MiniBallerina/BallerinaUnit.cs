@@ -4,11 +4,13 @@ public class BallerinaUnit : MonoBehaviour
 {
     private MiniBallerinaBoss boss;
     private Vector3 targetPosition;
-    [SerializeField] private float rotateSpeed = 360f;
+    [SerializeField] private float baseRotateSpeed = 360f;
     [SerializeField] public ChangeMaterial changeMaterial;
     public BulletSpawner bulletSpawner;
     public float maxHealth;
     public float currentHealth;
+    private float rotateSpeed;
+    private float unstableRotateSpeed;
 
     public void Init(MiniBallerinaBoss bossController, float health)
     {
@@ -16,6 +18,12 @@ public class BallerinaUnit : MonoBehaviour
         bulletSpawner.boss = bossController;
         maxHealth = health;
         currentHealth = maxHealth;
+
+        rotateSpeed = baseRotateSpeed;
+        float flip = Random.value > 0.5f ? 1f : -1f;
+        float speedMultiplier = Random.Range(1.2f, 1.8f);
+        unstableRotateSpeed = rotateSpeed * flip * speedMultiplier;
+
         GameManager.Instance.AddEnemy(transform);
     }
 
@@ -26,21 +34,31 @@ public class BallerinaUnit : MonoBehaviour
 
     private void Update()
     {
-        if (boss)
+        if (Cursor.lockState == CursorLockMode.Locked && !Cursor.visible)
+        {
+            if (!boss) return;
+
             if (boss.isInitialized)
             {
                 if (!boss.isUnstable)
+                {
+                    rotateSpeed = baseRotateSpeed;
                     transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * 10f);
+                }
                 else
+                {
+                    rotateSpeed = unstableRotateSpeed;
                     transform.position = Vector3.MoveTowards(transform.position, targetPosition, boss.speed * Time.deltaTime);
+                }
 
-                transform.Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
             }
-            else if(targetPosition != Vector3.zero)
+            else if (targetPosition != Vector3.zero)
             {
-                transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * 10f);
-                transform.Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
+                rotateSpeed = baseRotateSpeed;
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * 30f);
             }
+            transform.Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
+        }
     }
 
     public void TakeDamage(float amount)
