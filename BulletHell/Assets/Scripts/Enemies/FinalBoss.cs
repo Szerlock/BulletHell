@@ -25,6 +25,7 @@ public class FinalBoss : BossBase
     [SerializeField] private Transform cutScenePosition;
     private float startTime;
     private bool isPaused = false;
+    private bool playAnimation = false;
 
 
     public override void Init()
@@ -38,6 +39,7 @@ public class FinalBoss : BossBase
     private IEnumerator PlayIntroSequence()
     {
         cutSceneAnimator.Play("OpenGate");
+        playAnimation = true;
         yield return new WaitForSeconds(5f);
         bossStateHandler.Init(this);
     }
@@ -53,7 +55,7 @@ public class FinalBoss : BossBase
                     RotateWhileMoving();
                 }
             }
-            else if (!isInitialized)
+            else if (playAnimation)
             {
                 Vector3 direction = (cutScenePosition.position - transform.position).normalized;
                 transform.position = Vector3.MoveTowards(transform.position, cutScenePosition.position, 15 * Time.deltaTime);
@@ -65,6 +67,7 @@ public class FinalBoss : BossBase
                 {
                     isInitialized = true;
                     Debug.Log($"Reached the target in {elapsedTime} seconds");
+                    playAnimation = false;
                 }
             }
         }
