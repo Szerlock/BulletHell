@@ -36,6 +36,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 dashDirection;
 
     public bool isAiming = false;
+    private int maxJumps = 2;
+    private int jumpCount = 0;
 
     [Header("Rotate Character")]
     [SerializeField] private Vector3 offset;
@@ -75,7 +77,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (isGrounded && velocity.y < 0)
+        {
             velocity.y = -2f;
+            jumpCount = 0;
+        }
 
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
@@ -92,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
         float effectiveSpeed = moveSpeed;
         if (!isGrounded && !isHovering)
         {
-            effectiveSpeed *= 0.3f;
+            effectiveSpeed *= 0.5f;
         }
 
         controller.Move(moveDir * effectiveSpeed * Time.deltaTime);
@@ -102,9 +107,10 @@ public class PlayerMovement : MonoBehaviour
     
     private void CheckJump()
     {
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && jumpCount < maxJumps)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            jumpCount++;
         }
     }
 

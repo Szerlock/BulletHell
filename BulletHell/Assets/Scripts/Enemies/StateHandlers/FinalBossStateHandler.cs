@@ -15,22 +15,25 @@ public class FinalBossStateHandler : StateHandler
     {
         if (Cursor.lockState == CursorLockMode.Locked && !Cursor.visible)
         {
-            if (boss)
-                if (boss.isInitialized)
-                {
-                    switch (boss.currentState)
+            if (!GameManager.Instance.isInCinematic)
+            {
+                if (boss)
+                    if (boss.isInitialized)
                     {
-                        case BossBase.State.Waiting:
-                            HandleWaiting();
-                            break;
-                        case BossBase.State.Attacking:
-                            HandleAttacking();
-                            break;
-                        case BossBase.State.Moving:
-                            HandleMoving();
-                            break;
+                        switch (boss.currentState)
+                        {
+                            case BossBase.State.Waiting:
+                                HandleWaiting();
+                                break;
+                            case BossBase.State.Attacking:
+                                HandleAttacking();
+                                break;
+                            case BossBase.State.Moving:
+                                HandleMoving();
+                                break;
+                        }
                     }
-                }
+            }
         }
     }
 

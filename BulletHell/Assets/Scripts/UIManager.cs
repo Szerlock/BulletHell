@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private string augment2 = "Augment2Movement";
     [SerializeField] private string augment3 = "Augment3Movement";
 
+    public bool backgroundUp = false;
 
     void Awake()
     {
@@ -28,6 +29,7 @@ public class UIManager : MonoBehaviour
     public void PlayBackground()
     {
         animator.gameObject.SetActive(true);
+        backgroundUp = true;
         animator.Play(backGround, 0, 0);
     }
 
@@ -44,6 +46,7 @@ public class UIManager : MonoBehaviour
     public void EndBackground()
     {
         augment[0].Update(0);
+        backgroundUp = false;
         animator.gameObject.SetActive(false);
     }
 }

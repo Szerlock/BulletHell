@@ -15,22 +15,25 @@ public class MiniBallerinaStateHandler : StateHandler
     {
         if (Cursor.lockState == CursorLockMode.Locked && !Cursor.visible)
         {
-            if (ballerina)
-                if (ballerina.isInitialized)
-                {
-                    switch (ballerina.currentState)
+            if (!GameManager.Instance.isInCinematic)
+            {
+                if (ballerina)
+                    if (ballerina.isInitialized)
                     {
-                        case BossBase.State.Attacking:
-                            HandleAttacking();
-                            break;
-                        case BossBase.State.Waiting:
-                            HandleWaiting();
-                            break;
-                        case BossBase.State.Unstable:
-                            HandleUnstable();
-                            break;
+                        switch (ballerina.currentState)
+                        {
+                            case BossBase.State.Attacking:
+                                HandleAttacking();
+                                break;
+                            case BossBase.State.Waiting:
+                                HandleWaiting();
+                                break;
+                            case BossBase.State.Unstable:
+                                HandleUnstable();
+                                break;
+                        }
                     }
-                }
+            }
         }
     }
 

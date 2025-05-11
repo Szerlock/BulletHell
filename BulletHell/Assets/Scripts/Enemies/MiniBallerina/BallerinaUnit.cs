@@ -36,28 +36,31 @@ public class BallerinaUnit : MonoBehaviour
     {
         if (Cursor.lockState == CursorLockMode.Locked && !Cursor.visible)
         {
-            if (!boss) return;
-
-            if (boss.isInitialized)
+            if (!GameManager.Instance.isInCinematic)
             {
-                if (!boss.isUnstable)
+                if (!boss) return;
+
+                if (boss.isInitialized)
+                {
+                    if (!boss.isUnstable)
+                    {
+                        rotateSpeed = baseRotateSpeed;
+                        transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * 10f);
+                    }
+                    else
+                    {
+                        rotateSpeed = unstableRotateSpeed;
+                        transform.position = Vector3.MoveTowards(transform.position, targetPosition, boss.speed * Time.deltaTime);
+                    }
+
+                }
+                else if (targetPosition != Vector3.zero && !boss.isInitialized)
                 {
                     rotateSpeed = baseRotateSpeed;
-                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * 10f);
+                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * 30f);
                 }
-                else
-                {
-                    rotateSpeed = unstableRotateSpeed;
-                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, boss.speed * Time.deltaTime);
-                }
-
+                transform.Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
             }
-            else if (targetPosition != Vector3.zero)
-            {
-                rotateSpeed = baseRotateSpeed;
-                transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * 30f);
-            }
-            transform.Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
         }
     }
 

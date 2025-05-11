@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class FinalBoss : BossBase
 {
@@ -18,11 +20,22 @@ public class FinalBoss : BossBase
 
     private Coroutine currentPoseCoroutine;
     [SerializeField] private Transform center;
+
+    [SerializeField] private Animator cutSceneAnimator;
+    [SerializeField] private Transform cutScenePosition;
+    private float startTime;
     public override void Init()
     {
         base.Init();
         AudioManager.Instance.PlayBossMusic(3, 1);
         GameManager.Instance.AddEnemy(center);
+        StartCoroutine(PlayIntroSequence());
+    }
+
+    private IEnumerator PlayIntroSequence()
+    {
+        cutSceneAnimator.Play("OpenGate");
+        yield return new WaitForSeconds(5f);
         bossStateHandler.Init(this);
     }
 
@@ -35,6 +48,20 @@ public class FinalBoss : BossBase
                 if (currentState == State.Moving && isMoving)
                 {
                     RotateWhileMoving();
+                }
+            }
+            else if (!isInitialized)
+            {
+                Vector3 direction = (cutScenePosition.position - transform.position).normalized;
+                transform.position = Vector3.MoveTowards(transform.position, cutScenePosition.position, 15 * Time.deltaTime);
+
+                transform.Rotate(Vector3.up * 360f * Time.deltaTime);
+
+                float elapsedTime = Time.time - startTime;
+                if (Vector3.Distance(transform.position, cutScenePosition.position) < 0.1f)
+                {
+                    isInitialized = true;
+                    Debug.Log($"Reached the target in {elapsedTime} seconds");
                 }
             }
         }
@@ -72,7 +99,7 @@ public class FinalBoss : BossBase
     public void PlayRandomPoseSequence()
     {
         if (currentPoseCoroutine != null)
-            StopCoroutine(currentPoseCoroutine);
+            //StopCoroutine(currentPoseCoroutine);
         currentPoseCoroutine = null;
         int poseIndex = UnityEngine.Random.Range(0, 3);
 
@@ -90,7 +117,7 @@ public class FinalBoss : BossBase
     public void PlayAnimationSequence(string name)
     {
         if (currentPoseCoroutine != null)
-            StopCoroutine(currentPoseCoroutine);
+            //StopCoroutine(currentPoseCoroutine);
         currentPoseCoroutine = null;
         currentPoseCoroutine = name switch
         {
@@ -119,6 +146,7 @@ public class FinalBoss : BossBase
             animator.Play(clipNames[clipNames.Count - 1]);
             yield return new WaitForSeconds(GetClipLength(clipNames[clipNames.Count - 1]));
             currentPoseCoroutine = StartCoroutine(PlayConjuringSequence());
+            isPlayingPose = false;
             yield break;
         }
 

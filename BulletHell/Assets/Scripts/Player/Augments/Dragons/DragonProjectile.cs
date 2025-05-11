@@ -63,10 +63,9 @@ public class DragonProjectile : MonoBehaviour
                     BurnEffect effect = GlobalBurnStats.GetBurnEffect();
                     enemy.ApplyBurn(effect.tickDamage, effect.tickInterval, effect.duration);
                     break;
-                case ProjectileType.Healing:
-                    GameManager.Instance.Player.Heal(healAmount);
-                    Debug.Log("Healing");
-                    break;
+                //case ProjectileType.Healing:
+                //    Debug.Log("Healing");
+                //    break;
                 case ProjectileType.Shadow:
                     //enemy.ApplySlow();
                     Debug.Log("Shadow projectile hit enemy");
@@ -79,9 +78,9 @@ public class DragonProjectile : MonoBehaviour
         {
             other.GetComponent<BallerinaUnit>().TakeDamage(damage);
         }
-        else if (other.CompareTag("Player"))
-        { 
-            
+        if (projectileType == ProjectileType.Healing)
+        {
+            GameManager.Instance.Player.Heal(healAmount);
         }
     }
 }

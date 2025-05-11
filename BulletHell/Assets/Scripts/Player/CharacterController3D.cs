@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CharacterController3D : MonoBehaviour
 {
 
-    [SerializeField] private PlayerMovement movement;
+    [SerializeField] public PlayerMovement movement;
     [SerializeField] private FlashingEffect flashingEffect;
 
     [Header("PlayerStats")]

@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public List<Transform> AllEnemies = new List<Transform>();
     //public BossBase currentBoss;
     public CharacterController3D Player;
+    public bool isInCinematic = false;
 
     private void Awake()
     {

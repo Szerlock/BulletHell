@@ -102,7 +102,21 @@ public class Bullet : MonoBehaviour
 
     private IEnumerator LifeTimer()
     {
-        yield return new WaitForSeconds(lifeTime);
+
+        float elapsed = 0f;
+        while (elapsed < lifeTime)
+        {
+            while (!UIManager.Instance.backgroundUp)
+            {
+                yield return null; 
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
         Disable();
+        //yield return new WaitForSeconds(lifeTime);
+        //Disable();
     }
 }

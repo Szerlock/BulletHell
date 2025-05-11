@@ -39,7 +39,9 @@ public class MiniBallerinaBoss : BossBase
     [Header("MoveTowards Places")]
     [SerializeField] private List<Transform> ballerinaStartPositions;
     [SerializeField] private float delayBetweenMovements;
-    private Coroutine cinematicEntranceRoutine;
+
+    [SerializeField] private GameObject cinematicBallerina;
+    [SerializeField] private Animator cinematicAnim;
 
     public override void Init()
     {
@@ -73,6 +75,8 @@ public class MiniBallerinaBoss : BossBase
             Vector3 target = ballerinaStartPositions[i].position;
 
             ballerina.MoveToPosition(target);
+            yield return new WaitForSeconds(0.1f); 
+            Debug.Log($"Waiting for ballerina {i} to reach position: {target}");
             yield return new WaitUntil(() => ballerina.HasReachedTarget());
 
             yield return new WaitForSeconds(delayBetweenMovements);
@@ -86,19 +90,22 @@ public class MiniBallerinaBoss : BossBase
     {
         if (Cursor.lockState == CursorLockMode.Locked && !Cursor.visible)
         {
-            if (isInitialized)
+            if (!GameManager.Instance.isInCinematic)
             {
-                currentRadius = Mathf.Lerp(currentRadius, chainRadius, Time.deltaTime * chainExpandSpeed);
-
-                if (!isAttacking)
-                    timerAir -= Time.deltaTime;
-                if (timerAir <= 0 && isUnstable)
+                if (isInitialized)
                 {
-                    PerformAirAttack();
-                }
+                    currentRadius = Mathf.Lerp(currentRadius, chainRadius, Time.deltaTime * chainExpandSpeed);
 
-                if (!isUnstable)
-                    UpdateBallerinaPositions();
+                    if (!isAttacking)
+                        timerAir -= Time.deltaTime;
+                    if (timerAir <= 0 && !isUnstable)
+                    {
+                        PerformAirAttack();
+                    }
+
+                    if (!isUnstable)
+                        UpdateBallerinaPositions();
+                }
             }
         }
     }
@@ -257,6 +264,20 @@ public class MiniBallerinaBoss : BossBase
     [ContextMenu("Second Phase")]
     public override void StartSecondPhase()
     {
+        StartCoroutine(PlayCinematic());
+
+        
+    }
+
+    private IEnumerator PlayCinematic()
+    {
+        CameraFollow.Instance.EnterCinematic(0);
+        yield return new WaitForSeconds(1f); 
+        cinematicBallerina.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2.5f);
+        CameraFollow.Instance.ExitCinematic();
+        cinematicBallerina.gameObject.SetActive(false);
+
         currentState = State.Unstable;
         isUnstable = true;
         StopAllCoroutines();
@@ -313,7 +334,14 @@ public class MiniBallerinaBoss : BossBase
                 Vector3 nextPos = GetRandomPointInCircle();
                 ballerinas[i].MoveToPosition(nextPos);
             }
-            yield return new WaitUntil(() => ballerinas.All(b => b.HasReachedTarget()));
+            float timer = 0f;
+            float timeout = 1.5f;
+
+            yield return new WaitUntil(() =>
+            {
+                timer += Time.deltaTime;
+                return ballerinas.All(b => b.HasReachedTarget()) || timer > timeout;
+            });
             yield return new WaitForSeconds(Random.Range(0.5f, 2f));
         }
     }

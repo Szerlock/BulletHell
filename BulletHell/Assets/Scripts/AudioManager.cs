@@ -20,6 +20,12 @@ public class AudioManager : MonoBehaviour
     [Header("SFX Clips")]
     [SerializeField] private List<AudioClip> sfxClips;
 
+    [SerializeField] private float fadeDuration = 1f;
+    private Coroutine musicFadeCoroutine;
+    private bool isFadingOut = false;
+    private bool isFadingIn = false;
+
+
     private void Awake()
     {
         if (Instance == null)
@@ -29,6 +35,55 @@ public class AudioManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
     }
+    private void Update()
+    {
+        if (UIManager.Instance.backgroundUp && musicSource.isPlaying && !isFadingOut)
+        {
+            if (musicFadeCoroutine != null) StopCoroutine(musicFadeCoroutine);
+            musicFadeCoroutine = StartCoroutine(FadeOutAndPause());
+        }
+        else if (!UIManager.Instance.backgroundUp && !musicSource.isPlaying && !isFadingIn)
+        {
+            if (musicFadeCoroutine != null) StopCoroutine(musicFadeCoroutine);
+            musicFadeCoroutine = StartCoroutine(UnPauseAndFadeIn());
+        }
+    }
+
+    private IEnumerator FadeOutAndPause()
+    {
+        isFadingOut = true;
+        float startVolume = musicSource.volume;
+
+        for (float t = 0; t < fadeDuration; t += Time.unscaledDeltaTime)
+        {
+            musicSource.volume = Mathf.Lerp(startVolume, 0f, t / fadeDuration);
+            yield return null;
+        }
+
+        musicSource.volume = 0f;
+        musicSource.Pause();
+        isFadingOut = false;
+
+    }
+
+    private IEnumerator UnPauseAndFadeIn()
+    {
+        isFadingIn = true;
+        musicSource.UnPause();
+        float targetVolume = 1f;
+        musicSource.volume = 0f;
+
+        for (float t = 0; t < fadeDuration; t += Time.unscaledDeltaTime)
+        {
+            musicSource.volume = Mathf.Lerp(0f, targetVolume, t / fadeDuration);
+            yield return null;
+        }
+
+        musicSource.volume = targetVolume;
+        isFadingIn = false;
+
+    }
+
     public void PreloadBossMusic(int bossNumber)
     {
         int index1 = (bossNumber - 1) * 2;

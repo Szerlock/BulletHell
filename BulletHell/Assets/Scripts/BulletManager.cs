@@ -13,6 +13,7 @@ public class BulletManager : MonoBehaviour
 
     void Update()
     {
+        if (UIManager.Instance.backgroundUp) return;
         float dt = Time.deltaTime;
 
         for (int i = activeBullets.Count - 1; i >= 0; i--)
