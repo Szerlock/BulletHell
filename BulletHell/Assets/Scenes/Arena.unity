@@ -4110,14 +4110,14 @@ RectTransform:
   m_GameObject: {fileID: 609048004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.6305, y: 1.6305, z: 1.6305}
+  m_LocalScale: {x: 1.362854, y: 1.362854, z: 1.362854}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 497868993}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 55, y: 234}
+  m_AnchoredPosition: {x: 411, y: 281}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &609048006
@@ -4156,8 +4156,8 @@ MonoBehaviour:
     Shooting without a movement command
     in the air will allow you to stay in the air'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 57a2691574d38c64895546876d0386aa, type: 2}
+  m_sharedMaterial: {fileID: 1116840132710520357, guid: 57a2691574d38c64895546876d0386aa, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4193,7 +4193,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 50
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -4219,7 +4219,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -318.39694, w: 0}
+  m_margin: {x: -450.60208, y: 0, z: -318.39694, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

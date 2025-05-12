@@ -102,9 +102,9 @@ public class GameManager : MonoBehaviour
 
     public void ShowEndScreen(bool didPlayerWin)
     {
-        background.SetActive(true);
-        messageText.text = "";
-        StartCoroutine(RevealMessage(didPlayerWin));
+        //background.SetActive(true);
+        //messageText.text = "";
+        //StartCoroutine(RevealMessage(didPlayerWin));
     }
 
     private IEnumerator RevealMessage(bool didPlayerWin)
