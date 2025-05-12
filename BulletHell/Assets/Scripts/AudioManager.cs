@@ -203,17 +203,11 @@ public class AudioManager : MonoBehaviour
 
     public void StopMusic()
     {
-        if (musicSource.isPlaying)
-        {
-            musicSource.Stop();
-            musicSource.clip = null;
-            isFadingIn = false;
-            isFadingOut = false;
-            if (musicFadeCoroutine != null)
-            {
-                StopCoroutine(musicFadeCoroutine);
-                musicFadeCoroutine = null;
-            }
-        }
+        musicSource.volume = 0f;
+        sfxSource.volume = 0f;
+
+        musicSource.loop = false;
+        sfxSource.loop = false;
+
     }
 }

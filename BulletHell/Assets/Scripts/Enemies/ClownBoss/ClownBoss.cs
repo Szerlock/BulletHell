@@ -319,8 +319,11 @@ public class ClownBoss : BossBase
     public void StartConjuring()
     {
         isConjuring = true;
-        ChangeBackground.Instance.SwitchVolumes(1);
-        AudioManager.Instance.PlayBossMusic(1, 2);
+        if (!SecondPhase)
+        {
+            ChangeBackground.Instance.SwitchVolumes(1);
+            AudioManager.Instance.PlayBossMusic(1, 2);
+        }
         StartCoroutine(SpawnDecoys());
     }
 
