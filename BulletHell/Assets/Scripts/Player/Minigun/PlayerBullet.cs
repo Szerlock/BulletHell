@@ -4,9 +4,6 @@ public class PlayerBullet : MonoBehaviour
 {
     public float damage;
     private bool burnOn = false;
-    public float burnDuration = 5f;
-    public float burnTickDamage = 1f;
-    public float burnTickInterval = 1f;
     private float critChance;
     private float critMultiplier;
     private float lifeTimer;

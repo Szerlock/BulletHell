@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Bomb : MonoBehaviour
@@ -74,8 +75,11 @@ public class Bomb : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Ground"))
+        if (other.CompareTag("Ground"))
+        {
             Instantiate(explosionGameObject, transform.position, Quaternion.identity);
+            StartCoroutine(ReturnToPool());
+        }
     }
 
     private void UpdateCirclePosition()
@@ -86,4 +90,16 @@ public class Bomb : MonoBehaviour
             circleDrawer.SetCirclePosition(hit.point);
         }
     }
+    private IEnumerator ReturnToPool()
+    {
+        yield return new WaitForSeconds(0.5f);
+        BombStopped = false;
+        isThrown = false;
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        rb.useGravity = false;
+        BombsPool.Instance.ReturnBomb(gameObject);
+    }
 }
+
+

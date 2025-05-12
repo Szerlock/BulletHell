@@ -11,7 +11,6 @@ public class IncreaseSize : AugmentBase
         CharacterController3D player = GameManager.Instance.Player;
         player.IncreaseSize(scale.localScale);
         player.IncreasePower(powerMultiplier);
-        player.SetMaxHealth(1);
     }
 
     public override void Picked()

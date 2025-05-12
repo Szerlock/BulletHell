@@ -25,11 +25,17 @@ public class AudioManager : MonoBehaviour
     private bool isFadingOut = false;
     private bool isFadingIn = false;
 
+    [SerializeField] private AudioClip mainMenu;
 
     private void Awake()
     {
+        if(mainMenu != null)
+        {
+            PlayMusic(mainMenu);
+        }
         Instance = this;
     }
+
     private void Update()
     {
         if (UIManager.Instance.backgroundUp && musicSource.isPlaying && !isFadingOut)
@@ -192,6 +198,22 @@ public class AudioManager : MonoBehaviour
         else
         {
             Debug.LogWarning($"Invalid boss music index for Boss {bossNumber}, Phase {phase}");
+        }
+    }
+
+    public void StopMusic()
+    {
+        if (musicSource.isPlaying)
+        {
+            musicSource.Stop();
+            musicSource.clip = null;
+            isFadingIn = false;
+            isFadingOut = false;
+            if (musicFadeCoroutine != null)
+            {
+                StopCoroutine(musicFadeCoroutine);
+                musicFadeCoroutine = null;
+            }
         }
     }
 }

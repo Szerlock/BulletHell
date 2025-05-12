@@ -49,11 +49,14 @@ public class GameManager : MonoBehaviour
     private IEnumerator Tutorial()
     {
         isOnTutorial = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         UIManager.Instance.PlayBackground();
-        yield return new WaitForSeconds(.3f);
         tutorial.SetActive(true);
         yield return new WaitForSeconds(2f);
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false; 
         tutorial.SetActive(false);
         isOnTutorial = false;
         UIManager.Instance.EndBackground();

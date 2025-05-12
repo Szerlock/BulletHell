@@ -31,6 +31,7 @@ public class FinalBoss : BossBase
     public override void Init()
     {
         base.Init();
+        currentHealth = Health;
         AudioManager.Instance.PlayBossMusic(3, 1);
         GameManager.Instance.AddEnemy(center);
         StartCoroutine(PlayIntroSequence());
@@ -40,8 +41,10 @@ public class FinalBoss : BossBase
     {
         cutSceneAnimator.Play("OpenGate");
         playAnimation = true;
-        yield return new WaitForSeconds(5f);
+        CameraFollow.Instance.EnterCinematic(2);
+        yield return new WaitForSeconds(7f);
         bossStateHandler.Init(this);
+        CameraFollow.Instance.ExitCinematic();
     }
 
     private void Update()
@@ -260,7 +263,7 @@ public class FinalBoss : BossBase
         if (!isInitialized) return;
         base.TakeDamage(amount);
         HealthBar.Instance.SetHealth(currentHealth - amount);
-        if (currentHealth <= currentHealth/2)
+        if (currentHealth <= Health/2)
         {
             StartSecondPhase();
         }
@@ -276,6 +279,8 @@ public class FinalBoss : BossBase
 
     protected override void Die()
     {
+        if (isDead) return;
+        isDead = true;
         GameManager.Instance.ShowEndScreen(true);
     }
 }

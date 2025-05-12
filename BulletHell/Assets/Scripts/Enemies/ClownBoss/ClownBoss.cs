@@ -53,10 +53,10 @@ public class ClownBoss : BossBase
 
 
     [Header("Movement Variables")]
-    private Transform currentStartTransform; 
-    private Transform currentEndTransform;   
+    [SerializeField] private Transform currentStartTransform; 
+    [SerializeField] private Transform currentEndTransform;   
     private bool movingToEnd = true;
-    private bool ropePicked;
+    private bool ropePicked = true;
 
     [Header("Conjuring Variables")]
     public List<Transform> decoySpots;
@@ -71,11 +71,12 @@ public class ClownBoss : BossBase
 
     public bool isInCinematic;
     [SerializeField] private Transform cinematicMoveTowards;
+    private bool hasFallen = false;
 
     public override void Init()
     {
         base.Init();
-        AudioManager.Instance.PlayBossMusic(2, 1);
+        AudioManager.Instance.PlayBossMusic(1, 1);
         GameManager.Instance.AddEnemy(center);
 
         CameraFollow.Instance.EnterCinematic(0);
@@ -85,27 +86,11 @@ public class ClownBoss : BossBase
 
     private IEnumerator Cinematic()
     {
-        animator.Play("Clown Juggling");
-
-        while (isInCinematic)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, cinematicMoveTowards.position, speed * Time.deltaTime);
-
-            if (transform.position == cinematicMoveTowards.position)
-            {
-                isInCinematic = false; 
-
-                if (!isInitialized)
-                {
-                    isInitialized = true;
-                    bossStateHandler.Init(this);
-                }
-
-                break;
-            }
-
-            yield return null;
-        }
+        isInCinematic = true;
+        isInitialized = true;
+        bossStateHandler.Init(this);
+        yield return new WaitForSeconds(3f);
+        isInCinematic = false;
         CameraFollow.Instance.ExitCinematic();
     }
 
@@ -129,6 +114,8 @@ public class ClownBoss : BossBase
                 {
                     isAttacking = false;
                     isConjuring = false;
+                    hasFallen = false; 
+                    AudioManager.Instance.PlayBossMusic(1, 1);
                     ChangeBackground.Instance.SwitchVolumes(1);
                 }
             }
@@ -149,6 +136,9 @@ public class ClownBoss : BossBase
 
     private void PickRope()
     {
+
+        poof.Play();
+        AudioManager.Instance.PlaySFX("PoofClown");
         int ropeIndex = Random.Range(0, 3);
 
         switch (ropeIndex)
@@ -330,6 +320,7 @@ public class ClownBoss : BossBase
     {
         isConjuring = true;
         ChangeBackground.Instance.SwitchVolumes(1);
+        AudioManager.Instance.PlayBossMusic(1, 2);
         StartCoroutine(SpawnDecoys());
     }
 
@@ -445,32 +436,70 @@ public class ClownBoss : BossBase
 
     private IEnumerator ThrowBombs()
     {
+        //for (int i = 0; i < TimesToThrow; i++)
+        //{
+        //    List<Transform> tempList = new List<Transform>(bombTargets);
+        //    bombsThrown = 0;
+
+        //    animator.Play("ThrowBombs", -1, 0f);
+        //    AudioManager.Instance.PlaySFX("Bombing");
+        //    transform.LookAt(player);
+        //    yield return new WaitForSeconds(1f);
+        //    while (bombsThrown < bombCount)
+        //    {
+
+        //        int randomIndex = Random.Range(0, tempList.Count);
+
+        //        Transform selectedPosition = tempList[randomIndex];
+        //        tempList.RemoveAt(randomIndex);
+
+        //        //GameObject bomb = Instantiate(Bomb, spawnBombLoc.position, Quaternion.identity);
+
+        //        GameObject bomb = BombsPool.Instance.GetBomb(spawnBombLoc.position, Quaternion.identity);
+        //        if (bomb != null)
+        //        {
+        //            Bomb bombScript = bomb.GetComponent<Bomb>();
+        //            bombScript.Init(selectedPosition);
+        //            bombsThrown++;
+        //        }
+
+        //        //Bomb bombScript = bomb.GetComponent<Bomb>();
+        //        //bombScript.Init(selectedPosition);
+        //        //bombsThrown++;
+        //    }
+
+        //    yield return new WaitForSeconds(WaitingTimeBomb);
+        //}
+        //isAttacking = false;
+        //ropePicked = false;
+
         for (int i = 0; i < TimesToThrow; i++)
         {
-            List<Transform> tempList = new List<Transform>(bombTargets);
             bombsThrown = 0;
 
             animator.Play("ThrowBombs", -1, 0f);
             AudioManager.Instance.PlaySFX("Bombing");
             transform.LookAt(player);
             yield return new WaitForSeconds(1f);
-            while (bombsThrown < bombCount)
+
+            foreach (Transform target in bombTargets)
             {
+                GameObject bomb = BombsPool.Instance.GetBomb(spawnBombLoc.position, Quaternion.identity);
+                if (bomb != null)
+                {
+                    Bomb bombScript = bomb.GetComponent<Bomb>();
+                    bombScript.Init(target);
+                    bombsThrown++;
+                }
 
-                int randomIndex = Random.Range(0, tempList.Count);
+                if (bombsThrown >= bombCount)
+                    break;
 
-                Transform selectedPosition = tempList[randomIndex];
-                tempList.RemoveAt(randomIndex);
-
-                GameObject bomb = Instantiate(Bomb, spawnBombLoc.position, Quaternion.identity);
-
-                Bomb bombScript = bomb.GetComponent<Bomb>();
-                bombScript.Init(selectedPosition);
-                bombsThrown++;
             }
 
             yield return new WaitForSeconds(WaitingTimeBomb);
         }
+
         isAttacking = false;
         ropePicked = false;
     }
@@ -494,6 +523,11 @@ public class ClownBoss : BossBase
 
     private void Fall()
     {
+        if (hasFallen) return;
+        hasFallen = true;
+
+        StopAllCoroutines();
+
         transform.LookAt(player);
         currentState = State.Falling;
         StartCoroutine(PlayAnimation("Clown Falling"));
@@ -505,7 +539,7 @@ public class ClownBoss : BossBase
         ChangeBackground.Instance.SwitchVolumes(1);
         SecondPhase = true;
         fireCooldown = unstableFireCooldown;
-        AudioManager.Instance.PlayBossMusic(2, 2);
+        AudioManager.Instance.PlayBossMusic(1, 2);
 
         changeMaterial.ChangeMat(true);
     }
@@ -550,5 +584,18 @@ public class ClownBoss : BossBase
         {
             ball.SetActive(false);
         }
+    }
+
+    protected override void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+        if (boxList.Count > 0)
+        {
+            RemoveBoxes();
+        }
+
+
+        base.Die();
     }
 }

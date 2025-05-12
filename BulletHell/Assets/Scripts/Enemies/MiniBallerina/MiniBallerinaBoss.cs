@@ -61,7 +61,7 @@ public class MiniBallerinaBoss : BossBase
         }
         timerAir = airAttackCooldown;
 
-        AudioManager.Instance.PlayBossMusic(1, 1);
+        AudioManager.Instance.PlayBossMusic(2, 1);
 
         StartCoroutine(CinematicEntranceCoroutine());
         //StartDanceRoutine();
@@ -271,7 +271,7 @@ public class MiniBallerinaBoss : BossBase
 
     private IEnumerator PlayCinematic()
     {
-        CameraFollow.Instance.EnterCinematic(0);
+        CameraFollow.Instance.EnterCinematic(1);
         yield return new WaitForSeconds(1f); 
         cinematicBallerina.gameObject.SetActive(true);
         yield return new WaitForSeconds(2.5f);
@@ -285,35 +285,9 @@ public class MiniBallerinaBoss : BossBase
         {
             ballerina.changeMaterial.ChangeMat(true);
         }
-        AudioManager.Instance.PlayBossMusic(1, 2);
+        AudioManager.Instance.PlayBossMusic(2, 2);
 
         StartCoroutine(RunAroundBox());
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        int segments = 64;
-        float angleStep = 360f / segments;
-        Vector3 prevPoint = Vector3.zero;
-        for (int i = 0; i <= segments; i++)
-        {
-            float angle = i * angleStep * Mathf.Deg2Rad;
-            Vector3 newPoint = new Vector3(
-                Mathf.Cos(angle) * circleRadius,
-                0f,
-                Mathf.Sin(angle) * circleRadius
-            ) + circleCenter;
-
-            if (i > 0)
-                Gizmos.DrawLine(prevPoint, newPoint);
-
-            prevPoint = newPoint;
-        }
-
-        Gizmos.color = Color.red;
-        Vector3 randomPoint = GetRandomPointInCircle();
-        Gizmos.DrawSphere(randomPoint, 0.3f);
     }
 
     public void UnstableAttack()
@@ -366,6 +340,8 @@ public class MiniBallerinaBoss : BossBase
 
     protected override void Die()
     {
+        if (isDead) return;
+        isDead = true;
         base.Die();
         ChangeBackground.Instance.SwitchVolumes(1);
         GameManager.Instance.AllEnemies.Clear();

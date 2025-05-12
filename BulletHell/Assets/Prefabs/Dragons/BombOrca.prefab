@@ -140,7 +140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 3293283483120081514, guid: 2f345577aaf94624e889b7c1b4f06928, type: 3}
   shootPoint: {fileID: 6508616012316038278}
-  shootCooldown: 2
+  shootCooldown: 4
   projectileDamage: 1
   projectileSpeed: 80
   projectileType: 0

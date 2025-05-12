@@ -50,6 +50,8 @@ public class BossBase : EnemyBase
         Unstable,
     }
 
+    public bool isDead = false;
+
     public virtual void Init()
     {
         base.Start();

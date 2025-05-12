@@ -52,6 +52,10 @@ public class CharacterController3D : MonoBehaviour
     [SerializeField] private Sprite emptyHeart;
 
 
+
+    private bool isDead = false;
+
+
     private void Start()
     {
         currentHealth = maxHealth;
@@ -122,6 +126,7 @@ public class CharacterController3D : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        if (isDead) return;
         if (isInvincible || isIFrameActive)
             return; 
         //flashingEffect.Flash(iframeDuration);
@@ -129,6 +134,7 @@ public class CharacterController3D : MonoBehaviour
         currentHealth -= amount;
         if (currentHealth <= 0)
         {
+            isDead = true;
             Die();
         }
         else
@@ -166,6 +172,7 @@ public class CharacterController3D : MonoBehaviour
     private void Die()
     {
         // Show death screen or respawn logic
+        AudioManager.Instance.StopMusic();
         GameManager.Instance.ShowEndScreen(false); 
         Debug.Log("You died!");
     }
@@ -227,7 +234,6 @@ public class CharacterController3D : MonoBehaviour
         positionOccupied[index] = true;
     }
 
-    [ContextMenu("SpawnShadowDragon")]
     internal void SpawnShadowDragon()
     {
         int index = GetAvailablePositionIndex();
@@ -288,12 +294,10 @@ public class CharacterController3D : MonoBehaviour
         Debug.Log("Invincibility ended.");
     }
 
-    public void SetMaxHealth(float multiplier)
+    [ContextMenu("Add Heart")]
+    public void SetMaxHealth()
     {
-        maxHealth += 1;
         AddHeart();
-        UpdateHearts();
-        Heal(1);
     }
 
     public void IncreasePower(float multiplier)

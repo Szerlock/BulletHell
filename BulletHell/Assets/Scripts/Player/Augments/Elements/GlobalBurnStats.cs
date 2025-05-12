@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GlobalBurnStats : MonoBehaviour
 {
-    public static float tickDamage = 2f;
+    public static float tickDamage = 10f;
     public static float tickInterval = 0.5f;
     public static float duration = 4f;
 

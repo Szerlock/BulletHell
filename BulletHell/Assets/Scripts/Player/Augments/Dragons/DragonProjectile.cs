@@ -27,6 +27,11 @@ public class DragonProjectile : MonoBehaviour
         projectileType = type;
         speed = spd;
         damage = dmg;
+        if (projectileType == ProjectileType.Healing)
+        {
+            GameManager.Instance.Player.Heal(healAmount);
+            Destroy(gameObject);
+        }
     }
 
     void Update()
@@ -83,10 +88,6 @@ public class DragonProjectile : MonoBehaviour
                 hasExploded = true;
                 Destroy(gameObject);
             }
-        }
-        if (projectileType == ProjectileType.Healing)
-        {
-            GameManager.Instance.Player.Heal(healAmount);
         }
     }
 }

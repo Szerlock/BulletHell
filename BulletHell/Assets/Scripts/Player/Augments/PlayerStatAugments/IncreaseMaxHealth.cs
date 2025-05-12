@@ -6,7 +6,7 @@ public class IncreaseMaxHealth : AugmentBase
 
     public override void ApplyEffect()
     {
-        GameManager.Instance.Player.SetMaxHealth(healthIncreaseAmount);
+        GameManager.Instance.Player.SetMaxHealth();
     }
 
     public override void Picked()

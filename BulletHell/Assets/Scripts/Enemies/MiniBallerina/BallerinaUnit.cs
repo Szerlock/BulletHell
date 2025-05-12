@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem.Processors;
 
 public class BallerinaUnit : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class BallerinaUnit : MonoBehaviour
     public float currentHealth;
     private float rotateSpeed;
     private float unstableRotateSpeed;
+    private bool isDead = false;
+
 
     public void Init(MiniBallerinaBoss bossController, float health)
     {
@@ -83,6 +86,9 @@ public class BallerinaUnit : MonoBehaviour
 
     public void BallerinaDead()
     {
+        if (isDead) return;
+        isDead = true;
+
         boss.RemoveBallerina(this);
         GameManager.Instance.RemoveEnemy(transform);
         Destroy(gameObject);

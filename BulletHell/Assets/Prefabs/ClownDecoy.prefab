@@ -47,8 +47,8 @@ MonoBehaviour:
   bulletPrefab: {fileID: 7466435494112184850, guid: 5eb1dd4d09c2c2244992156e9276968b, type: 3}
   patterns:
   - {fileID: 11400000, guid: 6fed992f285e6d54994c97aa10e710d1, type: 2}
-  - {fileID: 11400000, guid: 693c9a0cbfb26b141a3aa28604c1e0e6, type: 2}
-  - {fileID: 11400000, guid: 9f2a57efafacf19478730378185d84b7, type: 2}
+  - {fileID: 11400000, guid: 01c7463b08037c340a03cedd50e86277, type: 2}
+  - {fileID: 11400000, guid: 453f3e8d24f458242a45e84f1ff36df5, type: 2}
   unstablePatterns: []
   player: {fileID: 0}
   currentPattern: {fileID: 0}
