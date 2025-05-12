@@ -602,6 +602,7 @@ public class ClownBoss : BossBase
         {
             RemoveBoxes();
         }
+        ChangeBackground.Instance.SwitchVolumes(1);
 
 
         base.Die();
