@@ -31,7 +31,7 @@ public class CameraFollow : MonoBehaviour
 
         if (target == null) return;
 
-        if (Cursor.lockState == CursorLockMode.Locked && !Cursor.visible && !GameManager.Instance.isOnTutorial)
+        if (Cursor.lockState == CursorLockMode.Locked && !Cursor.visible)
         {
             float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
             float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;

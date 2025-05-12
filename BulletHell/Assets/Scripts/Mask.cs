@@ -11,7 +11,8 @@ public class Mask : MonoBehaviour
         if (other.CompareTag("PlayerBullet"))
         {
             gotHit = true;
-            BossManager.Instance.currentBoss.isInitialized = false;
+            if(!GameManager.Instance.isOnTutorial)
+                BossManager.Instance.currentBoss.isInitialized = false;
             StartCoroutine(BossManager.Instance.augmentManager.StartAugmentPicking(1));
             StartCoroutine(WaitForAugment());
         }
@@ -20,7 +21,8 @@ public class Mask : MonoBehaviour
     public IEnumerator WaitForAugment()
     {
         yield return new WaitUntil(() => BossManager.Instance.augmentManager.finishedPickingAugment);
-        BossManager.Instance.currentBoss.isInitialized = true;
+        if (!GameManager.Instance.isOnTutorial)
+            BossManager.Instance.currentBoss.isInitialized = true;
         SpawnMask.Instance.masks.Remove(gameObject);
         Destroy(gameObject);
     }

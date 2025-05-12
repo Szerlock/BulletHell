@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     public bool isOnTutorial = false;
 
     [SerializeField] private GameObject tutorial;
+    [SerializeField] private GameObject blackHealth;
 
 
     private void Awake()
@@ -52,9 +53,11 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false; 
         tutorial.SetActive(false);
-        isOnTutorial = false;
         UIManager.Instance.EndBackground();
+        yield return new WaitUntil(() => SpawnMask.Instance.masks.Count == 0);
+        isOnTutorial = false;
         StartCoroutine(BossManager.Instance.NextBoss());
+        blackHealth.SetActive(true);
         textAnimator.gameObject.SetActive(false);
     }
 

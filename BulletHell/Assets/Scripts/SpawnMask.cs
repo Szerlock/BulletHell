@@ -6,7 +6,10 @@ public class SpawnMask : MonoBehaviour
 {
     public static SpawnMask Instance;
     [SerializeField] private GameObject maskPrefab;
-    [SerializeField] private List<Transform> spawnPoint;
+    [SerializeField] private List<Transform> spawnPoint; 
+    
+    [SerializeField] private List<Transform> arenaMask;
+
     [SerializeField] private float cooldown;
     public List<GameObject> masks = new List<GameObject>();
     private float timer;
@@ -21,9 +24,19 @@ public class SpawnMask : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            SpawnMaskAugment();
+            SpawnMaskInArena();
         }
         timer = cooldown;
+    }
+
+    public void SpawnMaskInArena()
+    {
+        if (masks.Count >= spawnPoint.Count)
+            return;
+
+        nextSpawnIndex = (spawnIndex) % spawnPoint.Count;
+        masks.Add(Instantiate(maskPrefab, arenaMask[nextSpawnIndex].position + new Vector3(0, 83, 0), Quaternion.identity));
+        spawnIndex++;
     }
 
     public void SpawnMaskAugment()
@@ -39,18 +52,30 @@ public class SpawnMask : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.isOnTutorial) return;
-        if (BossManager.Instance.currentBoss != null)
+        if (!GameManager.Instance.isOnTutorial)
         {
-            if (BossManager.Instance.currentBoss.isInitialized)
+            if (BossManager.Instance.currentBoss != null)
             {
-                timer -= Time.deltaTime;
-                if (timer <= 0)
+                if (BossManager.Instance.currentBoss.isInitialized)
                 {
-                    SpawnMaskAugment();
-                    timer = cooldown;
+                    timer -= Time.deltaTime;
+                    if (timer <= 0)
+                    {
+                        SpawnMaskAugment();
+                        timer = cooldown;
+                    }
+                }
+                foreach (GameObject mask in masks)
+                {
+                    Vector3 targetPosition = GameManager.Instance.Player.transform.position;
+                    Vector3 direction = targetPosition - mask.transform.position;
+                    direction.y = 0;
+                    mask.transform.rotation = Quaternion.LookRotation(direction);
                 }
             }
+        }
+        else 
+        {
             foreach (GameObject mask in masks)
             {
                 Vector3 targetPosition = GameManager.Instance.Player.transform.position;
