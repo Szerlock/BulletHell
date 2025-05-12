@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI buttonText;
     [SerializeField] private float wordDelay = 0.2f;
     [SerializeField] private GameObject endScreenButton;
+    [SerializeField] private Animator textAnimator;
+
 
     private List<string> lossMessages = new List<string>
     {
@@ -48,6 +50,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator Tutorial()
     {
+        textAnimator.Play("TutorialTextAnim", 0, 0);
         isOnTutorial = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -61,6 +64,7 @@ public class GameManager : MonoBehaviour
         isOnTutorial = false;
         UIManager.Instance.EndBackground();
         StartCoroutine(BossManager.Instance.NextBoss());
+        textAnimator.gameObject.SetActive(false);
     }
 
     public void AddEnemy(Transform enemy)
