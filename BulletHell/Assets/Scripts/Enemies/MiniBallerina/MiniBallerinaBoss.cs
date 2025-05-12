@@ -343,6 +343,13 @@ public class MiniBallerinaBoss : BossBase
     {
         if (isDead) return;
         isDead = true;
+        if(ballerinas.Count > 0)
+        {
+            foreach (BallerinaUnit ballerina in ballerinas)
+            {
+                RemoveBallerina(ballerina);
+            }
+        }
         base.Die();
         ChangeBackground.Instance.SwitchVolumes(1);
         GameManager.Instance.AllEnemies.Clear();

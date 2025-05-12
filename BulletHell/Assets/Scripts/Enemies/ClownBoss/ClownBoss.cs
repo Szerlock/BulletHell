@@ -323,6 +323,10 @@ public class ClownBoss : BossBase
     public void StartConjuring()
     {
         isConjuring = true;
+        if (boxList.Count > 0)
+        {
+            RemoveBoxes();
+        }
         if (!SecondPhase)
         {
             ChangeBackground.Instance.SwitchVolumes(1);
