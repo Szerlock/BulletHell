@@ -1,5 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,17 +13,51 @@ public class GameManager : MonoBehaviour
     public CharacterController3D Player;
     public bool isInCinematic = false;
 
+    [Header("GameEnd Screen0")]
+    [SerializeField] private GameObject background;
+    [SerializeField] private TextMeshProUGUI messageText;
+    [SerializeField] private TextMeshProUGUI buttonText;
+    [SerializeField] private float wordDelay = 0.2f;
+    [SerializeField] private GameObject endScreenButton;
+
+    private List<string> lossMessages = new List<string>
+    {
+        "I thought you were the one…",
+        "….",
+        "It’s a shame..",
+        "I guess my intuition was wrong about you…"
+    };
+
+    private List<string> winMessages = new List<string>
+    {
+        "Just as I thought, you are special.",
+        "So now…",
+        "let’s go somewhere a little more intimate~",
+    };
+
+    public bool isOnTutorial = false;
+
+    [SerializeField] private GameObject tutorial;
+
+
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        Instance = this;
+        StartCoroutine(Tutorial());
+    }
+
+    private IEnumerator Tutorial()
+    {
+        isOnTutorial = true;
+        UIManager.Instance.PlayBackground();
+        yield return new WaitForSeconds(.3f);
+        tutorial.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+        tutorial.SetActive(false);
+        isOnTutorial = false;
+        UIManager.Instance.EndBackground();
+        StartCoroutine(BossManager.Instance.NextBoss());
     }
 
     public void AddEnemy(Transform enemy)
@@ -59,9 +97,64 @@ public class GameManager : MonoBehaviour
         return closest;
     }
 
-    //[ContextMenu("Clear List")]
-    //public void ClearEnemies()
-    //{
-    //    AllEnemies.Clear();
-    //}
+    public void ShowEndScreen(bool didPlayerWin)
+    {
+        background.SetActive(true);
+        messageText.text = "";
+        StartCoroutine(RevealMessage(didPlayerWin));
+    }
+
+    private IEnumerator RevealMessage(bool didPlayerWin)
+    {
+        if (didPlayerWin)
+        {
+            foreach (var winMessage in winMessages)
+            {
+                yield return StartCoroutine(RevealText(winMessage));
+            }
+        }
+        else
+        {
+            foreach (var lossMessage in lossMessages)
+            {
+                yield return StartCoroutine(RevealText(lossMessage));
+            }
+        }
+
+        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+        SpawnButton(didPlayerWin);
+    }
+
+    private IEnumerator RevealText(string message)
+    {
+        messageText.text = "";
+
+        foreach (char letter in message)
+        {
+            messageText.text += letter;
+            yield return new WaitForSeconds(wordDelay);
+        }
+
+        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+    }
+
+    private void SpawnButton(bool didPlayerWin)
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        endScreenButton.SetActive(true);
+        Button button = endScreenButton.GetComponent<Button>();
+
+        if (!didPlayerWin)
+        {
+            buttonText.text = "Try Again";
+            button.onClick.AddListener(() => SceneManager.LoadScene("Arena"));
+        }
+        else
+        {
+            buttonText.text = "Quit";
+            button.onClick.AddListener(() => Application.Quit());
+        }
+    }
 }

@@ -33,29 +33,10 @@ public class BulletManager : MonoBehaviour
     {
         if (!activeBullets.Contains(bullet))
             activeBullets.Add(bullet);
-
-        StartCoroutine(LifeTimer(bullet));
     }
 
     public void Unregister(Bullet bullet)
     {
         activeBullets.Remove(bullet);
-    }
-
-    private IEnumerator LifeTimer(Bullet bullet)
-    {
-        float lifeTime = bullet.lifeTime;
-
-        float elapsed = 0f;
-        while (elapsed < lifeTime)
-        {
-            if (!UIManager.Instance.backgroundUp)
-                yield break;
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        bullet.Disable();
     }
 }

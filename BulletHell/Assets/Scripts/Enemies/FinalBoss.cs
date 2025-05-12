@@ -58,7 +58,7 @@ public class FinalBoss : BossBase
             else if (playAnimation)
             {
                 Vector3 direction = (cutScenePosition.position - transform.position).normalized;
-                transform.position = Vector3.MoveTowards(transform.position, cutScenePosition.position, 15 * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, cutScenePosition.position, 12 * Time.deltaTime);
 
                 transform.Rotate(Vector3.up * 360f * Time.deltaTime);
 
@@ -136,8 +136,36 @@ public class FinalBoss : BossBase
     private IEnumerator PlayPoseSequence(List<string> clipNames)
     {
 
+        //isPlayingPose = true;
+
+        //for (int i = 0; i < clipNames.Count - 1; i++)
+        //{
+        //    animator.Play(clipNames[i]);
+        //    yield return new WaitForSeconds(GetClipLength(clipNames[i]));
+        //}
+
+        //if (!SecondPhase)
+        //    yield return new WaitUntil(() => currentState == State.Waiting);
+        //else
+        //{
+        //    yield return new WaitUntil(() => currentState == State.Attacking);
+        //    animator.Play(clipNames[clipNames.Count - 1]);
+        //    yield return new WaitForSeconds(GetClipLength(clipNames[clipNames.Count - 1]));
+        //    currentPoseCoroutine = StartCoroutine(PlayConjuringSequence());
+        //    isPlayingPose = false;
+        //    yield break;
+        //}
+
+        //string lastClip = clipNames[clipNames.Count - 1];
+        //animator.Play(lastClip);
+        //yield return new WaitForSeconds(GetClipLength(lastClip));
+
+        //animator.Play(idleStateName);
+        //isPlayingPose = false;
+
         isPlayingPose = true;
 
+        // Play all clips except last, during movement
         for (int i = 0; i < clipNames.Count - 1; i++)
         {
             animator.Play(clipNames[i]);
@@ -145,35 +173,54 @@ public class FinalBoss : BossBase
         }
 
         if (!SecondPhase)
+        {
+            // Wait for bullet attack to finish (custom condition maybe?)
             yield return new WaitUntil(() => currentState == State.Waiting);
+            yield return new WaitForSeconds(2f); // The required delay after bullet
+        }
         else
         {
-            yield return new WaitUntil(() => currentState == State.Attacking);
+            // In second phase, play the final clip right away
             animator.Play(clipNames[clipNames.Count - 1]);
             yield return new WaitForSeconds(GetClipLength(clipNames[clipNames.Count - 1]));
+
+            // Begin conjuring
             currentPoseCoroutine = StartCoroutine(PlayConjuringSequence());
             isPlayingPose = false;
             yield break;
         }
 
-        string lastClip = clipNames[clipNames.Count - 1];
-        animator.Play(lastClip);
-        yield return new WaitForSeconds(GetClipLength(lastClip));
+        // Only play final clip in first phase after waiting
+        animator.Play(clipNames[clipNames.Count - 1]);
+        yield return new WaitForSeconds(GetClipLength(clipNames[clipNames.Count - 1]));
 
+        // Return to idle
         animator.Play(idleStateName);
         isPlayingPose = false;
     }
 
     private IEnumerator PlayConjuringSequence()
     {
-        animator.Play(conjuringClips[0]);
-        yield return new WaitForSeconds(GetClipLength(conjuringClips[1]));
+        //animator.Play(conjuringClips[0]);
+        //yield return new WaitForSeconds(GetClipLength(conjuringClips[1]));
 
-        animator.Play(conjuringClips[1]);
-        yield return new WaitForSeconds(2f);
+        //animator.Play(conjuringClips[1]);
+        //yield return new WaitForSeconds(2f);
+
+        //animator.Play(conjuringClips[2]);
+        //yield return new WaitForSeconds(GetClipLength(conjuringClips[2]));
+        //isPlayingPose = false;
+
+        //currentPoseCoroutine = StartCoroutine(PlayUnstableSequence());
+        animator.Play(conjuringClips[0]);
+        yield return new WaitForSeconds(GetClipLength(conjuringClips[0]));
+
+        animator.Play(conjuringClips[1]); // This is the looping one
+        yield return new WaitForSeconds(2f); // Maintain the loop for 2 sec
 
         animator.Play(conjuringClips[2]);
         yield return new WaitForSeconds(GetClipLength(conjuringClips[2]));
+
         isPlayingPose = false;
 
         currentPoseCoroutine = StartCoroutine(PlayUnstableSequence());
@@ -203,7 +250,9 @@ public class FinalBoss : BossBase
 
     protected override void OnStartMoving()
     {
-        PlayRandomPoseSequence();
+        if (!isPlayingPose)
+            PlayRandomPoseSequence();
+        //PlayRandomPoseSequence();
     }
 
     public override void TakeDamage(float amount)
@@ -222,5 +271,11 @@ public class FinalBoss : BossBase
         SecondPhase = true;
         AudioManager.Instance.PlayBossMusic(3, 2);
         fireCooldown = unstableFireCooldown;
+        ChangeBackground.Instance.SwitchVolumes(1);
+    }
+
+    protected override void Die()
+    {
+        GameManager.Instance.ShowEndScreen(true);
     }
 }

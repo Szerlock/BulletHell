@@ -113,7 +113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileType: 0
   speed: 0
-  damage: 0
+  damage: 100
   lifetime: 5
   healAmount: 0
   bombVfx: {fileID: 2349887103827934528, guid: 4ff01e63317b71c468b7e44d27a0ee5e, type: 3}

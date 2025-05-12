@@ -43,6 +43,7 @@ public class ClownStateHandler : StateHandler
 
     public override void HandleMoving()
     {
+        if (bossType.isInCinematic) return;
         if (fireCooldown > 0)
         {
             fireCooldown -= Time.deltaTime;

@@ -4,16 +4,16 @@ using UnityEngine.Rendering;
 
 public class ChangeBackground : MonoBehaviour
 {
+    public static ChangeBackground Instance { get; private set; }
     [SerializeField] private Volume happyVol, evilVol;
     private bool switched = true;
 
-    void Update()
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-            SwitchVolumes(1f);
+        Instance = this;
     }
 
-    public void SwitchVolumes(float speed) // CALL THIS WHENEVER YOU WANT TO SWITCH BETWEEN VOLUMES ( BUT THE PREVIOUS SWITCH HAS TO BE COMPLETED )
+    public void SwitchVolumes(float speed) 
     {
         if (!switched) return;
 

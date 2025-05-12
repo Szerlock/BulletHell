@@ -162,9 +162,11 @@ public class CharacterController3D : MonoBehaviour
         }
     }
 
+    [ContextMenu("PlayerDie")]
     private void Die()
     {
         // Show death screen or respawn logic
+        GameManager.Instance.ShowEndScreen(false); 
         Debug.Log("You died!");
     }
 

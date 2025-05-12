@@ -9,6 +9,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 7b81b6253e4a4424f91fc3b0e237cb5e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.015
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7b81b6253e4a4424f91fc3b0e237cb5e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.015
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7b81b6253e4a4424f91fc3b0e237cb5e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.015
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7b81b6253e4a4424f91fc3b0e237cb5e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.2050934
       objectReference: {fileID: 0}
@@ -47,6 +59,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 7b81b6253e4a4424f91fc3b0e237cb5e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7b81b6253e4a4424f91fc3b0e237cb5e, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 7b81b6253e4a4424f91fc3b0e237cb5e, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
@@ -88,7 +104,7 @@ MonoBehaviour:
   damage: 10
   isBreakable: 0
   health: 0
-  lifeTime: 0
+  lifeTime: 8
   normalMaterial: {fileID: 2100000, guid: 7df522e0135dd0a41accda9064c2be7c, type: 2}
   dangerMaterial: {fileID: 2100000, guid: bba5a818f45c229438eb2bd1f365ec7e, type: 2}
   dangerDistance: 20

@@ -10,22 +10,14 @@ public class BossManager : MonoBehaviour
     [SerializeField] private int augmentsToPick;
     [SerializeField] public AugmentsPicker augmentManager;
 
-    [SerializeField] private GameObject winCanvas;
 
     private int currentBossIndex = 0;
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-        StartCoroutine(NextBoss());
+       Instance = this;
     }
+
     public void BossDead()
     {
         StartCoroutine(NextBoss());
@@ -44,11 +36,6 @@ public class BossManager : MonoBehaviour
         //{
         //    SpawnMask.Instance.SpawnMaskAugment();
         //}
-        if (currentBossIndex >= allBosses.Count)
-        {
-            winCanvas.SetActive(true);
-            yield break;
-        }
 
         currentBoss = allBosses[currentBossIndex];
         currentBossIndex++;

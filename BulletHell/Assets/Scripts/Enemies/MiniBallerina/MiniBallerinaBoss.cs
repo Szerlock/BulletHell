@@ -76,7 +76,6 @@ public class MiniBallerinaBoss : BossBase
 
             ballerina.MoveToPosition(target);
             yield return new WaitForSeconds(0.1f); 
-            Debug.Log($"Waiting for ballerina {i} to reach position: {target}");
             yield return new WaitUntil(() => ballerina.HasReachedTarget());
 
             yield return new WaitForSeconds(delayBetweenMovements);
@@ -264,6 +263,7 @@ public class MiniBallerinaBoss : BossBase
     [ContextMenu("Second Phase")]
     public override void StartSecondPhase()
     {
+        ChangeBackground.Instance.SwitchVolumes(1);
         StartCoroutine(PlayCinematic());
 
         
@@ -367,6 +367,7 @@ public class MiniBallerinaBoss : BossBase
     protected override void Die()
     {
         base.Die();
+        ChangeBackground.Instance.SwitchVolumes(1);
         GameManager.Instance.AllEnemies.Clear();
     }
 }

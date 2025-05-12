@@ -31,6 +31,8 @@ public class BossBase : EnemyBase
     public bool isConjuring = false;
     public bool SecondPhase = false;
 
+    public bool isHiding = false;
+
     public State currentState = State.Waiting;
 
     public enum State

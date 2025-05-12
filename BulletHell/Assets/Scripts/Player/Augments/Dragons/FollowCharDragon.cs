@@ -30,7 +30,7 @@ public class FollowCharDragon : MonoBehaviour
             closestEnemy = FindClosestEnemy();
         }
 
-        if (closestEnemy != null)
+        if (closestEnemy != null && !BossManager.Instance.currentBoss.isHiding)
         {
             Vector3 direction = (closestEnemy.position - transform.position).normalized;
             if (direction != Vector3.zero)

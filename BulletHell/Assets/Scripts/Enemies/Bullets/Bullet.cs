@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Data.Common;
 using UnityEngine;
@@ -30,11 +31,32 @@ public class Bullet : MonoBehaviour
         damage = dmg;
         lifeTime = lt;
 
-        //if (lifeCoroutine != null)
-        //{
-        //    StopCoroutine(lifeCoroutine);
-        //}
-        //lifeCoroutine = StartCoroutine(LifeTimer());
+        if (lifeCoroutine != null)
+        {
+            StopCoroutine(lifeCoroutine);
+        }
+        lifeCoroutine = StartCoroutine(LifeTimer());
+    }
+
+    private IEnumerator LifeTimer()
+    {
+        float timerLife = lifeTime;
+        float elapsed = 0f;
+
+        while (elapsed < lifeTime)
+        {
+            if (UIManager.Instance.backgroundUp)
+            {
+                yield return null;
+                continue;
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        Debug.Log($"[BulletManager] Bullet {name} expired after {timerLife} seconds.");
+        Disable();
     }
 
     public void SetDangerState(bool danger)
@@ -74,6 +96,9 @@ public class Bullet : MonoBehaviour
                         Disable();
                     }
                 }
+                break;
+            case "ArenaBorder":
+                Disable();
                 break;
         }
     }

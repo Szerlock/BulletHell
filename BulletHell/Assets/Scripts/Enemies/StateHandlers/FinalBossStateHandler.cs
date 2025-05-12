@@ -64,7 +64,7 @@ public class FinalBossStateHandler : StateHandler
 
         boss.bulletSpawner.StartFiring();
 
-        if (boss.bulletSpawner.AttackFinished() && !boss.isPlayingPose)
+        if (boss.bulletSpawner.AttackFinished())
         {
             if(boss.isConjuring)
                 boss.isConjuring = false;

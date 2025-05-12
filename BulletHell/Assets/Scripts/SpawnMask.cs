@@ -39,6 +39,7 @@ public class SpawnMask : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.isOnTutorial) return;
         if (BossManager.Instance.currentBoss != null)
         {
             if (BossManager.Instance.currentBoss.isInitialized)

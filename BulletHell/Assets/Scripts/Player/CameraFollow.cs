@@ -18,14 +18,7 @@ public class CameraFollow : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
+        Instance = this;
     }
     void LateUpdate()
     {
@@ -38,7 +31,7 @@ public class CameraFollow : MonoBehaviour
 
         if (target == null) return;
 
-        if (Cursor.lockState == CursorLockMode.Locked && !Cursor.visible)
+        if (Cursor.lockState == CursorLockMode.Locked && !Cursor.visible && !GameManager.Instance.isOnTutorial)
         {
             float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
             float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;

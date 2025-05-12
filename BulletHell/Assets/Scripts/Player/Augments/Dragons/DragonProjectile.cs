@@ -18,6 +18,7 @@ public class DragonProjectile : MonoBehaviour
     [SerializeField] private GameObject bombVfx; 
 
     private float timer = 0f;
+    private bool hasExploded = false;
 
 
     public void Init(Transform dir, ProjectileType type, float dmg, float spd)
@@ -76,7 +77,12 @@ public class DragonProjectile : MonoBehaviour
         }
         else if (other.CompareTag("MiniBallerina"))
         {
-            other.GetComponent<BallerinaUnit>().TakeDamage(damage);
+            if (!hasExploded)
+            {
+                other.GetComponent<BallerinaUnit>().TakeDamage(damage);
+                hasExploded = true;
+                Destroy(gameObject);
+            }
         }
         if (projectileType == ProjectileType.Healing)
         {

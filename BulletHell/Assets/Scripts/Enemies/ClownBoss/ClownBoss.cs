@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -67,13 +68,45 @@ public class ClownBoss : BossBase
     [SerializeField] private ParticleSystem boxPoof;
     [SerializeField] private ParticleSystem poof;
 
+
+    public bool isInCinematic;
+    [SerializeField] private Transform cinematicMoveTowards;
+
     public override void Init()
     {
         base.Init();
         AudioManager.Instance.PlayBossMusic(2, 1);
         GameManager.Instance.AddEnemy(center);
-        isInitialized = true;
-        bossStateHandler.Init(this);
+
+        CameraFollow.Instance.EnterCinematic(0);
+        StartCoroutine(Cinematic());
+
+    }
+
+    private IEnumerator Cinematic()
+    {
+        animator.Play("Clown Juggling");
+
+        while (isInCinematic)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, cinematicMoveTowards.position, speed * Time.deltaTime);
+
+            if (transform.position == cinematicMoveTowards.position)
+            {
+                isInCinematic = false; 
+
+                if (!isInitialized)
+                {
+                    isInitialized = true;
+                    bossStateHandler.Init(this);
+                }
+
+                break;
+            }
+
+            yield return null;
+        }
+        CameraFollow.Instance.ExitCinematic();
     }
 
     private void Update()
@@ -96,6 +129,7 @@ public class ClownBoss : BossBase
                 {
                     isAttacking = false;
                     isConjuring = false;
+                    ChangeBackground.Instance.SwitchVolumes(1);
                 }
             }
         }
@@ -174,6 +208,7 @@ public class ClownBoss : BossBase
     {
         HideBalls();
         boxesUntargetable = true;
+        isHiding = true;
 
         List<GameObject> boxes = new List<GameObject>();
 
@@ -274,6 +309,7 @@ public class ClownBoss : BossBase
         // Play VFX
         hammer.SetActive(false);
         isAttacking = false;
+        isHiding = false;
         RemoveBoxes();
     }
 
@@ -286,12 +322,14 @@ public class ClownBoss : BossBase
         // Play VFX
         TakeDamage(GameManager.Instance.Player.damage);
         isAttacking = false;
+        isHiding = false;
         RemoveBoxes();
     }
 
     public void StartConjuring()
     {
         isConjuring = true;
+        ChangeBackground.Instance.SwitchVolumes(1);
         StartCoroutine(SpawnDecoys());
     }
 
@@ -330,12 +368,27 @@ public class ClownBoss : BossBase
 
     private void RemoveBoxes()
     {
+        //foreach (Transform box in boxList)
+        //{
+        //    Instantiate(boxPoof.gameObject, box.position, Quaternion.identity);
+        //    boxPoof.Play();
+        //    Destroy(box.gameObject);
+        //}
+        //boxList.Clear();
+
         foreach (Transform box in boxList)
         {
-            Instantiate(boxPoof.gameObject, box.position, Quaternion.identity);
-            boxPoof.Play();
+            GameObject poofParent = new GameObject("PoofEffect");
+            poofParent.transform.position = box.position;
+
+            ParticleSystem ps = Instantiate(boxPoof, poofParent.transform);
+            ps.transform.localPosition = Vector3.zero;
+            ps.Play();
+
+            Destroy(poofParent, ps.main.duration + ps.main.startLifetime.constantMax);
             Destroy(box.gameObject);
         }
+
         boxList.Clear();
     }
 
@@ -449,6 +502,7 @@ public class ClownBoss : BossBase
     [ContextMenu("StartSecondPhase")]
     public override void StartSecondPhase()
     {
+        ChangeBackground.Instance.SwitchVolumes(1);
         SecondPhase = true;
         fireCooldown = unstableFireCooldown;
         AudioManager.Instance.PlayBossMusic(2, 2);

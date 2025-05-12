@@ -36,6 +36,12 @@ public class DragonShooting : MonoBehaviour
         {
             target = GameManager.Instance.FindClosestEnemy();
         }
+
+        if (BossManager.Instance.currentBoss.isHiding)
+        {
+            target = null;
+            return;
+        }
         //else
         //{
         //    EnemyBase bossTarget = BossManager.Instance.currentBoss;

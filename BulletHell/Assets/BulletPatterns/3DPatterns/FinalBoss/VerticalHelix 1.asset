@@ -15,7 +15,7 @@ MonoBehaviour:
   patternType: 14
   bulletsPerWave: 100
   spiralSpeed: 0
-  bulletSpeed: 10
+  bulletSpeed: 20
   bulletLifetime: 5
   fireRate: 0.5
   totalBullets: 800
