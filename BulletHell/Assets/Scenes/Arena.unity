@@ -367,8 +367,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 603a0fd5f66fb47419ace16fb2388e37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unstableMat: {fileID: 2100000, guid: 7df522e0135dd0a41accda9064c2be7c, type: 2}
-  normalMat: {fileID: 0}
+  unstableMat: {fileID: 2100000, guid: 692905008fac82c4fa849e88e1086d59, type: 2}
+  normalMat: {fileID: 2100000, guid: 7df522e0135dd0a41accda9064c2be7c, type: 2}
 --- !u!4 &68711229
 Transform:
   m_ObjectHideFlags: 0

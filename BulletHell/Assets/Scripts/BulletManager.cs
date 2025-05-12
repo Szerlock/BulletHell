@@ -6,8 +6,6 @@ public class BulletManager : MonoBehaviour
 {
     private readonly List<Bullet> activeBullets = new();
     public static BulletManager Instance;
-    public Material unstableMat;
-    public Material normalMat;
 
     private void Awake()
     {
@@ -22,12 +20,8 @@ public class BulletManager : MonoBehaviour
         for (int i = activeBullets.Count - 1; i >= 0; i--)
         {
             Bullet b = activeBullets[i];
-            if (BossManager.Instance.currentBoss.bulletsUnstable)
-            {
-                b.gameObject.GetComponent<MeshRenderer>().materials[1] = unstableMat;
-            }
-            else
-                b.gameObject.GetComponent<MeshRenderer>().materials[1] = normalMat;
+
+            b.ChangeMat(BossManager.Instance.currentBoss.bulletsUnstable);
 
 
             b.Move(dt);

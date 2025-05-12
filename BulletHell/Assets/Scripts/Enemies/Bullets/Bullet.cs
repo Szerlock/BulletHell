@@ -16,6 +16,7 @@ public class Bullet : MonoBehaviour
     [Header("Visual")]
     [SerializeField] private Material normalMaterial;
     [SerializeField] private Material dangerMaterial;
+    [SerializeField] private Material unstableMat;
     [SerializeField] private float dangerDistance = 5f;
 
     [SerializeField] private Renderer rend;
@@ -57,6 +58,14 @@ public class Bullet : MonoBehaviour
 
         Debug.Log($"[BulletManager] Bullet {name} expired after {timerLife} seconds.");
         Disable();
+    }
+
+    public void ChangeMat(bool unstableBullets)
+    {
+        if (unstableBullets)
+            rend.material = unstableMat;
+        else
+            rend.material = normalMaterial;
     }
 
     public void SetDangerState(bool danger)
