@@ -114,10 +114,13 @@ public class ClownBoss : BossBase
                 {
                     isAttacking = false;
                     isConjuring = false;
-                    hasFallen = false; 
-                    if(!SecondPhase)
-                    AudioManager.Instance.PlayBossMusic(1, 1);
-                    ChangeBackground.Instance.SwitchVolumes(1);
+                    hasFallen = false;
+                    bulletsUnstable = false;
+                    if (!SecondPhase)
+                    {
+                        AudioManager.Instance.PlayBossMusic(1, 1);
+                        ChangeBackground.Instance.SwitchVolumes(1);
+                    }
                 }
             }
         }
@@ -324,6 +327,7 @@ public class ClownBoss : BossBase
         {
             ChangeBackground.Instance.SwitchVolumes(1);
             AudioManager.Instance.PlayBossMusic(1, 2);
+            bulletsUnstable = true;
         }
         StartCoroutine(SpawnDecoys());
     }

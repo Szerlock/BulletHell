@@ -263,6 +263,7 @@ public class MiniBallerinaBoss : BossBase
     [ContextMenu("Second Phase")]
     public override void StartSecondPhase()
     {
+        bulletsUnstable = true;
         ChangeBackground.Instance.SwitchVolumes(1);
         StartCoroutine(PlayCinematic());
 

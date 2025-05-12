@@ -34,6 +34,7 @@ public class BossBase : EnemyBase
     public bool isHiding = false;
 
     public State currentState = State.Waiting;
+    public bool bulletsUnstable = false;
 
     public enum State
     {

@@ -27,7 +27,6 @@ public class FinalBoss : BossBase
     private bool isPaused = false;
     private bool playAnimation = false;
 
-
     public override void Init()
     {
         base.Init();
@@ -272,6 +271,7 @@ public class FinalBoss : BossBase
     public override void StartSecondPhase()
     {
         SecondPhase = true;
+        bulletsUnstable = true;
         AudioManager.Instance.PlayBossMusic(3, 2);
         fireCooldown = unstableFireCooldown;
         ChangeBackground.Instance.SwitchVolumes(1);

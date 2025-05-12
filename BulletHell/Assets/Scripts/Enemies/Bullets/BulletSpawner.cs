@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 public class BulletSpawner : MonoBehaviour
 {
     public GameObject bulletPrefab;
+
     public List<BulletPatternData> patterns;
     public List<BulletPatternData> unstablePatterns;
 
@@ -176,6 +177,7 @@ public class BulletSpawner : MonoBehaviour
                     bulletsFired++;
                     continue;
                 }
+                
                 bullet.transform.position = transform.position + spawnOffset;
                 bullet.transform.rotation = Quaternion.identity;
 
