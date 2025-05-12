@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     [Header("GameEnd Screen0")]
     [SerializeField] private GameObject background;
+    [SerializeField] private GameObject loseBackground;
+
     [SerializeField] private TextMeshProUGUI messageText;
     [SerializeField] private TextMeshProUGUI buttonText;
     [SerializeField] private float wordDelay = 0.2f;
@@ -22,20 +24,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Animator textAnimator;
 
 
-    private List<string> lossMessages = new List<string>
-    {
-        "I thought you were the one…",
-        "….",
-        "It’s a shame..",
-        "I guess my intuition was wrong about you…"
-    };
+    [SerializeField] private List<string> lossMessages;
 
-    private List<string> winMessages = new List<string>
-    {
-        "Just as I thought, you are special.",
-        "So now…",
-        "let’s go somewhere a little more intimate~",
-    };
+    [SerializeField] private List<string> winMessages;
 
     public bool isOnTutorial = false;
 
@@ -106,7 +97,13 @@ public class GameManager : MonoBehaviour
 
     public void ShowEndScreen(bool didPlayerWin)
     {
-        background.SetActive(true);
+        if (!didPlayerWin)
+        {
+            loseBackground.SetActive(true);
+            messageText.gameObject.transform.localPosition = new Vector3(0, -66, 0);
+        }
+        else
+            background.SetActive(true);
         messageText.text = "";
         StartCoroutine(RevealMessage(didPlayerWin));
     }
@@ -122,10 +119,11 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            foreach (var lossMessage in lossMessages)
-            {
-                yield return StartCoroutine(RevealText(lossMessage));
-            }
+            yield return StartCoroutine(RevealText(lossMessages[Random.Range(0, lossMessages.Count)]));
+            //foreach (var lossMessage in lossMessages)
+            //{
+            //    yield return StartCoroutine(RevealText(lossMessage));
+            //}
         }
 
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
