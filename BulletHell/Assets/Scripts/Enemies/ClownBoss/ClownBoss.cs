@@ -115,6 +115,7 @@ public class ClownBoss : BossBase
                     isAttacking = false;
                     isConjuring = false;
                     hasFallen = false; 
+                    if(!SecondPhase)
                     AudioManager.Instance.PlayBossMusic(1, 1);
                     ChangeBackground.Instance.SwitchVolumes(1);
                 }
