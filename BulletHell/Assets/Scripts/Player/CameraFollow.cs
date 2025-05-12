@@ -39,7 +39,7 @@ public class CameraFollow : MonoBehaviour
             yaw += mouseX;
             pitch -= mouseY;
             if(!GameManager.Instance.Player.movement.isGrounded)
-                pitchMax = 30;
+                pitchMax = 20;
             else
                 pitchMax = 10;
             pitch = Mathf.Clamp(pitch, pitchMin, pitchMax);

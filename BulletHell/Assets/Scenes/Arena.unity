@@ -367,8 +367,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 603a0fd5f66fb47419ace16fb2388e37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unstableMat: {fileID: 2100000, guid: 692905008fac82c4fa849e88e1086d59, type: 2}
-  normalMat: {fileID: 2100000, guid: 7df522e0135dd0a41accda9064c2be7c, type: 2}
 --- !u!4 &68711229
 Transform:
   m_ObjectHideFlags: 0
@@ -11539,7 +11537,7 @@ PrefabInstance:
       objectReference: {fileID: 524119657}
     - target: {fileID: 5297945605003412682, guid: a319ea09b0a5d024186e8fdb2a077a55, type: 3}
       propertyPath: attackNames.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5297945605003412682, guid: a319ea09b0a5d024186e8fdb2a077a55, type: 3}
       propertyPath: bombTargets.Array.size
@@ -11555,7 +11553,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5297945605003412682, guid: a319ea09b0a5d024186e8fdb2a077a55, type: 3}
       propertyPath: 'attackNames.Array.data[1]'
-      value: Bombs
+      value: Box
       objectReference: {fileID: 0}
     - target: {fileID: 5297945605003412682, guid: a319ea09b0a5d024186e8fdb2a077a55, type: 3}
       propertyPath: 'bombTargets.Array.data[35]'

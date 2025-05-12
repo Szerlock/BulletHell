@@ -63,9 +63,9 @@ public class Bullet : MonoBehaviour
     public void ChangeMat(bool unstableBullets)
     {
         if (unstableBullets)
-            rend.material = unstableMat;
+            rend.materials[1] = unstableMat;
         else
-            rend.material = normalMaterial;
+            rend.materials[1] = normalMaterial;
     }
 
     public void SetDangerState(bool danger)

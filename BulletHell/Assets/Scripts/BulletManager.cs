@@ -7,6 +7,8 @@ public class BulletManager : MonoBehaviour
     private readonly List<Bullet> activeBullets = new();
     public static BulletManager Instance;
 
+    private bool lastUnstableState = true;
+
     private void Awake()
     {
         Instance = this;
@@ -20,10 +22,6 @@ public class BulletManager : MonoBehaviour
         for (int i = activeBullets.Count - 1; i >= 0; i--)
         {
             Bullet b = activeBullets[i];
-
-            b.ChangeMat(BossManager.Instance.currentBoss.bulletsUnstable);
-
-
             b.Move(dt);
 
             float sqrDistance = (b.transform.position - GameManager.Instance.Player.transform.position).sqrMagnitude;
