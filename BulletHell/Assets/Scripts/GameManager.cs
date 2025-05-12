@@ -153,7 +153,7 @@ public class GameManager : MonoBehaviour
 
         if (!didPlayerWin)
         {
-            buttonText.text = "Try Again";
+            buttonText.text = "Try Again?";
             button.onClick.AddListener(() => SceneManager.LoadScene("Arena"));
         }
         else
